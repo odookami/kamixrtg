@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+	<data>
+		<record id="banded_usage_view_tree" model="ir.ui.view">
+			<field name="name">banded.usage.view.tree</field>
+			<field name="model">banded.usage</field>
+			<field name="arch" type="xml">
+				<tree duplicate="0" delete="0" create="1">
+					<!-- Add your fields here -->
+					<field name="name"/>
+					<field name="date"/>
+					<field name="shift"/>
+					<field name="team"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- kmi.daily.report form view -->
+		<record id="banded_usage_view_form" model="ir.ui.view">
+			<field name="name">banded.usage.pack.view.form</field>
+			<field name="model">banded.usage</field>
+			<field name="arch" type="xml">
+				<form string="" create='1' delete='0' duplicate="1">
+					<header>
+						<button name="action_submit" states="draft" string="Submit" type="object" class="oe_highlight"/>
+                        <button name="action_done" states="in_progress" string="Release" type="object" class="oe_highlight" confirm="Apakah Anda yakin ingin Release record ini ???" groups='bmo_batch_record.group_batch_record_release'/>
+                        <button name="action_leader_check" string="Leader Check" type="object" groups='bmo_mrp.group_mrp_leader' attrs="{'invisible' : [('leader_need_check', '=', False)]}" class="oe_highlight"/>
+                        <button name="action_cancel" states="draft,in_progress" string="Cancel" type="object" class="oe_highlight" confirm="Apakah Anda yakin ingin Cancel record ini ???" groups='bmo_batch_record.group_batch_record_cancel'/>
+                        <field name="leader_check" invisible='1'/>
+                        <field name="leader_need_check" invisible='1'/>
+                        <field name="state" widget="statusbar" 
+                            statusbar_visible="draft,in_progress,done"/>
+					</header>
+					<sheet>
+						<widget name="web_ribbon" title="Checked" attrs="{'invisible': [('leader_check', '=', False)]}"/>
+						<div>
+							<h1 class="oe_title">
+								<field name="name" placeholder="No. Dok" required="1" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+							</h1>
+						</div> 
+						<group>
+							<group>
+								<!-- <field name="okp_id" readonly="0"/> -->
+								<field name="date" required="1" attrs="{'readonly': [('editable','=',False), '|', ('state', 'not in', ['draft', 'in_progress']) ]}"/>
+								<field name="shift" required="1" attrs="{'readonly': [('editable','=',False), '|', ('state', 'not in', ['draft', 'in_progress']) ]}"/>
+							</group>
+							<group>
+								<field name="team" required="1" attrs="{'readonly': [('editable','=',False),'|', ('state', 'not in', ['draft', 'in_progress']) ]}"/>
+								<field name="location_id" invisible="1"/>
+								<field name="editable" invisible='1'/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Rekap Pemakaian Packaging Material" name="material_usage_line_1">
+								<group string="">
+									<field name="material_usage_line_1" nolabel="1" 
+										context="{'default_group' : '1'}">
+										<tree editable="bottom" create="1">
+											<field name="item_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+												attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+											<!-- <field name="item_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+												attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/> -->
+											<field name="item_name" optional="hide"/>
+											<field name="product_banded_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" domain="[('sale_ok', '=', True)]" optional="hide"/>
+											<field name="product_single_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" domain="[('sale_ok', '=', True)]" optional="hide"/>
+											<!-- <field name="material_banded_6" /> -->
+											<!-- <field name="material_single" /> -->
+											<field name="lot_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" domain='lot_domain'
+												attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+											<!-- <field name="lot_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" domain='lot_domain'
+												attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/> -->
+											<field name="lot_domain" invisible='1'/>
+											<field name="uom_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" optional="hide"/>
+											<field name="first_stock" attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+											<!-- <field name="first_stock" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/> -->
+											<field name="out" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/>
+											<field name="reject" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/>
+											<field name="total_out" />
+											<field name="last_stock"/>
+											<field name="editable" invisible='1'/>
+											<field name="group" invisible="1"/>
+										</tree>
+									</field>
+								</group>
+								<group string=''>
+									<field name="note_line_1"/>
+								</group>
+							</page>
+							<page string="Rekap Pemakaian PBE ( Foil ) Banded" name="material_usage_line_2">
+								<group string="">
+									<field name="material_usage_line_2" nolabel="1" 
+										context="{'default_group' : '2'}" >
+										<tree create="1">
+											<field name="item_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"/>
+											<field name="item_name" optional="hide"/>
+											<field name="product_varian_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" domain="[('sale_ok', '=', True)]" optional="hide"/>
+											<field name="jam_roll" widget="float_time" optional="hide"/>
+											<field name="lot_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" domain='lot_domain'/>
+											<field name="lot_domain" invisible='1' />
+											<field name="uom_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" optional="hide"/>
+											<field name="first_stock" />
+											<field name="start" widget="float_time" optional="hide"/>
+											<field name="finish" widget="float_time" optional="hide"/>
+											<field name="total_waktu" widget="float_time" optional="hide"/>
+											<field name="out" />
+											<field name="reject" />
+											<field name="total_out" />
+											<field name="last_stock"/>
+											<field name="editable" invisible='1'/>
+											<field name="group" invisible="1"/>
+										</tree>
+										<form>
+											<group>
+												<group>
+													<field name="item_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+														attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+													<!-- <field name="item_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+														attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/> -->
+													<field name="item_name" />
+													<field name="product_varian_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" 
+														domain="[('sale_ok', '=', True)]" attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+													<!-- <field name="product_varian_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" 
+														domain="[('sale_ok', '=', True)]" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/> -->
+												</group>
+												<group>
+													<field name="jam_roll" widget="float_time" attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+													<!-- <field name="jam_roll" widget="float_time" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/> -->
+													<field name="lot_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" domain='lot_domain'
+														attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+													<!-- <field name="lot_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" domain='lot_domain'
+														attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/> -->
+													<field name="lot_domain" invisible='1'  />
+													<field name="uom_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+														attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+													<!-- <field name="uom_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+														attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/> -->
+												</group>
+												<group>
+													<field name="first_stock" attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+													<field name="start" widget="float_time" attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+													<field name="finish" widget="float_time" attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+													<field name="total_waktu" widget="float_time" attrs="{'readonly': [('parent.state', 'not in', ['draft', 'in_progress'])]}"/>
+													<!-- <field name="first_stock" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/>
+													<field name="start" widget="float_time" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/>
+													<field name="finish" widget="float_time" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/>
+													<field name="total_waktu" widget="float_time" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/> -->
+												</group>
+												<group>
+													<field name="out" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/>
+													<field name="reject" attrs="{'readonly': [('editable','=',False),'|', ('parent.state', 'not in', ['draft', 'in_progress']) ]}"/>
+													<field name="total_out" />
+													<field name="last_stock"/>
+													<field name="editable" invisible='1'/>
+													<field name="group" invisible="1"/>
+												</group>
+											</group>
+										</form>
+									</field>
+								</group>
+								<group string=''>
+									<field name="note_line_2"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="banded_usage_action" model="ir.actions.act_window">
+			<field name="name">Stock Card Banded</field>
+			<field name="res_model">banded.usage</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="banded_menu_menu" name="Stock Card Banded" 
+            parent="bmo_batch_record.root_menu_batch_record" sequence="14"/>
+
+		<menuitem
+            id="banded_menu_act"
+			name="Usage Banded Menu" 
+            parent="banded_menu_menu"
+            action="banded_usage_action"
+            sequence="1"/>
+
+	</data>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="model_name_view_tree" model="ir.ui.view">
+            <field name="name">master.dumping.view.tree</field>
+            <field name="model">master.dumping</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="product_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"/>
+                    <field name="number"/>
+                    <field name="sequence_ref"/>
+                    <field name="name"/>
+                    <field name="unit"/>
+                    <field name="std"/>
+                </tree>
+            </field>
+        </record>
+
+         <!-- <record id="master_dumping_search_view" model="ir.ui.view">
+            <field name="name">master.dumping search</field>
+            <field name="model">master.dumping</field>
+            <field name="arch" type="xml">
+                <search string="Product Search">
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="product_id" context="{'group_by':'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record> -->
+
+        <record id="master_dumping_action" model="ir.actions.act_window">
+            <field name="name">Master Dumping</field>
+            <field name="res_model">master.dumping</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{"search_default_product_id":1}</field>
+        </record>
+
+        <!-- <menuitem id="menu_config_record_dumping" parent="bmo_batch_record.menu_setting_batch_record" action="master_dumping_action" sequence="10" /> -->
+
+    </data>
+</odoo>

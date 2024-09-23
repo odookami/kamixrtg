@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record model="ir.ui.view" id="update_lot_number_form">
+    	    <field name="name">update_lot_number.form</field>
+    	    <field name="model">update.lot.number</field>
+    	    <field name="arch" type="xml">
+    	        <form string="description">
+    	            <sheet>
+    	                <group>
+    	                    <field name="picking_id" width='100px' domain="[('picking_type_code', '=', 'incoming')]"/>
+    	                </group>
+    	                <field name='update_lot_number_line'>
+    	                	<tree editable='bottom' create='false'>
+    	                		<field name="lot_id"/>
+    	                		<field name="picking_id"/>
+    	                		<field name="update_lot_number" required='1'/>
+    	                	</tree>
+    	                </field>
+    	            </sheet>
+    	            <footer>
+    	            	<button name="button_update_lot_number" string="Update" type="object"/>
+    	            	<button string="Cancel" class="btn-secondary" special="cancel"/>
+    	            </footer>
+    	        </form>
+    	    </field>
+    	</record>
+
+    	<record id="action_update_lot_number" model="ir.actions.act_window">
+    		<field name="name">Update Lot Number</field>
+    		<field name="res_model">update.lot.number</field>
+    		<field name="view_mode">form</field>
+    		<field name='target'>new</field>
+    	</record>
+
+    	<menuitem id="update_lot_number_menu" name="Update Lot Number" parent="stock.menu_stock_inventory_control" action="action_update_lot_number"/>
+    </data>
+</odoo>

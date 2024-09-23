@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record id="form_wizard_report_stock_out" model="ir.ui.view">
+            <field name="name">form.wizard.report.stock.out</field>
+            <field name="model">wizard.report.stock.out</field>
+            <field name="arch" type="xml">
+                <form string="Report Inventory Adjustments">					
+                    <group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>    
+                        </group>
+    					<group>
+                            <field name="all_product" />
+                            <field name="product_ids" widget="many2many_tags" options="{'no_create':True,'no_edit':True}" attrs="{'invisible':[('all_product','=',True)]}"/>
+    						<field name="location_ids" widget="many2many_tags"/>
+    					</group>	
+                    </group>
+                    <group>
+                        <field name="name" invisible="1"/>
+                        <field name="data_file" filename="name" 
+                            widget="binary" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="eksport_excel" string=" Print" type="object" 
+                            class="oe_highlight" icon="fa-print"/>
+                        or
+                        <button string="Cancel" class="oe_link" 
+                            special="cancel" icon="fa-close"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_report_stock_out" model="ir.actions.act_window">
+            <field name="name">Report Stock Out</field>
+            <field name="res_model">wizard.report.stock.out</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem 
+            action="action_wizard_report_stock_out"
+            id="menu_wizard_report_stock_out"
+            parent="stock.menu_warehouse_report"
+            sequence="32"
+            groups="bmo_inventory.group_inventory_stock_in"/>
+	</data>
+</odoo>

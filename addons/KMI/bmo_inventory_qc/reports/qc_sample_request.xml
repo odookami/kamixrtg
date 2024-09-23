@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="partner_xlsx"
+            model="stock.picking"
+            string="QC Sample Request"
+            report_type="xlsx"
+            name="bmo_inventory_qc.qc_sample_request"
+            file="bmo_inventory_qc.qc_sample_request"
+            attachment_use="False"
+        />
+
+    </data>
+</odoo>

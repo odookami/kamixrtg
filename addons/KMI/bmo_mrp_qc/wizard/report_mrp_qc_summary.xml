@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="report_mrp_qc_summary_form" model="ir.ui.view">
+            <field name="name">report_mrp_qc_summary_form</field>
+            <field name="model">mrp.qc.summary.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Report Mrp Qc Summary">
+                    <group>
+                        <group>
+                            <label for="date_start" string="Periode"/>
+                            <div>
+                                <field name="date_start" class="oe_inline" required="1"/>
+                                    -
+                                <field name="date_end" class="oe_inline" nolabel="1"/>
+                            </div>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <group >
+                        <field name="data_file" widget="binary" readonly="1" filename="name"/>
+                        <field name="name" invisible="1"/>
+                    </group> 
+                    <footer>
+                        <!-- <button name="action_export_xls" string="Export" type="object" class="btn-primary"/> -->
+                        <!-- <button string="Close" class="btn-warning oe_highlight" special="cancel"/> -->
+                        <button name="eksport_excel" string="Print XLS" type="object" class="btn-primary" icon="fa-print"/>
+                        <button string="Close" class="oe_link" special="cancel" icon="fa-close"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_report_mrp_qc_summary" model="ir.actions.act_window">
+            <field name="name">Report Mrp Qc Summary</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.qc.summary.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="report_mrp_qc_summary_form"/>
+            <field name="target">new</field>
+        </record>
+
+</odoo>

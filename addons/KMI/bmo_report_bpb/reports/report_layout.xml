@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Add you code here -->  
+		<template id="my_own_layout_header">
+			<div class="header">
+				<!-- <style type="text/css">
+                    .table-borderless td {
+                        border-bottom: 0px none transparent !important;
+                        padding: 0px;
+                    }
+				</style> -->
+                <!-- <div class="row" >
+                    <div class="col-12 row mt32 mb32">
+						<table class="table table-borderless">
+							<tr>
+								<td style="border: none;" width="30%">
+									<img src="/bmo_hr_payroll/static/src/images/logo.png" 
+										alt="logo" style="height:40%;width:90%;"/>
+								</td>
+								<td width="40%"></td>
+								<td width="30%"></td>
+							</tr>
+						</table>
+					</div>
+				</div> -->
+			</div>
+		</template>
+
+		<template id="my_own_layout_footer">
+			<div class="footer">
+				<br/>
+				<div class="col-12 pull-right" style="font-size: 11px; 
+					border-top: 1px solid #C9D3DB;">
+					<p>Page <span class="page"/></p>
+					<!-- <ul class="list-inline">
+						<li>Page <span class="page"/></li>
+					</ul> -->
+				</div>
+			</div>
+		</template>
+        
+		<template id="my_own_layout">
+			<t t-call="bmo_report_bpb.my_own_layout_header"/>
+			<t t-raw="0"/>
+			<t t-call="bmo_report_bpb.my_own_layout_footer"/>
+		</template>
+    </data>
+</odoo>

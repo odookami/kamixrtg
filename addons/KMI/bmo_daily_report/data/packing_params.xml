@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <!-- * Invopack Parameter -->
+            <record id="ip_air_press_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Air Pressure (bar)</field>
+                <field name="standard">6</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Invopack Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="ip_vacum_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Vacum Pressure (bar)</field>
+                <field name="standard">-10 s/d -15</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Invopack Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="ip_oil_press_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Oil lubrication Pressure (bar)</field>
+                <field name="standard">25</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Invopack Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="ip_oil_level_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Oil lubrication level</field>
+                <field name="standard">medium</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Invopack Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+        <!-- *_* -->
+        <!-- * Glue Parameter -->
+            <record id="gl_air_press_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Air Pressure (bar)</field>
+                <field name="standard">2.5</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_tank_temp_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Tank temperature (0C)</field>
+                <field name="standard">150-155</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_hose_1_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Hose 1 (0C)</field>
+                <field name="standard">150-160</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_hose_2_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Hose 2 (0C)</field>
+                <field name="standard">150-160</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_hose_3_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Hose 3 (0C)</field>
+                <field name="standard">150-160</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_hose_4_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Hose 4 (0C)</field>
+                <field name="standard">150-160</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_hose_5_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Hose 5 (0C)</field>
+                <field name="standard">150-160</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_nozzle_1_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Nozzle 1 (0C)</field>
+                <field name="standard">160-165</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_nozzle_2_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Nozzle 2 (0C)</field>
+                <field name="standard">160-165</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_nozzle_3_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Nozzle 3 (0C)</field>
+                <field name="standard">160-165</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_nozzle_4_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Nozzle 4 (0C)</field>
+                <field name="standard">160-165</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_nozzle_5_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Nozzle 5 (0C)</field>
+                <field name="standard">160-165</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="gl_level_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Glue Level</field>
+                <field name="standard">&gt;low</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Glue Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+        <!-- *_* -->
+        <!-- * Coding Parameter -->
+            <record id="cd_air_press_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Air Pressure (bar)</field>
+                <field name="standard">0.04</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Coding Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+            <record id="cd_ink_level_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Ink Level</field>
+                <field name="standard">-</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Coding Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+        <!-- *_* -->
+        <!-- * Pembalik box Parameter -->
+            <record id="pb_air_press_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Air Pressure (bar)</field>
+                <field name="standard">0.4</field>
+                <field name="param_types">general</field>
+                <field name="param_group">Pembalik box Parameter</field>
+                <field name="report_type">Packing</field>
+            </record>
+        <!-- *_* -->
+    </data>
+</odoo>

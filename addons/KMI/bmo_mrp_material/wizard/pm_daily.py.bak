@@ -1,0 +1,174 @@
+# -*- coding: utf-8 -*-
+
+import io
+import os
+import base64
+import pandas as pd
+from openpyxl import load_workbook
+from dateutil import relativedelta
+from datetime import date, datetime
+from odoo.exceptions import ValidationError
+from odoo import api, fields, models, SUPERUSER_ID
+
+IDM = {
+    '01': 'Januari', '02': 'Februari', '03': 'Maret',
+    '04': 'April', '05': 'Mei', '06': 'Juni', 
+    '07': 'Juli', '08': 'Agustus', '09': 'September', 
+    '10': 'Oktober', '11': 'Nopember', '12': 'Desember',
+}
+
+class MrpPmDailyReport(models.TransientModel):
+    _name = 'mrp.pm.daily.report'
+    _description = 'Report PM Harian'
+
+    tipe = fields.Selection([('all', 'ALL'), ('dep', 'Department')], 
+        string='Tipe Report', default='all', required=True)
+    user_id = fields.Many2one('res.users','Created By', required=True, \
+        readonly=True, default=lambda self: self.env.uid)
+    department_id = fields.Many2one('hr.department', 'Departement')
+    state = fields.Selection([('all', 'All Status'), ('draft', 'Draft'), 
+        ('verify', 'Waiting'), ('done', 'Done'), ('cancel', 'Rejected')], 
+        string='Status', default='draft', required=True)
+    date_from = fields.Date('Date From', required=True)
+    date_to = fields.Date('Date To', required=True)
+    # date_from = fields.Datetime('Date From', required=True)
+    # date_to = fields.Datetime('Date To', required=True)
+    data_file = fields.Binary('File')
+    name = fields.Char('File Name')
+    # report_id = fields.Many2one('hr.payroll.reports', string='Tipe Laporan')
+    adv_filter = fields.Boolean(string='Advance Filter')
+    employee_ids = fields.Many2many('hr.employee', string='Employee')
+    analytic_ids = fields.Many2many('account.analytic.account', string='Site Card')
+
+    @api.constrains('date_from', 'date_to')
+    def _check_date_from(self):
+        if ((self.date_to - self.date_from).days + 1) > 7:
+            raise ValidationError('Periode tidak boleh lebih dari 7 hari !')
+
+    def _get_params(self, xml_id):
+        get_param = self.env['ir.config_parameter'].sudo().get_param
+        result = int(get_param(xml_id))
+        return result
+
+    def action_export_xls(self):
+        PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+        BASE_DIR = os.path.dirname(PROJECT_ROOT)
+        PATH_DIR = '/static/src/doc/'
+        FILE_DIR = BASE_DIR + PATH_DIR
+        FILE_NAME = 'PM.xlsx'
+        wb = load_workbook(FILE_DIR + FILE_NAME) 
+
+        categ_xml_id = 'bmo_mrp_packing.pm_categ_id'
+        categ_id = self._get_params(categ_xml_id)
+
+        products = []
+        product_obj = self.env['product.product']
+        domain = [('categ_id', '=', categ_id)]
+        # print(domain, "###D###")
+        products = product_obj.search(domain)
+        # print(products, "###P###")
+
+        date_list = []
+        for dates in pd.date_range(self.date_from, self.date_to, freq='d'):
+            date_list.append(dates)
+        # print(date_list, "###DL###")
+        no = 1
+        row = 1
+        index = 0
+        sheet_ids = []
+
+        # for days in date_list:
+        #     # print(wb[str(index)], '###SH###')
+        #     batch_mrp_obj = self.env['batch.mrp.production']
+        #     # domain = [('date_okp', '=', days), ('state', '!=', 'draft')]
+        #     domain = [('state', '!=', 'draft'), ('actual_complete_date', '>=', str(days)),
+        #         ('actual_complete_date', '<=', str(days).replace(' 00:00:00', ' 23:59:59'))]
+        #     # print(domain, '###D###')
+        #     batch_mrp_ids = batch_mrp_obj.search(domain)
+        #     if not batch_mrp_ids:
+        #         raise ValidationError('Tidak ditemukan data PM Harian pada periode tsb. !')
+        #     sheet = wb[str(index)]
+        #     if sheet not in sheet_ids:
+        #         no = 1
+        #         row = 1
+        #     okp_col = 0
+        #     okp_cell = []
+        #     okp_cols = sheet.iter_cols(8, 21, 2, 2)
+        #     for oc in okp_cols:
+        #         for c in oc:
+        #             okp_cell.append(c)
+        #     okp_exist = []
+        #     # print(okp_cell, "###OC###")
+        #     for batch in batch_mrp_ids:
+        #         if batch.okp_id.id not in okp_exist:
+        #             okp_cell[okp_col].value = batch.okp_id.name or ' '
+        #             in_per_okp_cell = okp_cell[okp_col].coordinate
+        #             okp_exist.append(batch.okp_id.id)
+        #             okp_col += 1
+        #         # for mrp in batch.mrp_line:
+        #         for mrp in batch.mrp_line.filtered(lambda x: x.state != 'cancel'):
+        #             # raw_ids = [x for x in mrp.move_raw_ids]
+        #             for line in mrp.move_raw_ids.filtered(\
+        #                 lambda x: x.product_id.categ_id.name == 'PM'):
+        #                 # print(line.name, "###N###")
+        #                 lot_id = False
+        #                 lot_name = ' '
+        #                 if line.move_line_ids:
+        #                     for move in line.move_line_ids:
+        #                         lot_id = move.lot_id
+        #                         lot_name = str(move.lot_id.name)
+        #                 cell_dict = {
+        #                     'A2': no,
+        #                     'B2': line.product_id.code,
+        #                     'C2': line.product_id.name,
+        #                     'D2': line.product_uom.name,
+        #                     'E2': lot_name,
+        #                     'F2': line.product_uom_qty,
+        #                     'G2': line.quantity_done,
+        #                     'AK2': mrp.reject_qty,
+        #                 }
+        #                 if lot_id:
+        #                     cell_dict[in_per_okp_cell] = self._get_in_per_okp(\
+        #                         batch.okp_id, batch.tipe, lot_id, line.product_id)
+        #                 for key, value in cell_dict.items():
+        #                     keys = self._get_cell(key, row)
+        #                     sheet[keys] = value
+        #                     # print(sheet[keys], "###S###")
+
+        #                 row += 1
+        #                 no += 1
+        #                 sheet_ids.append(sheet)
+        #                 # print(cell_dict, "###C###")
+        #     wb[str(index)].title = days.strftime('%d - %b')
+        #     index += 1
+
+        file_data = io.BytesIO()
+        wb.save(file_data)
+        
+        out = base64.encodebytes(file_data.getvalue())
+        filename = 'PM Harian Periode :' + str(self.date_from.strftime('%d')) + \
+            ' - ' + str(self.date_to.strftime('%d %B %Y')) + '.xlsx'
+        self.write({'data_file': out, 'name': filename})
+
+        model = self._name
+        field_file = 'data_file'
+        content = 'web/content/?model=%s&field=%s' % (model, field_file)
+        download = '&download=true&id=%s&filename=%s' % (self.id, filename)
+        url = content + download
+
+        return {'type': 'ir.actions.act_url', 'url': url,}
+    
+    def _get_cell(self, key, row):
+        first_index = key[0] if len(key) == 2 else key[0:2]
+        last_index = key[1:3] if len(key) == 2 else key[2:3]
+        keys = first_index + str(int(last_index) + row)
+        return keys
+    
+    def _get_in_per_okp(self, okp_id, tipe, lot_id, product_id):
+        result = 0
+        sml_obj = self.env['stock.move.line']
+        domain = [('product_id', '=', product_id.id), ('lot_id', '=', lot_id.id)]
+        sml_src = sml_obj.search(domain)
+        result = sum(x.qty_done for x in sml_src.filtered(lambda x: \
+            x.picking_id.batch_production_id.id == okp_id and x.picking_id.tipe == tipe))
+        return result

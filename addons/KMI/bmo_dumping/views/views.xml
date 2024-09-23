@@ -1,0 +1,907 @@
+<odoo>
+	<data>
+		<record id="kmi_dumping_view_tree" model="ir.ui.view">
+			<field name="name">kmi.dumping.view.tree</field>
+			<field name="model">kmi.dumping</field>
+			<field name="arch" type="xml">
+				<tree create="0" delete="0" edit="0">
+					<field name="display_name"/>
+					<field name="okp_id"/>
+					<field name="product_id"/>
+					<field name="date"/>
+					<field name="shift" />
+					<field name="state"/>
+					<!-- <field name="revisi" /> -->
+					<!-- <field name="user_id" /> -->
+					<!-- <field name="banded" /> -->
+
+				</tree>
+			</field>
+		</record>
+
+		<record id="kmi_dumping_view_form" model="ir.ui.view">
+			<field name="name">kmi.dumping.view.form</field>
+			<field name="model">kmi.dumping</field>
+			<field name="priority" eval="1"/>
+			<field name="arch" type="xml">
+				<form string="SKK" create='0'>
+					<header>
+						<button name="action_submit" states="draft" string="Submit" type="object" class='oe_highlight'/>
+						<button name="action_release" states="in_progress" string="Release QC" type="object" class='oe_highlight' confirm="Apakah Anda yakin ingin Release record ini ???" groups='bmo_batch_record.group_batch_record_dumping_release'/>/>
+						<button name="autofill" states="in_progress" string="Autofill Value" type="object" class='oe_highlight'/>
+						<button name="action_leader_check" string="Leader Check" type="object" groups='bmo_mrp.group_mrp_leader' attrs="{'invisible' : [('leader_need_check', '=', False)]}" class="oe_highlight"/>
+						<field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,in_progress,done"/>
+						<field name="leader_check" invisible='1'/>
+						<field name='leader_need_check' invisible='1'/>
+					</header>
+					<sheet>
+						<widget name="web_ribbon" title="Checked" attrs="{'invisible': [('leader_check', '=', False)]}"/>
+						<div class="oe_title">
+								No. Dok
+							<h1>
+								<field name="name" readonly="1"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<field name="datafile" invisible='1'/>
+								<field name="filename" invisible='1'/>
+								<field name="mo_id" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True}"/>
+								<field name="okp_id" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True}"/>
+								<field name="date" required="1" attrs="{'readonly' : ['|' ,('editable','=',False), ('state', '!=', 'draft')]}"/>
+								<field name="product_id" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True}"/>
+								<field name="shift" required="1" attrs="{'readonly' : ['|' ,('editable','=',False), ('state', '!=', 'draft')]}"/>
+								<field name="revisi" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="tolerance_precision"/>
+								<field name="revision_date" readonly='1'/>
+								<field name="editable" invisible='1'/>
+							</group>
+							<group>
+								<field name="operator" required="1" attrs="{'readonly' : ['|' ,('editable','=',False),('state', '!=', 'draft')]}"/>
+								<field name="leader" required="1" attrs="{'readonly' : ['|' ,('editable','=',False),('state', '!=', 'draft')]}"/>
+								<field name="banded" required="1" attrs="{'readonly' : ['|' ,('editable','=',False),('state', '!=', 'draft')]}"/>
+								<field name="company_id" options="{'no_open': True, 'no_create': True}"/>
+							</group>
+						</group>
+						<notebook>
+							<page name="page_1_ids" string="I">
+								<h3>
+									<field name="page_1_title" readonly='1'/>
+								</h3>
+								<field name="page_1_ids" context="{'default_group' : '1'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit" readonly='1' />
+										<field name="std" readonly='1' />
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+							</page>
+							<page name="page_2" string="II">
+								<h3>
+									<field name="page_2_title" readonly='1'/>
+								</h3>
+								<field name="page_2_01_ids" context="{'default_group' : '201'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name" readonly='1' />
+										<field name="unit" readonly='1' />
+										<field name="std" readonly='1' />
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_2_02_ids" context="{'default_group' : '202'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name" readonly='1' />
+										<field name="unit" readonly='1' />
+										<field name="std" readonly='1' />
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_2_03_ids" context="{'default_group' : '203'}">
+										<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+											<field name="number" style='width:15px' readonly='1'/>
+											<field name="name"  readonly='1'/>
+											<field name="unit"  readonly='1'/>
+											<field name="std"  readonly='1'/>
+											<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+											<field name='matching' invisible='1'/>
+											<field name='type_operation' invisible='1'/>
+											<field name="editable" invisible='1'/>
+											<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+											<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+										</tree>
+									</field>
+								<field name="page_2_04_ids" context="{'default_group' : '204'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+									   <field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_2_05_ids" context="{'default_group' : '205'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_2_06_ids" context="{'default_group' : '206'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_2_07_ids" context="{'default_group' : '207'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_2_08_ids" context="{'default_group' : '208'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_2_09_ids" context="{'default_group' : '209'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_2_10_ids" context="{'default_group' : '210'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_2_11_ids" context="{'default_group' : '211'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+							</page>
+							<page name="page_3" string="III">
+								<h3>
+									<field name="page_3_title" readonly='1'/>
+								</h3>
+								<field name="page_3_01_ids" context="{'default_group' : '301'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_3_02_ids" context="{'default_group' : '302'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_3_03_ids" context="{'default_group' : '303'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								<field name="page_3_04_ids" context="{'default_group' : '304'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+							</page>
+							<page name="page_4" string="IV">
+								<h3>
+									<field name="page_4_title" readonly='1'/>
+								</h3>
+								<field name="page_4_01_ids" context="{'default_group' : '4'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+								
+							</page>
+							<page name="page_5" string="V">
+								<h3>
+									<field name="page_5_title" readonly='1'/>
+								</h3>
+								<field name="page_5_01_ids" context="{'default_group' : '5'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+							</page>
+							<page name="page_6" string="VI" attrs="{'invisible' : [('page_6_title', '=', False)]}">
+								<h3>
+									<field name="page_6_title" readonly='1'/>
+								</h3>
+								<field name="page_6_01_ids" context="{'default_group' : '6'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+							</page>
+							<page name="page_7" string="VII" attrs="{'invisible' : [('page_7_title', '=', False)]}">
+								<h3>
+									<field name="page_7_title" readonly='1'/>
+								</h3>
+								<field name="page_7_01_ids" context="{'default_group' : '7'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+							</page>
+							<page name="page_8" string="VIII" attrs="{'invisible' : [('page_8_title', '=', False)]}">
+								<h3>
+									<field name="page_8_title" readonly='1'/>
+								</h3>
+								<field name="page_8_01_ids" context="{'default_group' : '8'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name"  readonly='1'/>
+										<field name="unit"  readonly='1'/>
+										<field name="std"  readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+							</page>
+							<page name="page_qa" string="Quality Analysis">
+								<h3>
+									<field name="page_qa_title" readonly='1'/>
+								</h3>
+								<field name="page_qa_ids" context="{'default_group' : 'qa'}">
+									<tree editable="bottom" create='false' delete='false' decoration-warning="not value" decoration-danger="not matching and value">
+										<field name="number" style='width:15px' readonly='1'/>
+										<field name="name" readonly='1'/>
+										<field name="unit" readonly='1'/>
+										<field name="std" readonly='1'/>
+										<field name="value" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='matching' invisible='1'/>
+										<field name='type_operation' invisible='1'/>
+										<field name="editable" invisible='1'/>
+										<field name="remark" attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='group' invisible='1'/>
+										<field name='line_type' invisible='1'/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+						<group string='KETERANGAN'>
+							<group>
+								<field name="ket" nolabel="1" required="0"/>
+							</group>
+							<!-- <group>
+								<field name="operator" />
+								<field name="shift_leader" />
+							</group> -->
+						</group>
+						<field name="notes" class="oe_inline" placeholder="conditions ..."/>
+						<div class="oe_clear"/>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" groups="base.group_user"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="kmi_dumping_filter_search" model="ir.ui.view">
+            <field name="name">kmi.dumping.filter.search</field>
+            <field name="model">kmi.dumping</field>
+            <field name="arch" type="xml">
+                <search string="Dumping Lists">
+                    <field name="okp_id"/>
+                    <field name="name"/>
+                    <field name="mo_id"/>
+                    <field name="product_id"/>
+                    <filter name="today" string="Today" domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" help="Draft Moves"/>
+                    <filter name="in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]" help="In Progress"/>
+                    <filter name="done" string="Done" domain="[('state', '=', 'done')]" help="Dumpings already release"/>
+                    <separator/>
+                    <!-- <filter name="late" string="Late" help="Deadline exceed or/and by the scheduled"
+                        domain="[('state', 'in', ('draft', 'waiting', 'confirmed')), '|', ('date', '&lt;', current_date)"/>  -->
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Date" name="date" domain="[]" context="{'group_by': 'date'}"/>
+                        <filter string="Shift" name="shift" domain="[]" context="{'group_by': 'shift'}"/>
+                        <filter string="Products" name="product" domain="[]" context="{'group_by': 'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+		<!-- Template in state Model -->
+
+		<record id="kmi_dumping_template_view_tree" model="ir.ui.view">
+			<field name="name">kmi.dumping.template.view.tree</field>
+			<field name="model">kmi.dumping</field>
+			<field name="arch" type="xml">
+				<tree create="1">
+					<field name="name" />
+					<field name="product_id"/>
+					<field name="revisi" />
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="kmi_dumping_template_view_form" model="ir.ui.view">
+			<field name="name">kmi.dumping.template.view.form</field>
+			<field name="model">kmi.dumping</field>
+			<field name="arch" type="xml">
+				<form string="SKK">
+					<header>
+						<button name="action_approve_template" states="draft_model" string="Approve" type="object" class="oe_highlight" 
+							groups='bmo_batch_record.group_batch_record_create_template_approve'/>
+						<field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft_model,model"/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+								No. Dok
+							<h1>
+								<field name="name" readonly="False"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<!-- <field name="date"/> -->
+								<field name="product_id" required="1"/>
+								<field name="revision_date" required="1"/>
+								<field name="revisi" readonly='1'/>
+							</group>
+							<group>
+								<field name="tolerance_precision"/>
+								<field name="company_id" options="{'no_open': True, 'no_create': True}"/>
+							</group>
+						</group>
+						<notebook>
+							<page name="page_1_ids" string="I">
+								<h3>
+									<field name="page_1_title"/>
+								</h3>
+								<field name="page_1_ids" context="{'default_group' : '1'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit"/>
+										<field name="std"/>
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+							</page>
+							<page name="page_2" string="II">
+								<h3>
+									<field name="page_2_title"/>
+								</h3>
+								<field name="page_2_01_ids" context="{'default_group' : '201'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit"/>
+										<field name="std"/>
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_2_02_ids" context="{'default_group' : '202'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit"/>
+										<field name="std"/>
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_2_03_ids" context="{'default_group' : '203'}">
+										<tree editable="bottom">
+											<field name="number" style='width:15px'/>
+											<field name="name" />
+											<field name="unit" />
+											<field name="std" />
+											<field name='type_operation'/>
+											<field name='line_type'/>
+											<field name='group'/>
+											<!-- <field name="remark" /> -->
+										</tree>
+									</field>
+								<field name="page_2_04_ids" context="{'default_group' : '204'}">
+									<tree editable="bottom">
+									   <field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_2_05_ids" context="{'default_group' : '205'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_2_06_ids" context="{'default_group' : '206'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_2_07_ids" context="{'default_group' : '207'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_2_08_ids" context="{'default_group' : '208'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_2_09_ids" context="{'default_group' : '209'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_2_10_ids" context="{'default_group' : '210'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_2_11_ids" context="{'default_group' : '211'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+							</page>
+							<page name="page_3" string="III">
+								<h3>
+									<field name="page_3_title"/>
+								</h3>
+								<field name="page_3_01_ids" context="{'default_group' : '301'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_3_02_ids" context="{'default_group' : '302'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_3_03_ids" context="{'default_group' : '303'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								<field name="page_3_04_ids" context="{'default_group' : '304'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+							</page>
+							<page name="page_4" string="IV">
+								<h3>
+									<field name="page_4_title"/>
+								</h3>
+								<field name="page_4_01_ids" context="{'default_group' : '4'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+								
+							</page>
+							<page name="page_5" string="V">
+								<h3>
+									<field name="page_5_title"/>
+								</h3>
+								<field name="page_5_01_ids" context="{'default_group' : '5'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+							</page>
+							<page name="page_6" string="VI">
+								<h3>
+									<field name="page_6_title"/>
+								</h3>
+								<field name="page_6_01_ids" context="{'default_group' : '6'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+							</page>
+							<page name="page_7" string="VII">
+								<h3>
+									<field name="page_7_title"/>
+								</h3>
+								<field name="page_7_01_ids" context="{'default_group' : '7'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+							</page>
+							<page name="page_8" string="VIII">
+								<h3>
+									<field name="page_8_title"/>
+								</h3>
+								<field name="page_8_01_ids" context="{'default_group' : '8'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name" />
+										<field name="unit" />
+										<field name="std" />
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+							</page>
+							<page name="page_qa" string="Quality Analysis">
+								<h3>
+									<field name="page_qa_title"/>
+								</h3>
+								<field name="page_qa_ids" context="{'default_group' : 'qa'}">
+									<tree editable="bottom">
+										<field name="number" style='width:15px'/>
+										<field name="name"/>
+										<field name="unit"/>
+										<field name="std"/>
+										<field name='type_operation'/>
+										<field name='line_type'/>
+										<field name='group'/>
+										<!-- <field name="remark" /> -->
+									</tree>
+								</field>
+							</page>
+						</notebook>
+						<group string='KETERANGAN'>
+							<group>
+								<field name="ket" nolabel="1" required="0"/>
+							</group>
+						</group>
+						<field name="notes" class="oe_inline" placeholder="conditions ..."/>
+						<div class="oe_clear"/>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" groups="base.group_user"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_kmi_dumping_template" model="ir.actions.act_window">
+			<field name="name">Dumping Template</field>
+			<field name="res_model">kmi.dumping</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state', 'in', ('draft_model', 'model'))]</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_ids" eval="[(5, 0, 0),
+				(0, 0, {'view_mode': 'tree', 'view_id': ref('kmi_dumping_template_view_tree')}),
+				(0, 0, {'view_mode': 'form', 'view_id': ref('kmi_dumping_template_view_form')})]"/>
+			<field name="context">{'default_state' : 'draft_model'}</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+				Create a Dumping
+				</p>
+			</field>
+		</record>        
+
+		<record id="action_kmi_dumping" model="ir.actions.act_window">
+			<field name="name">Dumping</field>
+			<field name="res_model">kmi.dumping</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state', 'not in', ('draft_model', 'model'))]</field>
+			<field name='context'>{'search_default_today' : 1}</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_ids" eval="[(5, 0, 0),
+				(0, 0, {'view_mode': 'tree', 'view_id': ref('kmi_dumping_view_tree')}),
+				(0, 0, {'view_mode': 'form', 'view_id': ref('kmi_dumping_view_form')})]"/>
+			<!-- <field name="search_view_id" ref="kmi_dumping_filter_search"/> -->
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+				Create a Dumping
+				</p>
+			</field>
+		</record>
+
+		<menuitem id="kmi_dumping_root" name="Dumping" parent="bmo_batch_record.root_menu_batch_record" sequence="1" />
+		<menuitem id="menu_dumping_template" name='Dumping Template' parent="bmo_batch_record.batch_record_template_main_menu" action="action_kmi_dumping_template" sequence="10" />
+		<menuitem id="menu_kmi_dumping" parent="kmi_dumping_root" action="action_kmi_dumping" sequence="3" />
+
+
+	</data>
+</odoo>

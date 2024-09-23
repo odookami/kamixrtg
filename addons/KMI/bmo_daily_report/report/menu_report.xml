@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="unscramble_xlsx"
+            model="kmi.unscramble"
+            string="Unscramble Report"
+            report_type="xlsx"
+            name="bmo_daily_report.report_unscramble"
+            file="bmo_daily_report.report_unscramble"
+            attachment_use="False"
+        />
+
+        <report
+            id="packing_xlsx"
+            model="kmi.packing"
+            string="Packing Report"
+            report_type="xlsx"
+            name="bmo_daily_report.report_packing"
+            file="bmo_daily_report.report_packing"
+            attachment_use="False"
+        />
+
+        <report
+            id="retort_xlsx"
+            model="kmi.retort"
+            string="Retort Report"
+            report_type="xlsx"
+            name="bmo_daily_report.report_retort"
+            file="bmo_daily_report.report_retort"
+            attachment_use="False"
+        />
+
+        <report
+            id="labeling_xlsx"
+            model="kmi.labeling"
+            string="Labeling Report"
+            report_type="xlsx"
+            name="bmo_daily_report.report_labeling"
+            file="bmo_daily_report.report_labeling"
+            attachment_use="False"
+        />
+
+        <report
+            id="loader_xlsx"
+            model="kmi.loader"
+            string="Loader Report"
+            report_type="xlsx"
+            name="bmo_daily_report.report_loader"
+            file="bmo_daily_report.report_loader"
+            attachment_use="False"
+        />
+
+        <report
+            id="filling_xlsx"
+            model="kmi.filling"
+            string="Filling Report"
+            report_type="xlsx"
+            name="bmo_daily_report.report_filling"
+            file="bmo_daily_report.report_filling"
+            attachment_use="False"
+        />
+
+        <report
+            id="unloader_xlsx"
+            model="kmi.unloader"
+            string="Unloader Report"
+            report_type="xlsx"
+            name="bmo_daily_report.report_unloader"
+            file="bmo_daily_report.report_unloader"
+            attachment_use="False"
+        />
+
+    </data>
+</odoo>

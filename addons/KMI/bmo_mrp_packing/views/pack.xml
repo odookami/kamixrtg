@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Add you code here -->
+        <!-- mrp.production.packing tree view -->
+        <record id="mrp_packing_view_tree" model="ir.ui.view">
+            <field name="name">mrp.production.packing.view.tree</field>
+            <field name="model">mrp.production.packing</field>
+            <field name="arch" type="xml">
+                <tree duplicate="0">
+                    <!-- Add your fields here -->
+                    <field name="name"/>
+                    <field name="okp_id"/>
+                    <field name="product_id"/>
+                    <field name="date"/>
+                    <field name="shift_okp"/>
+                    <field name="state" widget="badge" decoration-danger="state == 'cancel'" 
+                        decoration-warning="state == 'draft'" decoration-info="state == 'in_progress'" 
+                        decoration-success="state == 'done'"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- mrp.production.packing form view -->
+        <record id="mrp_packing_view_form" model="ir.ui.view">
+            <field name="name">mrp.production.packing.view.form</field>
+            <field name="model">mrp.production.packing</field>
+            <field name="arch" type="xml">
+                <form duplicate="0">
+                    <header>
+                        <button name="action_post" type="object" string="Post" 
+                            class="oe_highlight" states="draft"/>
+                        <button name="action_done" type="object" string="Mark As Done" 
+                            class="oe_highlight" states="in_progress"/>
+                        <button name="action_export" type="object" string="Export"
+                            class="oe_highlight" states="in_progress,done"/>
+                        <button name="action_cancel" type="object" string="Cancel" 
+                            class="oe_highlight btn-danger" states="in_progress"/>
+                        <button name="action_draft" type="object" string="Set to Draft" 
+                            class="oe_highlight btn-secondary" states="cancel"/>
+                        <field name="state" widget="statusbar" 
+                            statusbar_visible="draft,in_progress,done"/>
+                    </header>
+                    <sheet>
+                        <div>
+                            <h1 class="oe_title">
+                                <field name="name" required="1" readonly="1"/>
+                            </h1>
+                        </div> 
+                        <div class="alert alert-danger" role="alert" attrs="{'invisible': [('okp_not_found', '=', False)]}">
+                            <field name="okp_not_found" invisible="1"/>
+                            <h1 class="oe_title">No. OKP tidak ditemukan !!!</h1>
+                        </div>
+                        <group>
+                            <!-- * Dok Info -->
+                            <!-- <group>
+                                <field name="doc_no" readonly="1"/>
+                                <field name="date"/>
+                                <field name="num_of_pages" required="0"/>
+                            </group>
+                            <group>
+                                <field name="line_machine" required="0"/>
+                                <field name="team" required="0"/>
+                                <field name="revision" required="0"/>
+                            </group> -->
+                            <!-- * OKP info -->
+                            <group>
+                                <field name="okp_id" options="{'no_create': 1, 'no_edit': 1}" 
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}" required="1"/>
+                                <field name="product_id" options="{'no_create': 1, 'no_edit': 1}" 
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}"  required="1"/>
+                                <field name="lot_producing_id" required="0" 
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="expiration_date" required="0" 
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="batch_mrp_id" readonly="1" force_save="1" invisible="1"/>
+                                <field name="packing_type" invisible="1"/>
+                                <field name="picking_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="date" required="1" 
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="shift_okp" required="1" 
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <label for="line_machine" string="Line &amp; Team"/>
+                                <div class="o_row" >
+                                    <span>Line : </span><field name="line_machine" class="oe_inline" 
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <span>Team : </span><field name="team" class="oe_inline"
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                </div>
+                                <field name="date_okp" force_save="1" invisible="1"/>
+                                <field name="location_dest_id" readonly="0" required="1"/>
+                            </group>
+                            <group>
+                                <field name="picking_type_id" invisible="1" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="location_src_id" invisible="1" force_save="1"/>
+                                <field name="total_output" invisible="1" force_save="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- mrp.production.packing action window -->
+        <record id="mrp_packing_action" model="ir.actions.act_window">
+            <field name="name">BHP Pack</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.production.packing</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Bukti Hasil Produksi Packing (OBOL) - Pack
+                </p><p>
+                    Pembentukan dan Pengisian Form Bukti Hasil Produksi Packing (OBOL).
+                </p>
+            </field>
+            <field name="context">{'default_packing_type': 'Filling'}</field>
+            <field name="domain">[('packing_type', '=', 'Filling')]</field>
+            <field name="view_ids" eval="[(5, 0, 0), 
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('mrp_packing_view_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('mrp_packing_view_form')})]"/>
+        </record>
+
+        <!-- This Menu Item Must have a parent -->
+        <!-- <menuitem id="mrp_packing_menu_categ" name="Bukti Hasil Produksi Packing"  
+            parent="bmo_batch_record.root_menu_batch_record" sequence="17"/> -->
+
+        <!-- This Menu Item Must have a parent -->
+        <!-- <menuitem id="mrp_packing_prd_menu_categ" name="Production" 
+            parent="mrp_packing_menu_categ" sequence="1"/> -->
+
+        <!-- This Menu Item must have a parent and an action -->
+        <!-- <menuitem id="mrp_packing_menu_act" name="Form BHP Pack" sequence="1"
+            parent="mrp_packing_prd_menu_categ" action="mrp_packing_action"/> -->
+    </data>
+</odoo>

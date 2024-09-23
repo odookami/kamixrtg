@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="product_template_form_view_inherit_bmo_mrp_cost" model="ir.ui.view">
+            <field name="name">product.template.common.form.inherit.bmo.mrp.cost</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='sales']" position="after">
+                    <page string="MRP Cost" name="history_cost_line" readonly="0">
+                        <field name="history_cost_line">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="lot_ids" invisible="1"/>
+                                <field name="date"/>
+                                <field name="unit_price"/>
+                            </tree>
+                        </field>
+                        <group string="Valuation Adjustments">
+                            <field name="cost_line_id" />
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_production_lot_form_inherit_bmo_inventory_bom_mrp_cost" model="ir.ui.view">
+            <field name="name">stock.production.lot.form.inerhit.bmo_inventory.inherit.bmo.mrp.cost</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="bmo_mrp.view_production_lot_form_inherit_bmo_inventory_bom_mrp"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='mo_id']" position="after">
+                    <field name="mrp_cost_id" readonly="1" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

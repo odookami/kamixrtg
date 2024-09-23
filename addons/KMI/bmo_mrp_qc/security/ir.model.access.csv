@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_master_sequence,bmo_mrp_cost.master_sequence,model_master_sequence,,1,1,1,1
+access_master_qc,bmo_mrp_cost.master_qc,model_master_qc,,1,1,1,1
+access_master_qc_line,bmo_mrp_cost.master_qc_line,model_master_qc_line,,1,1,1,1
+access_master_data_qc_line,bmo_mrp_cost.master_data_qc_line,model_master_data_qc_line,,1,1,1,1
+access_mrp_qc_user,bmo_mrp_cost.mrp_qc,model_mrp_qc,bmo_mrp_qc.group_mrp_qc_user,1,1,1,1
+access_mrp_qc_line_user,bmo_mrp_cost.mrp_qc_line,model_mrp_qc_line,bmo_mrp_qc.group_mrp_qc_user,1,1,1,1
+access_mrp_qc_summary_wizard,bmo_mrp_cost.mrp_qc_summary_wizard,model_mrp_qc_summary_wizard,,1,1,1,1

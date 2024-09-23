@@ -1,0 +1,31 @@
+<odoo>
+	<data>
+		<record model='ir.ui.view' id='res_company_oracle_requirement_form'>
+		    <field name='name'>res_company_oracle_requirement.form</field>
+		    <field name='model'>res.company</field>
+		    <field name='inherit_id' ref='base.view_company_form'/>
+		    <field name='arch' type='xml'>
+		        <xpath expr='//notebook' position='inside'>
+		        	<page string='Oracle Information Setting' name='oracle_setting'>
+		        		<group>
+		        			<group>
+		        				<field name='user_oracle'/>
+		        				<field name='pass_oracle' password="True"/>
+		        			</group>
+		        			<group>
+		        				<field name='ip_oracle'/>
+		        				<field name='port_oracle'/>
+		        				<field name='service_oracle'/>
+		        			</group>
+		        		</group>
+		        	</page>
+		        </xpath>
+		        <xpath expr='//sheet' position='before'>
+		        	<header>
+		        		<button name="test_connection" string="Test Connection" type="object"/>
+		        	</header>
+		        </xpath>
+		    </field>
+		</record>		
+	</data>
+</odoo>

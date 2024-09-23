@@ -1,0 +1,515 @@
+<odoo>
+  <data>
+    <record id="product_st_view_tree" model="ir.ui.view">
+        <field name="name">product.st.tree</field>
+        <field name="model">product.st</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="display_name"/>
+                <field name="date"/>
+                <field name="product_id"/>
+                <field name="okp_id"/>
+                <field name="shift"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_st_view_form" model="ir.ui.view">
+        <field name="name">product_st_view_form</field>
+        <field name="model">product.st</field>
+        <field name='priority' eval='1'/>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <button string="Submit" name="action_submit" type="object" states="draft" class="oe_highlight"/>
+                    <button string="Release QC" name="action_done" type="object" states="in_progress" class="oe_highlight" confirm="Apakah Anda yakin ingin Release record ini ???" groups='bmo_batch_record.group_batch_record_pasteur_release'/>/>
+                    <!-- <button string="Approve" name="action_model" type="object" states="done" class="oe_highlight"/> -->
+                    <!-- <button string="Set To Draft" name="action_draft" type="object" states="model" class="oe_highlight"/> -->
+                    <button name="action_leader_check" string="Leader Check" type="object" groups='bmo_mrp.group_mrp_leader' attrs="{'invisible' : [('leader_need_check', '=', False)]}" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,in_progress,done"/>
+                    <field name="leader_check" invisible='1'/>
+                        <field name='leader_need_check' invisible='1'/>
+                        <field name="editable" invisible='1'/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Checked" attrs="{'invisible': [('leader_check', '=', False)]}"/>
+                    <div class="oe_title">
+                            No. Dok
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="batch_id" domain="[('okp_id', '!=' , False)]" required='1' attrs="{'readonly' : [('state', '!=', 'draft')]}"/>
+                            <field name="okp_id" attrs="{'readonly' : [('state', '!=', 'draft')]}" required='1'/>
+                            <field name="product_id" required='1' attrs="{'readonly' : [('state', '!=', 'draft')]}"/>
+                            <field name="model_id" invisible='1'/>
+                        </group>
+                        <group>
+                            <field name="operator" required='0' attrs="{'readonly' : [('editable','=',False)]}"/>
+                            <field name="leader" required='0' attrs="{'readonly' : [('editable','=',False)]}"/>
+                            <field name="team" required='1'/>
+                            <field name="date" attrs="{'readonly' : [('editable','=',False)]}"/>
+                            <field name="shift" required='0' attrs="{'readonly' : [('editable','=',False)]}"/>
+                            <field name="revisi" readonly='1'/>
+                            <field name="revision_date" readonly='1'/>
+                            
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="preparation_ids" string="A. PREPARATION">
+                            <h3>
+                                <field name="page_a_title" readonly='1'/>
+                            </h3>
+                            <field name="preparation_ids">
+                                <tree editable="bottom" create='false' delete='false' decoration-warning="not actual" decoration-danger="not matching and actual">
+                                    <field name="number" readonly='1' style='width:15px'/>
+                                    <field name="name" readonly='1'/>
+                                    <field name="unit" readonly='1'/>
+                                    <field name="std" readonly='1'/>
+                                    <field name="actual" attrs="{'readonly' : [('editable', '=', False)]}" />
+                                    <field name="matching" invisible='1'/>
+                                    <field name="editable" invisible='1'/>
+                                    <field name='type_operation' invisible='1'/>
+                                    <field name="line_type" invisible='1'/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="preheating_ids" string="B. PRE-HEATING">
+                            <h3>
+                                <field name="page_b_title" readonly='1'/>
+                            </h3>
+                            <field name="preheating_ids">
+                                <tree editable="bottom" create='false' delete='false' decoration-warning="not actual" decoration-danger="not matching and actual">
+                                    <field name="number" readonly='1' style='width:15px'/>
+                                    <field name="name" readonly='1'/>
+                                    <field name="unit" readonly='1'/>
+                                    <field name="std" readonly='1'/>
+                                    <field name="actual" attrs="{'readonly' : [('editable', '=', False)]}" />
+                                    <field name="matching" invisible='1'/>
+                                    <field name="editable" invisible='1'/>
+                                    <field name='type_operation' invisible='1'/>
+                                    <field name="line_type" invisible='1'/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                            
+                        </page>
+                        <page name="pasteurization_ids" string="C. PASTEURIZATION">
+                            <h3>
+                                <field name="page_c_title" readonly='1'/>
+                            </h3>
+                            <field name="pasteurization_1_ids">
+                                <tree editable="bottom" create='false' delete='false' >
+                                    <field name="number" readonly='1' style='width:15px'/>
+                                    <field name="name" readonly='1'/>
+                                    <field name="unit" readonly='1'/>
+                                    <field name="std" readonly='1'/>
+                                    <field name="actual_0" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                    <field name="actual_15" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                    <field name="actual_30" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                    <field name="actual_45" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                    <field name="actual_60" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                    <field name="matching" invisible='1'/>
+                                    <field name="editable" invisible='1'/>
+                                    <field name='type_operation' invisible='1'/>
+                                    <field name="line_type" invisible='1'/>
+                                    <field name="group" invisible='1'/>
+                                    
+                                </tree>
+                            </field>
+                            <field name="pasteurization_2_ids">
+                                <tree editable="bottom" create='false' delete='false' decoration-warning="not pasteur_start and not pasteur_finish">
+                                    <field name="number" readonly='1' style='width:15px'/>
+                                    <field name="name" readonly='1'/>
+                                    <field name="unit" readonly='1'/>
+                                    <field name="std" readonly='1'/>
+                                    <field name="pasteur_start" attrs="{'readonly' : [('editable', '=', False)]}" widget="float_time"/>
+                                    <field name="pasteur_finish" attrs="{'readonly' : [('editable', '=', False)]}" widget="float_time"/>
+                                    <field name="matching" invisible='1'/>
+                                    <field name="editable" invisible='1'/>
+                                    <field name='type_operation' invisible='1'/>
+                                    <field name="line_type" invisible='1'/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                            <field name="pasteurization_3_ids">
+                                <tree editable="bottom" create='false' delete='false' decoration-warning="not actual">
+                                    <field name="number" readonly='1' style='width:15px'/>
+                                    <field name="name" readonly='1'/>
+                                    <field name="unit" readonly='1'/>
+                                    <field name="std" readonly='1'/>
+                                    <field name="actual" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                    <field name="matching" invisible='1'/>
+                                    <field name="editable" invisible='1'/>
+                                    <field name='type_operation' invisible='1'/>
+                                    <field name="line_type" invisible='1'/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                            <field name="pasteurization_4_ids">
+                                <tree editable="bottom" create='false' delete='false' decoration-warning="not actual" decoration-danger="not matching and actual">
+                                    <field name="number" readonly='1' style='width:15px'/>
+                                    <field name="name" readonly='1'/>
+                                    <field name="unit" readonly='1'/>
+                                    <field name="std" readonly='1'/>
+                                    <field name="actual" attrs="{'readonly' : [('editable', '=', False),]}"/>
+                                    <field name="matching" invisible='1'/>
+                                    <field name="editable" invisible='1'/>
+                                    <field name='type_operation' invisible='1'/>
+                                    <field name="line_type" invisible='1'/>
+                                    <field name="group" invisible='1'/>
+                                    
+                                </tree>
+                            </field>
+                            <field name="pasteurization_5_ids" context="{'default_group' : '4'}">
+                                <tree editable="bottom" create='false' delete='false' decoration-warning="not pasteur_start and not pasteur_finish">
+                                    <field name="number" readonly='1' style='width:15px'/>
+                                    <field name="name" readonly='1'/>
+                                    <field name="unit" readonly='1'/>
+                                    <field name="std" readonly='1'/>
+                                    <field name="pasteur_start" attrs="{'readonly' : [('editable', '=', False)]}" widget="float_time"/>
+                                    <field name="pasteur_finish" attrs="{'readonly' : [('editable', '=', False)]}" widget="float_time"/>
+                                    <field name="matching" invisible='1'/>
+                                    <field name="editable" invisible='1'/>
+                                    <field name='type_operation' invisible='1'/>
+                                    <field name="line_type" invisible='1'/>
+                                    <field name="group" invisible='1'/>
+                                    
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="quality_analysis_ids" string="D. QUALITY ANALYSIS">
+                            <h3>
+                                <field name="page_d_title" readonly='1'/>
+                            </h3>
+                            <field name="quality_analysis_ids">
+                                <tree editable="bottom" create='false' delete='false' decoration-warning="not actual" decoration-danger="not matching and actual">
+                                    <field name="number" readonly='1' style='width:15px'/>
+                                    <field name="name" readonly='1'/>
+                                    <field name="unit" readonly='1'/>
+                                    <field name="std" readonly='1'/>
+                                    <field name="actual" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                    <field name="matching" invisible='1'/>
+                                    <field name="editable" invisible='1'/>
+                                    <field name="line_type" invisible='1'/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="st_no_ids" string="E. Trouble In ST">
+                            <h3>
+                                <field name="page_e_title" readonly='1'/>
+                            </h3>
+                            <group string='Suhu (°C) jam ke -' style='text-align:center'>
+                                <field name="suhu" nolabel="1" required="0"/>
+                            </group>
+                            <field name="st_no_ids" context="{'default_group' : '5'}">
+                                <tree editable="bottom">
+                                    <field name="st_no"/>
+                                    <field name="suhu_jam_2" />
+                                    <field name="suhu_jam_4" />
+                                    <field name="suhu_jam_6" />
+                                    <field name="suhu_jam_8" />
+                                    <field name="suhu_jam_10" />
+                                    <field name="suhu_jam_12" />
+                                    <field name="suhu_jam_14" />
+                                    <field name="suhu_jam_16" />
+                                    <field name="suhu_jam_18" />
+                                    <field name="suhu_jam_20" />
+                                    <field name="suhu_jam_22" />
+                                    <field name="suhu_jam_24" />
+                                    <field name="suhu_jam_26" />
+                                    <field name="suhu_jam_28" />
+                                    <field name="suhu_jam_30" />
+                                    <field name="line_type" invisible='1'/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <field name="note" />
+                    </group>
+                    <group string='KETERANGAN'>
+                        
+                        <group string='Waktu pemeriksaan chilgo setiap 15 menit, benecol setiap 20 menit'>
+                            <field name="ket" nolabel="1" required="0"/>
+                        </group>
+                        <group string='Tekanan chiller max. 1,5 bar'>
+                            <field name="tekanan" nolabel="1" required="0"/>
+                        </group>
+                        
+                    </group>              
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="kmi_pasteur_filter_search" model="ir.ui.view">
+            <field name="name">kmi.pasteur.filter.search</field>
+            <field name="model">product.st</field>
+            <field name="arch" type="xml">
+                <search string="Pasteur Lists">
+                    <field name="okp_id"/>
+                    <field name="name"/>
+                    <field name="batch_id"/>
+                    <field name="product_id"/>
+                    <filter name="today" string="Today" domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" help="Draft Moves"/>
+                    <filter name="in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]" help="In Progress"/>
+                    <filter name="done" string="Done" domain="[('state', '=', 'done')]" help="Dumpings already release"/>
+                    <separator/>
+                    <!-- <filter name="late" string="Late" help="Deadline exceed or/and by the scheduled"
+                        domain="[('state', 'in', ('draft', 'waiting', 'confirmed')), '|', ('date', '&lt;', current_date)"/>  -->
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Date" name="date" domain="[]" context="{'group_by': 'date'}"/>
+                        <filter string="Shift" name="shift" domain="[]" context="{'group_by': 'shift'}"/>
+                        <filter string="Products" name="product" domain="[]" context="{'group_by': 'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    <!-- Template in state Model -->
+
+    <record id="product_st_template_view_tree" model="ir.ui.view">
+        <field name="name">product.st.template.view.tree</field>
+        <field name="model">product.st</field>
+        <field name="arch" type="xml">
+            <tree create="1">
+                <field name="name" />
+                <field name="product_id"/>
+                <field name="revisi" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_st_template_view_form" model="ir.ui.view">
+        <field name="name">product.st.template.view.form</field>
+        <field name="model">product.st</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <button name="action_approve_template" states="draft_model" string="Approve" type="object" class="oe_highlight" 
+                        groups='bmo_batch_record.group_batch_record_create_template_approve'/>
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft_model,model"/>
+                </header>
+                <sheet>
+                    <!-- <widget name="web_ribbon" title="Model" attrs="{'invisible': [('state', '!=', 'model')]}"/> -->
+                    <div class="oe_title">
+                            No. Dok
+                        <h1>
+                            <field name="name" readonly="False"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <!-- <field name="batch_id" domain="[('okp_id', '!=' , False)]" required='1'/> -->
+                            <!-- <field name="okp_id" required='1'/> -->
+                            <field name="product_id" required='1'/>
+                            <field name="revisi"/>
+                            <field name="revision_date"/>
+                            <!-- <field name="hal"/> -->
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                            <!-- <field name="shift"/> -->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="preparation_ids" string="A. PREPARATION">
+                            <h3>
+                                <field name="page_a_title"/>
+                            </h3>
+                            <field name="preparation_ids" context="{'default_group' : '1'}">
+                                <tree editable="bottom">
+                                    <field name="number" style='width:15px'/>
+                                    <field name="name"/>
+                                    <field name="unit"/>
+                                    <field name="std"/>
+                                    <field name="type_operation"/>
+                                    <field name="line_type"/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="preheating_ids" string="B. PRE-HEATING">
+                            <h3>
+                                <field name="page_b_title"/>
+                            </h3>
+                            <field name="preheating_ids" context="{'default_group' : '2'}">
+                                <tree editable="bottom">
+                                    <field name="number" style='width:15px'/>
+                                    <field name="name"/>
+                                    <field name="unit"/>
+                                    <field name="std"/>
+                                    <field name="type_operation"/>
+                                    <field name="line_type"/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="pasteurization_ids" string="C. PASTEURIZATION">
+                            <h3>
+                                <field name="page_c_title"/>
+                            </h3>
+                            <field name="pasteurization_1_ids" context="{'default_group' : '301'}">
+                                <tree editable="bottom">
+                                    <field name="number" style='width:15px'/>
+                                    <field name="name"/>
+                                    <field name="unit"/>
+                                    <field name="std"/>
+                                    <field name="type_operation"/>
+                                    <field name="line_type"/>
+                                    <field name="group" invisible='1'/>
+                                    
+                                </tree>
+                            </field>
+                            <field name="pasteurization_2_ids" context="{'default_group' : '302'}">
+                                <tree editable="bottom">
+                                    <field name="number" style='width:15px'/>
+                                    <field name="name"/>
+                                    <field name="unit"/>
+                                    <field name="std"/>
+                                    <field name="type_operation"/>
+                                    <field name="line_type"/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                            <field name="pasteurization_3_ids" context="{'default_group' : '303'}">
+                                <tree editable="bottom">
+                                    <field name="number" style='width:15px'/>
+                                    <field name="name"/>
+                                    <field name="unit"/>
+                                    <field name="std"/>
+                                    <field name="type_operation"/>
+                                    <field name="line_type"/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                            <field name="pasteurization_4_ids" context="{'default_group' : '304'}">
+                                <tree editable="bottom">
+                                    <field name="number" style='width:15px'/>
+                                    <field name="name"/>
+                                    <field name="unit"/>
+                                    <field name="std"/>
+                                    <field name="type_operation"/>
+                                    <field name="line_type"/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                            <field name="pasteurization_5_ids" context="{'default_group' : '305'}">
+                                <tree editable="bottom">
+                                    <field name="number" style='width:15px'/>
+                                    <field name="name"/>
+                                    <field name="unit"/>
+                                    <field name="std"/>
+                                    <field name="type_operation"/>
+                                    <field name="line_type"/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                         <page name="quality_analysis_ids" string="D. QUALITY ANALYSIS">
+                            <field name="quality_analysis_ids" context="{'default_group' : '4'}">
+                                <tree editable="bottom">
+                                    <field name="number" style='width:15px'/>
+                                    <field name="name"/>
+                                    <field name="unit"/>
+                                    <field name="std"/>
+                                    <field name="type_operation"/>
+                                    <field name="line_type"/>
+                                    <field name="group" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <field name="note" />
+                    </group>
+                    <group string='KETERANGAN'>
+                        
+                        <group string='Waktu pemeriksaan chilgo setiap 15 menit, benecol setiap 20 menit'>
+                            <field name="ket" nolabel="1" required="0"/>
+                        </group>
+                        <group string='Tekanan chiller max. 1,5 bar'>
+                            <field name="tekanan" nolabel="1" required="0"/>
+                        </group>
+                        
+                    </group>              
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_st_template" model="ir.actions.act_window">
+        <field name="name">Pasteurisasi Template</field>
+        <field name="res_model">product.st</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', 'in', ('draft_model','model'))]</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('product_st_template_view_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('product_st_template_view_form')})]"/>
+        <field name="context">{'default_state' : 'draft_model'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a Pasteurisasi
+            </p>
+        </field>
+    </record>
+
+    <record id="action_product_st" model="ir.actions.act_window">
+        <field name="name">Pasteurisasi</field>
+        <field name="res_model">product.st</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', 'not in', ('draft_model','model'))]</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('product_st_view_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('product_st_view_form')})]"/>
+        <!-- <field name="domain">[('tipe', '=', 'internal')]</field> -->
+        <field name='context'>{'search_default_today' : 1}</field>
+        <field name="search_view_id" ref="kmi_pasteur_filter_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a Pasteurisasi
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+      id="product_st_root"
+      name="Pasteurisasi"
+      parent='bmo_batch_record.root_menu_batch_record'
+      sequence="3"/>
+      <menuitem
+        id="product_st_menu"
+        name="Form Pasteurisasi"
+        action="action_product_st"
+        parent="product_st_root"
+        sequence="4"/>
+    
+    <!-- <menuitem id="kmi_dumping_root" name="Dumping" parent="bmo_batch_record.root_menu_batch_record" sequence="1" /> -->
+    <!-- <menuitem id="batch_record_template_main_menu" name="Batch Record Template" parent="bmo_batch_record.menu_setting_batch_record" sequence="2" /> -->
+    <menuitem id="menu_pasteurisasi_template" name='Pasteurisasi Template' parent="bmo_batch_record.batch_record_template_main_menu" action="action_product_st_template" sequence="20" />
+    <!-- <menuitem id="menu_kmi_dumping" parent="kmi_dumping_root" action="action_kmi_dumping" sequence="3" /> -->
+  </data>
+</odoo>

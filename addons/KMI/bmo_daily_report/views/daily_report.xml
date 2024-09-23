@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Add you code here -->
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="daily_report_menu_categ" name="Laporan Harian" 
+            parent="bmo_batch_record.root_menu_batch_record" sequence="15"/>
+        
+    </data>
+</odoo>

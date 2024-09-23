@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <menuitem 
+        id="root_menu_mrp_qc" 
+        name="MRP QC" 
+        sequence="39" 
+        web_icon="bmo_mrp_qc,static/src/img/icon.png" />
+
+    <menuitem
+        id="mrp_qc_menu_do_stuff"
+        name="QC"
+        groups="bmo_mrp_qc.group_mrp_qc_user"
+        parent="root_menu_mrp_qc"
+        sequence="5" />
+    
+    <menuitem
+        id="mrp_qc_menu_report"
+        name="Report"
+        parent="root_menu_mrp_qc"
+        action="bmo_mrp_qc.action_report_mrp_qc_summary"
+        sequence="5" />
+
+    <menuitem 
+        id="menu_mrp_qc" 
+        name="QC Finish Good"
+        parent="bmo_mrp_qc.mrp_qc_menu_do_stuff" 
+        action="bmo_mrp_qc.mrp_qc_action" 
+        sequence="10"/>
+    
+    <menuitem 
+        id="mrp_qc_master_data_menu_do_stuff" 
+        name="Master Data" 
+        parent="root_menu_mrp_qc" 
+        sequence="30"
+        groups="bmo_mrp_qc.group_mrp_qc_manager"/>
+
+    <menuitem 
+        id="menu_mrp_qc_master_data" 
+        name="Master Data" 
+        parent="bmo_mrp_qc.mrp_qc_master_data_menu_do_stuff" 
+        action="bmo_mrp_qc.master_qc_action" 
+        sequence="10"/>
+    
+    
+    <!-- <menuitem 
+        id="menu_mrp_qc_master_data_line" 
+        name="Master Data Line" 
+        parent="bmo_mrp_qc.mrp_qc_master_data_menu_do_stuff" 
+        action="bmo_mrp_qc.master_qc_line_action" sequence="12"/> -->
+
+
+
+    <!-- <menuitem 
+        id="menu_master_data_qc" 
+        parent="bmo_mrp_qc.master_data_menu_root_qc" 
+        action="bmo_mrp_qc.master_qc_action" 
+        sequence="1" /> -->
+
+    <!-- <menuitem 
+        id="configuration_menu_root_qc" 
+        name="Configuration" 
+        parent="bmo_mrp_qc.root_menu_mrp_qc" 
+        sequence="100" 
+        group="bmo_mrp_qc.group_mrp_qc_manager"/> -->
+
+
+</odoo>

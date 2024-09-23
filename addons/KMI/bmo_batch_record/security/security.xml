@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+
+       <record model="ir.module.category" id="module_batch_record">
+            <field name="name">Batch Record Online</field>
+            <field name="sequence">60</field>
+            <field name="visible" eval="0" />
+        </record>
+
+        <record id="group_batch_record_edit" model="res.groups">
+            <field name="name">Batch Record Edit</field>
+            <!-- <field name="implied_ids" eval="[(4, ref('mrp.group_mrp_user'))]"/> -->
+            <field name="category_id" ref="bmo_batch_record.module_batch_record"/>
+        </record>
+
+        <record id="group_batch_record_create_template" model="res.groups">
+            <field name="name">Batch Record Template</field>
+            <!-- <field name="implied_ids" eval="[(4, ref('mrp.group_mrp_user'))]"/> -->
+            <field name="category_id" ref="bmo_batch_record.module_batch_record"/>
+        </record>
+
+        <record id="group_batch_record_create_template_approve" model="res.groups">
+            <field name="name">Batch Record Template Approve</field>
+            <field name="implied_ids" eval="[(4, ref('bmo_batch_record.group_batch_record_create_template'))]"/>
+            <field name="category_id" ref="bmo_batch_record.module_batch_record"/>
+        </record>
+
+        <record id="group_batch_record_release" model="res.groups">
+            <field name="name">Batch Record Release</field>
+            <!-- <field name="implied_ids" eval="[(4, ref('mrp.group_mrp_user'))]"/> -->
+            <field name="category_id" ref="bmo_batch_record.module_batch_record"/>
+        </record>
+
+        <record id="group_batch_record_cancel" model="res.groups">
+            <field name="name">Batch Record Cancel</field>
+            <!-- <field name="implied_ids" eval="[(4, ref('mrp.group_mrp_user'))]"/> -->
+            <field name="category_id" ref="bmo_batch_record.module_batch_record"/>
+        </record>
+
+        <record id="group_batch_record_dumping_release" model="res.groups">
+            <field name="name">Dumping Release</field>
+            <!-- <field name="implied_ids" eval="[(4, ref('mrp.group_mrp_user'))]"/> -->
+            <field name="category_id" ref="bmo_batch_record.module_batch_record"/>
+        </record>
+
+        <record id="group_batch_record_pasteur_release" model="res.groups">
+            <field name="name">Pasteur Release</field>
+            <!-- <field name="implied_ids" eval="[(4, ref('mrp.group_mrp_user'))]"/> -->
+            <field name="category_id" ref="bmo_batch_record.module_batch_record"/>
+        </record>
+        <record id="group_batch_record_inline_release" model="res.groups">
+            <field name="name">Inline Product Release</field>
+            <!-- <field name="implied_ids" eval="[(4, ref('mrp.group_mrp_user'))]"/> -->
+            <field name="category_id" ref="bmo_batch_record.module_batch_record"/>
+        </record>
+
+    </data>
+</odoo>

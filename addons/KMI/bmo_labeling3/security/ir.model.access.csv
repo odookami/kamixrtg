@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bmo_labeling3,bmo_labeling3.bmo_labeling3,model_bmo_labeling3,,1,1,1,1
+access_bmo_labeling3_line,bmo_labeling3.bmo_labeling3_line,model_bmo_labeling3_line,,1,1,1,1
+access_bmo_labeling3_konversi,bmo_labeling3.bmo_labeling3_konversi,model_bmo_labeling3_konversi,,1,1,1,1

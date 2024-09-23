@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="master_type_1" model="master.type">
+            <field name="name">Sampling QC Internal</field>
+        </record>
+        
+        <record id="master_type_2" model="master.type">
+            <field name="name">Sampling QC External</field>
+        </record>
+        <record id="master_type_3" model="master.type">
+            <field name="name">Reject</field>
+        </record>
+        <record id="master_type_4" model="master.type">
+            <field name="name">Sampling Marketing</field>
+        </record>
+    </data>
+</odoo>

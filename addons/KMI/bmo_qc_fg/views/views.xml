@@ -1,0 +1,24 @@
+<odoo>
+  <data>
+    <record model='ir.ui.view' id='master_type_stock_scrap_number_of_location_form'>
+        <field name='name'>master_type_stock_scrap_number_of_location.form</field>
+        <field name='model'>master.type</field>
+        <field name='inherit_id' ref='bmo_inventory.master_type_view_form'/>
+        <field name='arch' type='xml'>
+            <field name="name" position='after'>
+                <field name="number_of_location"/>
+            </field>
+        </field>
+    </record>
+
+    <record model='ir.ui.view' id='stock_scrap_filter_source_location_form'>
+        <field name='name'>stock_scrap_filter_source_location.form</field>
+        <field name='model'>model.name</field>
+        <field name='arch' type='xml'>
+            <tree string='description'>
+                <field name='field_name'/>
+            </tree>
+        </field>
+    </record>
+  </data>
+</odoo>

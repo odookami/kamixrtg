@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_okp" model="ir.sequence">
+        <field name="name">OKP</field>
+        <field name="code">okp.sequence</field>
+        <field name="prefix">PD-</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>

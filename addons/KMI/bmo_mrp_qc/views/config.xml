@@ -1,0 +1,106 @@
+<odoo>
+    <data>
+        <record id="master_qc_line_view_tree" model="ir.ui.view">
+            <field name="name">master.qc.line.view.tree</field>
+            <field name="model">master.qc.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="master_id"/>
+                    <field name="master_data_qc_lines"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="master_qc_line_view_form" model="ir.ui.view">
+            <field name="name">master.qc.line.view.form</field>
+            <field name="model">master.qc.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <!-- <field name="master_id"/> -->
+                            <field name="sequence_ids" widget="many2many_tags" options="{'no_create' : True, 'no_open' : True}"/>
+                        </group>
+                        <notebook>
+                            <page name="master_data_qc_lines" widget="one2many_list">
+                                <field name="master_data_qc_lines">
+                                    <tree editable="bottom">
+                                        <field name="test_calss"/>
+                                        <field name="name"/>
+                                        <field name="unit"/>
+                                        <field name="value_char"/>
+                                        <field name="min_value_num"/>
+                                        <field name="max_value_num"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="master_qc_line_action">
+            <field name="name">Master QC Line</field>
+            <field name="res_model">master.qc.line</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="master_qc_view_tree" model="ir.ui.view">
+            <field name="name">master.qc.view.tree</field>
+            <field name="model">master.qc</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="tipe_category"/>
+                    <field name="date"/>
+                    <field name="version"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="master_qc_view_form" model="ir.ui.view">
+            <field name="name">master.qc.view.form</field>
+            <field name="model">master.qc</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Submit" name="action_submit" type="object" states="draft" class="oe_highlight"/>
+                        <button string="Done" name="action_done" type="object" states="submit" class="oe_highlight"/>
+                        <button string="Set To Draft" name="action_draft" type="object" states="done" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,submit,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+							<h1>
+								<field name="name" required="1" placeholder="Nama Dok "/>
+							</h1>
+						</div>
+                        <group>
+                            <group>
+                                <field name="tipe_category" options="{'no_create' : True, 'no_open' : True}"/>
+                            </group>
+                            <group>
+                                <field name="date" required="1"/>
+                                <field name="version" />
+                            </group>
+                            
+                        </group>
+                        <div class="oe_clear"/>
+                        <field name="master_qc_lines">
+                            <tree string="QC">
+                                <field name="sequence_ids" widget="many2many_tags" options="{'no_create' : True}"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="master_qc_action">
+            <field name="name">MRP QC</field>
+            <field name="res_model">master.qc</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

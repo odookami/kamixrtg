@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.mrp.packing</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="80"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="BHP Packing" string="BHP Packing" data-key="bmo_mrp_packing">
+                    <!-- * BHP -->
+                    <h2>BHP Location</h2>
+                    <div class="row mt16 o_settings_container" name="bhp_location_dest_container">
+                        <div class="col-12 col-lg-6 o_setting_box" title="Set BHP default Destination Location.">
+                            <div class="o_setting_right_pane">
+                                <label for="bhp_location_dest_id"/>
+                                <div class="row">
+                                    <div class="text-muted col-lg-8">
+                                        Set default Destination Location to manage your BHP Transfer Operation(s).
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="bhp_location_dest_id" required="0" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>BHP Unit of Measure</h2>
+                    <div class="row mt16 o_settings_container" name="bhp_uom_container">
+                        <div class="col-12 col-lg-6 o_setting_box" title="Set BHP default Unit of Measure.">
+                            <div class="o_setting_right_pane">
+                                <label for="bhp_cb_uom_id"/>
+                                <div class="row">
+                                    <div class="text-muted col-lg-8">
+                                        Set default Unit of Measure in CB.
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="bhp_cb_uom_id" required="0" class="o_light_label"/>
+                                    </div>
+                                </div>
+                                <label for="bhp_pcs_uom_id"/>
+                                <div class="row">
+                                    <div class="text-muted col-lg-8">
+                                        Set default Unit of Measure in Pcs.
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="bhp_pcs_uom_id" required="0" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Laporan Hasil Produksi</h2>
+                    <div class="row mt16 o_settings_container" name="bhp_uom_container">
+                        <div class="col-12 col-lg-6 o_setting_box" title="Set Tanggal LHP.">
+                            <div class="o_setting_right_pane">
+                                <label for="date_report_lhp"/>
+                                <div class="row">
+                                    <div class="text-muted col-lg-8">
+                                        Set default Tangal Buat LHP.
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="date_report_lhp" required="0" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_bhp_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'bmo_mrp_packing'}</field>
+    </record>
+
+    <!-- <menuitem id="mrp_packing_res_config" name="Settings" 
+		parent="bmo_batch_record.menu_setting_batch_record" 
+        sequence="-99" action="action_bhp_settings"/> -->
+</odoo>

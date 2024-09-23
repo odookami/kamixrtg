@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <menuitem id="root_menu_batch_record" name="Batch Record" sequence="50" web_icon="bmo_batch_record,static/src/img/icon.png" />
+        <menuitem id="menu_setting_batch_record" name="Configuration" parent="root_menu_batch_record" sequence="1000"/>
+        <menuitem id="batch_record_template_main_menu" name="Batch Record Template" parent="bmo_batch_record.menu_setting_batch_record" sequence="2" />
+        <!-- <menuitem id="batch_record_template_main_menu" name="Batch Record Template" parent="bmo_batch_record.menu_setting_batch_record" sequence="3" /> -->
+
+
+    </data>
+</odoo>

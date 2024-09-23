@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_verifikasi_berat,verifikasi_berat,model_verifikasi_berat,,1,1,1,1
+access_verifikasi_berat_line_one,verifikasi_berat_line_one,model_verifikasi_berat_line_one,,1,1,1,1
+access_verifikasi_berat_line_two,verifikasi_berat_line_two,model_verifikasi_berat_line_two,,1,1,1,1
+access_verifikasi_berat_line_three,verifikasi_berat_line_three,model_verifikasi_berat_line_three,,1,1,1,1

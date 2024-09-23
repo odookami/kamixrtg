@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_production_lot_form_inherit_bmo_inventory_bom_mrp" model="ir.ui.view">
+        <field name="name">stock.production.lot.form.inerhit.bmo_inventory.inherit.bmo.mrp</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="bmo_inventory.view_production_lot_form_inherit_bmo_inventory"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='karantina']" position="after">
+                <field name="bache_id" readonly="1"/>
+                <field name="mo_id" readonly="1"/>
+                <field name="okp_id" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

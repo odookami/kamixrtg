@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record model='ir.ui.view' id='product_group_tree'>
+    	    <field name='name'>product_group.tree</field>
+    	    <field name='model'>product.group</field>
+    	    <field name='arch' type='xml'>
+    	        <tree string='description'>
+    	            <field name='name'/>
+    	        </tree>
+    	    </field>
+    	</record>
+    	<record model="ir.ui.view" id="product_group_form">
+    	    <field name="name">product_group.form</field>
+    	    <field name="model">product.group</field>
+    	    <field name="arch" type="xml">
+    	        <form string="description">
+    	            <sheet>
+    	                <group>
+                            <field name="code"/>
+    	                    <field name="name"/>
+							<field name="product_id"/>
+    	                </group>
+    	                <separator string='Product in Group'/>
+    	                <field name="product_group_line">
+    	                	<tree editable='bottom'>
+    	                		<field name="product_id"/>
+    	                		<field name="qty"/>
+    	                		<field name="uom_id"/>
+    	                	</tree>
+    	                </field>
+    	            </sheet>
+    	        </form>
+    	    </field>
+    	</record>
+
+    	<record id="action_product_group" model="ir.actions.act_window">
+    		<field name="name">Product Group</field>
+    		<field name="res_model">product.group</field>
+    		<field name="view_mode">tree,form</field>
+    	</record>
+
+    	<menuitem id="product_group_menu" name="Product Group" parent="stock.menu_stock_inventory_control" action="action_product_group"/>
+    </data>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <record id="type_category_1" model="type.category">
+            <field name="name">NUTRIVE FIBERSHOT</field>
+            <!-- <field name="sequence_in_view">1</field> -->
+        </record>
+        <record id="type_category_2" model="type.category">
+            <field name="name">NUTRIVE BENECOL (STRAWBERRY, BLACKCURRANT, ORANGE)</field>
+            <!-- <field name="sequence_in_view">2</field> -->
+        </record>
+        <record id="type_category_3" model="type.category">
+            <field name="name">NUTRIVE BENECOL (LYCHEE)</field>
+            <!-- <field name="sequence_in_view">3</field> -->
+        </record>
+        <record id="type_category_4" model="type.category">
+            <field name="name">CHILGO CHOCOLATE</field>
+            <!-- <field name="sequence_in_view">4</field> -->
+        </record>
+        <record id="type_category_5" model="type.category">
+            <field name="name">CHILGO CHOCOLATE MYANMAR 140 ML</field>
+            <!-- <field name="sequence_in_view">5</field> -->
+        </record>
+        <record id="type_category_6" model="type.category">
+            <field name="name">CHILGO MELON MADU</field>
+            <!-- <field name="sequence_in_view">6</field> -->
+        </record>
+        <record id="type_category_7" model="type.category">
+            <field name="name">CHILGO ORIGINAL</field>
+            <!-- <field name="sequence_in_view">7</field> -->
+        </record>
+        <record id="type_category_8" model="type.category">
+            <field name="name">CHILGO STRAWBERRY</field>
+            <!-- <field name="sequence_in_view">8</field> -->
+        </record>
+        <record id="type_category_9" model="type.category">
+            <field name="name">CHILGO STRAWBERRY MYANMAR 140 ML</field>
+            <!-- <field name="sequence_in_view">9</field> -->
+        </record>
+        <record id="type_category_10" model="type.category">
+            <field name="name">CHILGO VANILLA</field>
+            <!-- <field name="sequence_in_view">10</field> -->
+        </record>
+        <record id="type_category_11" model="type.category">
+            <field name="name">CHILGO VANILLA MYANMAR (140 ML)</field>
+            <!-- <field name="sequence_in_view">11</field> -->
+        </record>
+        <record id="type_category_12" model="type.category">
+            <field name="name">HI C1000 (ORANGE, LEMON)</field>
+            <!-- <field name="sequence_in_view">12</field> -->
+        </record>
+    </data>
+</odoo>

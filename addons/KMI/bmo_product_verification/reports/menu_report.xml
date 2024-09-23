@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="product_verification_xlsx"
+            model="inline.product.verification"
+            string="Product Verification Report"
+            report_type="xlsx"
+            name="bmo_daily_report.report_product_verification"
+            file="bmo_daily_report.report_product_verification"
+            attachment_use="False"
+        />
+
+    </data>
+</odoo>

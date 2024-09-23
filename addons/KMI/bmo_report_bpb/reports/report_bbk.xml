@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_bbk">
+        <t t-call="web.html_container">
+            <t t-call="bmo_report_bpb.my_own_layout">
+                <t t-call="web.internal_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <!-- <p style="page-break-inside: avoid;"></p> -->
+                            <!-- <style>
+                                table.table-no-border { 
+                                    page-break-inside: avoid;
+                                    border-collapse: collapse; 
+                                    margin-top: -10px; width: 100%;
+                                    table-layout: fixed; font-size: 13px; 
+                                    border: 1px solid #e7ebee;
+                                }
+                                table.table-bordered { 
+                                    border-collapse: collapse; 
+                                    margin-top: 10px; width: 100%;
+                                    table-layout: auto;
+                                }
+                                table.table-sm {
+                                    table-layout: fixed; font-size: 13px; 
+                                }
+                                .content-box{width:850px ; margin: 0 auto; padding-top:10px; padding-bottom:20px;}
+                            </style> -->
+                            <div class="row" id="info" >
+                                <div class="col-12">
+                                    <table class="table table-sm">
+                                        <h3 class="text-left" style="font-size: 12px;">
+                                            <strong>
+                                                <p><span t-esc="o.env.user.company_id.name"/></p>
+                                            </strong>
+                                        </h3>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: center;">
+                                <div class="col-12">
+                                    <table class="table table-sm" >
+                                        <h2 style="font-size: 22px;">
+                                            <strong>
+                                                <p>BUKTI BARANG KELUAR(BBK)</p>
+                                            </strong>
+                                        </h2>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-12">
+                                    <table class="content-box" style="text-align: left !important;">
+                                        <thead style="font-size: 14px;">
+                                            <tr>
+                                                <th style="width: 5%;">No. BBK</th>
+                                                <th style="width: 10%;">: <span t-esc="o.name"/></th>
+                                                <th style="width: 5%;"></th> 
+                                                <th style="width: 5%;">Tgl. BBK</th>
+                                                <th style="width: 10%;">: <span t-esc="o.date.strftime('%d-%b-%Y')"/></th>
+                                                <th style="width: 5%;"></th> 
+                                            </tr>
+                                            <tr>
+                                                <th style="width: 5%;">No. FPB</th>
+                                                <th style="width: 10%;">: <span t-esc="o.origin"/></th>
+                                                <th style="width: 5%;"></th> 
+                                                <th style="width: 5%;">Type BBK</th>
+                                                <th style="width: 10%;">: <span t-esc="o.picking_type_id.name"/></th>
+                                                <th style="width: 5%;"></th> 
+                                            </tr>
+                                            <tr>
+                                                <th style="width: 5%;">Customer</th>
+                                                <th style="width: 10%;">: <span t-esc="o.partner_id.name"/></th>
+                                                <th style="width: 5%;"></th> 
+                                            </tr>
+                                            <tr>
+                                                <th style="width: 5%;">Catatan</th>
+                                                <th style="width: 10%;">: <span t-esc="o.note"/></th>
+                                                <th style="width: 5%;"></th> 
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <!-- <div class="row">
+                                <div class="col-12"> -->
+                            <table class="table table-sm" style="page-break-inside: auto;">
+                                <thead style="font-size: 14px;">
+                                    <tr>
+                                        <th >No</th>
+                                        <th >Item Code</th>
+                                        <th colspan="3">Item Description</th>
+                                        <th >UOM</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 12px;">
+                                    <t t-set='no' t-value='1'/>
+                                    <t t-foreach="o.move_ids_without_package" t-as="line">
+                                        <t t-foreach="line[0]" t-as="a">
+                                            <t t-set='total_qty' t-value='0'/>
+                                            <tr>
+                                                <td class='text-center'>
+                                                    <span t-esc='no'/>
+                                                </td>
+                                                <td class='text-left'>
+                                                    <t t-esc="line.product_id.default_code"/>
+                                                </td>
+                                                <td class='text-left' colspan="3">
+                                                    <t t-esc="line.product_id.name"/>
+                                                </td>
+                                                <td class='text-left'>
+                                                    <t t-esc="line.product_id.uom_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <t t-set='no' t-value='no + 1'/>
+                                            <t t-foreach="line.move_line_ids" t-as="move_line">
+                                                <tr>
+                                                    <td colspan="2" class='text-center'>
+                                                    </td>
+                                                    
+                                                    <td class='text-left'>
+                                                        <t t-esc="move_line.location_id.display_name"/>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="move_line.lot_id.name"/>
+                                                    </td>
+                                                    <!-- <td style="text-left">
+                                                        <t t-if="move_line.expiration_date">
+                                                            <b><span t-esc="move_line.expiration_date.strftime('%d-%b-%Y')"/></b>
+                                                        </t>
+                                                    </td> -->
+                                                    <td style="text-left">
+                                                        <t t-if="move_line.expired_date">
+                                                            <b><span t-esc="(datetime.datetime.strptime(str(move_line.expired_date), '%Y-%m-%d %H:%M:%S')+datetime.timedelta(hours=7)).strftime('%d-%b-%Y ')" /></b>
+                                                            <!-- <b><span t-esc="move_line.expired_date.strftime('%d-%b-%Y')"/></b> -->
+                                                        </t>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="move_line.qty_done" t-options='{"widget": "float", "precision": 3}'/>
+                                                    </td>
+                                                    <!-- <td class='text-left'>
+                                                        <t t-esc="move_line.product_uom_id.name"/>
+                                                    </td> -->
+                                                </tr>
+                                                <t t-set='total_qty' t-value='total_qty + move_line.qty_done'/>
+                                            </t>
+                                            <tr>
+                                                <td class='text-center' colspan="5">
+                                                </td>
+                                                <td class='text-left'>
+                                                    <span t-esc="total_qty" t-options='{"widget": "float", "precision": 3}'/>
+                                                </td>
+                                                <!-- <td class='text-left'>
+                                                    <t t-esc="line.product_uom.name"/>
+                                                </td> -->
+                                            </tr>
+                                        </t>
+                                    </t>    
+                                </tbody>
+                            </table>
+                                <!-- </div>
+                            </div> -->
+                 
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-bordered" style="page-break-inside: auto; font-size: 10px;">
+                                        <tr style="border:1px; font-size: 14px;">
+                                            <td style="text-align:center;">Dibuat Oleh</td>
+                                            <td style="text-align:center;">Disetujui Oleh</td>
+                                            <td style="text-align:center;">Diterima Oleh</td>
+                                        </tr>
+                                        <tr style='height:50px;'>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center;">Admin Gudang</td>
+                                            <td style="text-align:center;">Supervisor Gudang</td>
+                                            <td style="text-align:center;"></td>
+                                        </tr>
+                                    </table>
+                                    <table style="page-break-inside: auto; font-size: 10px;">
+                                        <tr style="font-size: 14px;">
+                                            <th style="width: 10%;">Printed by</th>
+                                            <th style="width: 5%;">:</th> 
+                                            <th style="width: 10%;"><span t-esc="o.env.user.name"/></th>
+                                            <th style="width: 10%;">Tanggal</th>
+                                            <th style="width: 5%;">:</th>
+                                            <th style="width: 10%;"><span t-esc="o.date.strftime('%d-%b-%Y')"/></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

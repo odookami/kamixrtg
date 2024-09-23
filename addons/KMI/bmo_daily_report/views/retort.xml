@@ -1,0 +1,446 @@
+<odoo>
+  	<data>
+
+		<record id="br_retort_view_tree" model="ir.ui.view">
+            <field name="name">kmi.retort.view.tree</field>
+            <field name="model">kmi.retort</field>
+			<field name="priority" eval='1'/>
+            <field name="arch" type="xml">
+                <tree duplicate="0" delete="0" create="0">
+                    <!-- Add your fields here -->
+                    <field name="display_name"/>
+					<field name="okp_id"/>
+					<field name="product_id"/>
+                    <field name="shift"/>
+                    <field name="date"/>
+                    <field name="revision"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+		
+		<record id="br_retort_view_form" model="ir.ui.view">
+			<field name="name">kmi.retort.retort.view.form</field>
+			<field name="model">kmi.retort</field>
+			<field name="priority" eval='1'/>
+			<field name="arch" type="xml">
+				<form string="Form Retort" create='1' delete='0' duplicate="1">
+					<header>
+						<!-- <button name="insert_production_record" string="Test Insert" type="object" context="{'batch_number' : 'A1'}"/> -->
+                        <button name="action_submit" states="draft" string="Submit" type="object" class="oe_highlight"/>
+                        <button name="action_done" states="in_progress" string="Release" type="object" class="oe_highlight" confirm="Apakah Anda yakin ingin Release record ini ???" groups='bmo_batch_record.group_batch_record_release'/>
+                        <button name="action_leader_check" string="Leader Check" type="object" groups='bmo_mrp.group_mrp_leader' attrs="{'invisible' : [('leader_need_check', '=', False)]}" class="oe_highlight"/>
+                        <!-- <button name="check_null_value" string="Check Null Value" type="object"/> -->
+                        <button name="action_cancel" states="draft,in_progress" string="Cancel" type="object" class="oe_highlight" confirm="Apakah Anda yakin ingin Cancel record ini ???" groups='bmo_batch_record.group_batch_record_cancel'/>
+                        <field name="leader_check" invisible='1'/>
+                        <field name="leader_need_check" invisible='1'/>
+                        <field name="state" widget="statusbar" 
+                            statusbar_visible="draft,in_progress,done"/>
+					</header>
+					<sheet>
+                        <widget name="web_ribbon" title="Checked" attrs="{'invisible': [('leader_check', '=', False)]}"/>
+						<div class="oe_title">
+							<h1>
+                                <field name="name" required="0" readonly='1' placeholder="No. Dok"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<field name="release_date" readonly="1"/>
+								<field name="okp_id" readonly="1"/>
+                                <field name="no_urut_bo" readonly='1'/>
+								<!-- <field name="num_of_pages"/> -->
+							</group>
+							<group>
+								<field name="revision" required="0" readonly='1'/>
+                                <field name="operator" required="1" attrs="{'readonly' : [('editable','=',False)]}"/>
+                                <field name="leader" required="1" attrs="{'readonly' : [('editable','=',False)]}"/>
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="dayofweek" attrs="{'readonly' : [('editable','=',False)]}"/>
+								<field name="date" attrs="{'readonly' : [('editable','=',False)]}"/>
+								<field name="shift" attrs="{'readonly' : [('editable','=',False)]}"/>
+                                <field name="editable" invisible='1'/>
+							</group>
+							<group>
+								<field name="team"/>
+								<field name="packaging"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="General Report" name="general_report">
+								<group>
+									<group>
+										<label for="preparation"/>
+										<div class="o_row" name="preparation">
+											<field name="preparation" nolabel="1"/>
+											<span> min</span>
+										</div>
+
+										<label for="total_breakdown"/>
+										<div class="o_row" name="total_breakdown">
+											<field name="total_breakdown" nolabel="1"/>
+											<span> min</span>
+										</div>
+
+										<label for="running_hours"/>
+										<div class="o_row" name="running_hours">
+											<field name="running_hours" nolabel="1"/>
+											<span> min</span>
+										</div>
+									</group>
+								</group>
+								<separator string='General Report Line'/>
+                                <field name="batch_line" nolabel="1">
+                                    <tree editable="bottom" create="1">
+                                        <field name="batch_number" readonly="0" force_save="1"/>
+                                        <field name="product_id" readonly="0" force_save="1"/>
+                                        <field name="start_coding" string='Start'  widget="float_time" />
+                                        <field name="end_coding" string='Finish' widget="float_time"/>
+                                        <!-- <field name="reject_batch"/> -->
+                                        <field name="prod_rec_created" invisible='1'/>
+                                        <button name="insert_production_record" string="" class='btn-success rounded-pill' type="object" icon='fa-check' attrs="{'invisible' : [('prod_rec_created', '=', True)]}"/>
+										<field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+								<group>
+									<field name="note_general"/>
+								</group>
+							</page>
+                            <page string="GENERAL CHECKS (Early Shift Checks)" name="general_checks">
+                                <field name="checks_line" nolabel="1">
+                                    <tree editable="bottom" create="1">
+                                        <!-- <field name="param_group" readonly="1" force_save="1" required="1" optional="hide"/>	 -->
+                                        <field name="name" readonly="1" force_save="1" required="1"/>
+                                        <field name="standard" readonly="1" force_save="1" required="1"/>
+                                        <field name="actual"/>
+                                        <field name="matching" invisible='1'/>
+										<field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="note_checks"/>
+                                </group>
+                            </page>
+							<page string="PRODUCTION RECORD" name="prd_record">
+                                <label for='batch_1' string='Batch No'/>
+                                <h1>
+                                    <field name="batch_1" readonly='0'/>
+                                </h1>
+                                <field name="prod_rec_1_line" nolabel="1" context="{'default_group' : '1'}">
+                                    <tree editable='bottom' create="0" delete='0' >
+                                        <field name="name" readonly='1'/>
+                                        <field name="param_1"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_2"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_3"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_4"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_5"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_6"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_7"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        
+
+                                        <field name="group" invisible="1"/>
+                                        <field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+                                <label for='batch_note_1' string='Notes'/>
+                                <field name="batch_note_1"/>
+                                <hr/>
+                                <label for='batch_2' string='Batch No'/>
+                                <h1>
+                                    <field name="batch_2" readonly='0'/>
+                                </h1>
+                                <field name="prod_rec_2_line" nolabel="1" context="{'default_group' : '2'}">
+                                    <tree editable='bottom' create="0" delete='0' >
+                                        <field name="name" readonly='1'/>
+                                        <field name="param_8"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_9"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_10"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_11"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_12"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_13"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_14"  attrs="{'readonly' : [('editable','=',False)]}"/>
+
+                                        <field name="group" invisible="1"/>
+                                        <field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+
+                                <label for='batch_note_2' string='Notes'/>
+                                <field name="batch_note_2"/>
+                                <hr/>
+
+                                <label for='batch_3' string='Batch No'/>
+                                <h1>
+                                    <field name="batch_3" readonly='0'/>
+                                </h1>
+                                <field name="prod_rec_3_line" nolabel="1" context="{'default_group' : '3'}">
+                                    <tree editable='bottom' create="0" delete='0' >
+                                        <field name="name" readonly='1'/>
+                                        <field name="param_15"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_16"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_17"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_18"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_19"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_20"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_21"  attrs="{'readonly' : [('editable','=',False)]}"/>
+
+                                        <field name="group" invisible="1"/>
+                                        <field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+
+                                <label for='batch_note_3' string='Notes'/>
+                                <field name="batch_note_3"/>
+                                <hr/>
+                                <label for='batch_4' string='Batch No'/>
+                                <h1>
+                                    <field name="batch_4" readonly='0'/>
+                                </h1>
+                                <field name="prod_rec_4_line" nolabel="1" context="{'default_group' : '4'}">
+                                    <tree editable='bottom' create="0" delete='0' >
+                                        <field name="name" readonly='1'/>
+                                        <field name="param_22"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_23"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_24"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_25"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_26"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_27"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="param_28"  attrs="{'readonly' : [('editable','=',False)]}"/>
+
+                                        <field name="group" invisible="1"/>
+                                        <field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+
+                                <label for='batch_note_4' string='Notes'/>
+                                <field name="batch_note_4"/>
+                            </page>
+							<page string="CATATAN PROSES PRODUKSI" name="incompatibility_note">
+                                <group string="CATATAN KETIDAKSESUAIAN SELAMA PROSES PRODUKSI">
+                                    <field name="incompatibility_line" nolabel="1">
+                                        <tree editable="bottom" create="1">
+                                            <field name="start" widget='float_time' required="1"/>
+                                            <field name="finish" widget='float_time' required="0"/>
+                                            <field name="total" widget='float_time' required="0"/>
+                                            <field name="uraian_masalah" required="0"/>
+                                            <field name="frekuensi" required="0"/>
+                                            <field name="status" required="0"/>
+                                            <field name="pic" required="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+						</notebook>
+						<group>
+                            <group string="Another Awesome Notes">
+                                <field name="retort_note" nolabel="1" readonly="1" required="0"/>
+                            </group>
+                        </group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" groups="base.group_user"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+        <record id="br_retort_view_template_tree" model="ir.ui.view">
+            <field name="name">kmi.retort.view.tree</field>
+            <field name="model">kmi.retort</field>
+            <field name="arch" type="xml">
+                <tree duplicate="0">
+                    <!-- Add your fields here -->
+                    <field name="name"/>
+                    <field name="release_date"/>
+                    <field name="revision"/>
+                    <field name="state"/>
+                    <!-- <field name="num_of_pages"/> -->
+                </tree>
+            </field>
+        </record>
+		
+		<record id="br_retort_view_template_form" model="ir.ui.view">
+			<field name="name">kmi.retort.retort.view.form</field>
+			<field name="model">kmi.retort</field>
+			<field name="arch" type="xml">
+				<form string="Form Retort">
+					<header>
+						<button name="action_approve_template" states="draft_model" string="Approve" type="object" class="oe_highlight"/>
+                        <button name="action_draft_model" states="model" string="Revisi" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" 
+                            statusbar_visible="draft_model,model"/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<h1>
+                                <field name="name" required="1" placeholder="No. Dok"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+                                <field name="release_date" readonly="0"/>
+								<field name="revision" readonly="1"/>
+							</group>
+						</group>
+						<notebook>
+							<!-- <page string="General Report" name="general_report">
+								<group>
+									<group>
+										<label for="preparation"/>
+										<div class="o_row" name="preparation">
+											<field name="preparation" nolabel="1" readonly='1'/>
+											<span> min</span>
+										</div>
+
+										<label for="total_breakdown"/>
+										<div class="o_row" name="total_breakdown">
+											<field name="total_breakdown" nolabel="1" readonly='1'/>
+											<span> min</span>
+										</div>
+
+										<label for="running_hours"/>
+										<div class="o_row" name="running_hours">
+											<field name="running_hours" nolabel="1" readonly='1'/>
+											<span> min</span>
+										</div>
+									</group>
+								</group>
+								<separator string='General Report Line'/>
+                                <field name="batch_line" nolabel="1">
+                                    <tree editable="bottom" create="0">
+                                        <field name="batch_number" string='Batch'/>
+                                        <field name="product_id" />
+                                        <field name="start_coding" string='Start '  widget="float_time" />
+                                        <field name="end_coding" string='Finish' widget="float_time"/>
+                                    </tree>
+                                </field>
+								<group>
+									<field name="note_general"/>
+								</group>
+							</page> -->
+                            <page string="GENERAL CHECKS (Early Shift Checks)" name="general_checks">
+                                <field name="checks_line" nolabel="1">
+                                    <tree editable="bottom" create="1" delete="1">
+                                        <field name="name" required='1'/>
+										<field name="standard" required='1'/>
+										<field name="type_operation"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="note_checks"/>
+                                </group>
+                            </page>
+							 <page string="PRODUCTION RECORD" name="prd_record">
+                                <field name="prod_rec_line" nolabel="1">
+                                    <tree create="1" editable='bottom'>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
+							<!-- <page string="CATATAN PROSES PRODUKSI" name="incompatibility_note">
+                                <group string="CATATAN KETIDAKSESUAIAN SELAMA PROSES PRODUKSI">
+                                    <field name="incompatibility_line" nolabel="1">
+                                        <tree editable="bottom" create="0">
+                                            <field name="start" widget='float_time' required="1"/>
+                                            <field name="finish" widget='float_time' required="0"/>
+                                            <field name="total" required="0"/>
+                                            <field name="uraian_masalah" required="0"/>
+                                            <field name="frekuensi" required="0"/>
+                                            <field name="status" required="0"/>
+                                            <field name="pic" required="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page> -->
+						</notebook>
+						<group>
+                            <group string="Another Awesome Notes">
+                                <field name="retort_note" nolabel="1" required="0"/>
+                            </group>
+                        </group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" groups="base.group_user"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+        <record id="kmi_retort_filter_search" model="ir.ui.view">
+            <field name="name">kmi.retort.filter.search</field>
+            <field name="model">kmi.retort</field>
+            <field name="arch" type="xml">
+                <search string="Pasteur Lists">
+                    <field name="okp_id"/>
+                    <field name="name"/>
+                    <!-- <field name="batch_id"/> -->
+                    <field name="product_id"/>
+                    <filter name="today" string="Today" domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" help="Draft Moves"/>
+                    <filter name="in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]" help="In Progress"/>
+                    <filter name="done" string="Done" domain="[('state', '=', 'done')]" help="Dumpings already release"/>
+                    <separator/>
+                    <!-- <filter name="late" string="Late" help="Deadline exceed or/and by the scheduled"
+                        domain="[('state', 'in', ('draft', 'waiting', 'confirmed')), '|', ('date', '&lt;', current_date)"/>  -->
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Date" name="date" domain="[]" context="{'group_by': 'date'}"/>
+                        <filter string="Shift" name="shift" domain="[]" context="{'group_by': 'shift'}"/>
+                        <filter string="Products" name="product" domain="[]" context="{'group_by': 'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="br_retort_action" model="ir.actions.act_window">
+			<field name="name">Retort</field>
+            <field name="type">ir.actions.act_window</field>
+			<field name="res_model">kmi.retort</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+				    Laporan Harian Retort (OBOL)
+				</p><p>
+                    Pembentukan dan Pengisian Form Laporan Harian Retort (OBOL).
+                </p>
+			</field>
+			<field name="context">{'default_state': 'draft','search_default_today' : 1}</field>
+			<field name="domain">[('state', 'not in', ['draft_model', 'model'])]</field>
+		</record>
+
+        <record id="br_retort_template_action" model="ir.actions.act_window">
+			<field name="name">Retort Template</field>
+            <field name="type">ir.actions.act_window</field>
+			<field name="res_model">kmi.retort</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+				    Retort Template
+				</p><p>
+                    Pembentukan dan Pengisian Form Template Retort
+                </p>
+			</field>
+			<field name="context">{'default_state': 'draft_model'}</field>
+			<field name="domain">[('state', 'in', ['draft_model', 'model'])]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('br_retort_view_template_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('br_retort_view_template_form')})]"/>
+		</record>
+        
+		<menuitem id="br_retort_menu_act" name="Retort" 
+            parent="daily_report_menu_categ" action="br_retort_action" sequence="4"/>
+
+        <menuitem id="br_retort_template_menu" name="Retort Template" 
+            parent="bmo_batch_record.batch_record_template_main_menu" action="br_retort_template_action"/>
+
+  	</data>
+</odoo>

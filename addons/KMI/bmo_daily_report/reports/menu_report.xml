@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="partner_xlsx"
+            model="kmi.daily.report"
+            string="Unscramble Report"
+            report_type="xlsx"
+            name="bmo_daily_report.report_unscramble"
+            file="bmo_daily_report.report_unscramble"
+            attachment_use="False"
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,163 @@
+<odoo>
+  <data>
+    <record id="volume_chilgo_view_tree" model="ir.ui.view">
+        <field name="name">volume.chilgo.tree</field>
+        <field name="model">volume.chilgo</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="product_id"/>
+                <field name="product_prod"/>
+                <field name="shift"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="volume_chilgo_view_form" model="ir.ui.view">
+            <field name="name">volume_chilgo_view_form</field>
+            <field name="model">volume.chilgo</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                                No. Dok
+                            <h1>
+                                <field name="name" readonly="False"/>
+                            </h1>
+                        </div>
+                            <group>
+                                <field name="date" required="1"/>
+                                <field name="shift" required="1"/>
+                                <field name="hal"/>
+                                <field name="revisi"/>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="product_id" required='1'/>
+                                    <field name="product_prod"/>
+                                    <field name="product_batch"/>
+                                    <field name="product_weight"/>
+                                    <field name="product_sg"/>
+                                </group>
+                                <group>
+                                    <field name="speed_filling"/>
+                                    <field name="filling_prod"/>
+                                    <field name="filling_batch"/>
+                                    <field name="filling_weight"/>
+                                    <field name="filling_sg"/>
+                                </group>
+                                <group>
+                                    <field name="type_of_bottle"/>
+                                    <field name="bottle_prod"/>
+                                    <field name="bottle_batch"/>
+                                    <field name="bottle_weight"/>
+                                    <field name="bottle_sg"/>
+                                </group>
+                            </group>
+                        <notebook>
+                            <page name="volume_chilgo_line_one_ids" string="A.">
+                                <field name="volume_chilgo_line_one_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="std_volume" />
+                                        <field name="volume" />
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="max_1" />
+                                    <field name="min_1" />
+                                    <field name="average_1" />
+                                    <field name="pic_analisa_1" />
+                                    <field name="tgl_analisa_1" />
+                                    <field name="jam_analisa_1" />
+                                </group>
+                            </page>
+                            <page name="volume_chilgo_line_two_ids" string="B.">
+                                <field name="volume_chilgo_line_two_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="std_volume" />
+                                        <field name="volume" />
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="max_2" />
+                                    <field name="min_2" />
+                                    <field name="average_2" />
+                                    <field name="pic_analisa_2" />
+                                    <field name="tgl_analisa_2" />
+                                    <field name="jam_analisa_2" />
+                                </group>
+                            </page>
+                            <page name="volume_chilgo_line_three_ids" string="C.">
+                                <field name="volume_chilgo_line_three_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="std_volume" />
+                                        <field name="volume" />
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="max_3" />
+                                    <field name="min_3" />
+                                    <field name="average_3" />
+                                    <field name="pic_analisa_3" />
+                                    <field name="tgl_analisa_3" />
+                                    <field name="jam_analisa_3" />
+                                </group>
+                            </page> 
+                        </notebook>
+                        <group>
+                            <group>
+                                <field name="catatan" />
+                            </group>
+                            <group>
+                                <field name="periksa" />
+                                <field name="tgl_periksa" />
+                            </group>
+                            <group>
+                                <field name="setujui" />
+                                <field name="tgl_setuju" />
+                            </group>
+                            <group>
+                                <field name="kesimpulan" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+    <record id="action_volume_chilgo" model="ir.actions.act_window">
+            <field name="name">Form Volume Chilgo</field>
+            <field name="res_model">volume.chilgo</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="domain">[('tipe', '=', 'internal')]</field> -->
+            <!-- <field name="context">{'default_tipe' : 'internal'}</field> -->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Create a Form Volume Chilgo
+                </p>
+            </field>
+        </record>
+
+    <menuitem
+      id="volume_chilgo_root"
+      name="Volume Chilgo"
+      parent='bmo_batch_record.root_menu_batch_record'
+      sequence="4"/>
+      <menuitem
+        id="volume_chilgo_menu"
+        name="Form Volume Chilgo"
+        action="action_volume_chilgo"
+        parent="volume_chilgo_root"
+        sequence="5"/>
+  </data>
+</odoo>

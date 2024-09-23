@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Add you code here -->
+		<!-- kmi.checks.params search view -->
+		<record id="mp_kcp_view_search" model="ir.ui.view">
+			<field name="name">mp.kmi.checks.params.view.search</field>
+			<field name="model">kmi.checks.params</field>
+			<field name="arch" type="xml">
+				<search string="Search Description">
+					<!-- Add your fields here -->
+					<field name="name"/>
+					<field name="report_type"/>
+					<field name="param_types"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Tipe Laporan" name="rtype" 
+							context="{'group_by': 'report_type'}"/>
+                        <filter string="Tipe Parameter" name="ptypes" 
+							context="{'group_by': 'param_types'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<!-- kmi.checks.params tree view -->
+		<record id="mp_kcp_view_tree" model="ir.ui.view">
+			<field name="name">mp.kmi.checks.params.view.tree</field>
+			<field name="model">kmi.checks.params</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom" create="1" duplicate="0" delete="0">
+					<!-- Add your fields here -->
+					<field name="name"/>
+					<field name="param_group"/>
+					<field name="name"/>
+					<field name="standard"/>
+					<field name="actual"/>
+					<field name="param_types"/>
+					<field name="report_type"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- kmi.checks.params action window -->
+		<record id="mp_kcp_action" model="ir.actions.act_window">
+			<field name="name">Master Data Parameter</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">kmi.checks.params</field>
+			<field name="view_mode">tree</field>
+			<field name="search_view_id" ref="mp_kcp_view_search"/>
+            <field name="context">{'search_default_rtype': 1, 'search_default_ptypes': 1}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('mp_kcp_view_tree')})]"/>
+		</record>
+
+		<!-- This Menu Item Must have a parent -->
+		<menuitem id="dr_config_menu_categ" name="Laporan Harian"
+			parent="bmo_batch_record.menu_setting_batch_record" sequence="99"/>
+
+		<!-- This Menu Item must have a parent and an action -->
+		<menuitem id="mp_kcp_menu_act" name="Master Data Parameter" 
+			parent="dr_config_menu_categ" action="mp_kcp_action" sequence="99"/>
+    </data>
+</odoo>

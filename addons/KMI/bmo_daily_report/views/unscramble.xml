@@ -1,0 +1,355 @@
+<odoo>
+  	<data>
+
+        <record id="br_unscramble_view_tree" model="ir.ui.view">
+            <field name="name">kmi.unscramble.view.tree</field>
+            <field name="model">kmi.unscramble</field>
+            <field name="priority" eval='1'/>
+            <field name="arch" type="xml">
+                <tree create='1' delete='0'>
+                    <field name='display_name'/>
+					<field name="okp_id"/>
+					<field name="product_id"/>
+					<field name="shift"/>
+					<field name='date'/>
+					<field name='revision'/>
+					<field name='state'/>
+                </tree>
+            </field>
+        </record>
+
+		<record id="br_unscramble_view_form" model="ir.ui.view">
+			<field name="name">kmi.daily.report.unscramble.view.form</field>
+			<field name="model">kmi.unscramble</field>
+			<field name="priority" eval='1'/>
+			<field name="arch" type="xml">
+				<form string="" create='1' delete='0' duplicate="1">
+					<header>
+						<button name="action_submit" states="draft" string="Submit" type="object" class="oe_highlight"/>
+						<button name="action_done" states="in_progress" string="Release" type="object" class="oe_highlight" confirm="Apakah Anda yakin ingin Release record ini ???" groups='bmo_batch_record.group_batch_record_release'/>
+						<button name="action_leader_check" string="Leader Check" type="object" groups='bmo_mrp.group_mrp_leader' attrs="{'invisible' : [('leader_need_check', '=', False)]}" class="oe_highlight"/>
+						<!-- <button name="check_null_value" string="Check Null Value" type="object"/> -->
+						<button name="action_cancel" states="draft,in_progress" string="Cancel" type="object" class="oe_highlight" confirm="Apakah Anda yakin ingin Cancel record ini ???" groups='bmo_batch_record.group_batch_record_cancel'/>
+						<field name="leader_check" invisible='1'/>
+						<field name="leader_need_check" invisible='1'/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+					</header>
+					<sheet>
+						<widget name="web_ribbon" title="Checked" attrs="{'invisible': [('leader_check', '=', False)]}"/>
+						<div class="oe_title">
+							<h1>
+								<field name="name" placeholder="No. Dok" readonly='1'/>
+							</h1>
+						</div>
+						<group>
+                            <group>
+								<field name="okp_id" required="0"/>
+                                <field name="date" required="1"/>
+                                <field name="revision" readonly="1"/>
+                                <field name="product_id" readonly='0'/>
+								<field name="no_urut_bo" readonly='0'/>
+								<field name="release_date" readonly="1"/>
+                            </group>
+                        </group>
+						<group>
+							<group>
+								<field name="dayofweek" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+								<field name="date" attrs="{'readonly' : [('editable','=',False)]}"/>
+								<field name="shift" required='1' attrs="{'readonly' : [('editable','=',False)]}"/>
+								<field name="product_silo_id"/>
+								<field name="location_id" invisible='1'/>
+
+
+							</group>
+							<group>
+								<field name="operator" required="0" attrs="{'readonly' : [('editable','=',False)]}"/>
+								<field name="leader" required="0" attrs="{'readonly' : [('editable','=',False)]}"/>
+								<field name="team" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+								<field name="packaging" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+								<field name="line_machine" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+								<field name="editable" invisible='1'/>
+							</group>
+						</group>
+						<notebook>
+							<page string="General Report" name="general_report">
+								<group>
+									<group>
+										<label for="preparation"/>
+										<div class="o_row" name="preparation">
+											<field name="preparation" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+											<span> min</span>
+										</div>
+
+										<label for="total_breakdown"/>
+										<div class="o_row" name="total_breakdown">
+											<field name="total_breakdown" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+											<span> min</span>
+										</div>
+
+										<label for="running_hours"/>
+										<div class="o_row" name="running_hours">
+											<field name="running_hours" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+											<span> min</span>
+										</div>
+
+										<label for="total_reject_unscramble_a"/>
+										<div class="o_row" name="total_reject_unscramble_a">
+											<field name="total_reject_unscramble_a" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+											<span> btl</span>
+										</div>
+
+										<label for="total_reject_unscramble_b"/>
+										<div class="o_row" name="total_reject_unscramble_b">
+											<field name="total_reject_unscramble_b" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+											<span> btl</span>
+										</div>
+
+										<label for="total_reject_rinser"/>
+										<div class="o_row" name="total_reject_rinser">
+											<field name="total_reject_rinser" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+											<span> btl</span>
+										</div>
+										
+									</group>
+									<group>
+										<label for="speed_max_unscramble_a"/>
+										<div class="o_row" name="speed_max_unscramble_a">
+											<field name="speed_max_unscramble_a" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+											<span> btl/min</span>
+										</div>
+
+										<label for="speed_max_unscramble_b"/>
+										<div class="o_row" name="speed_max_unscramble_b">
+											<field name="speed_max_unscramble_b" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+											<span> btl/min</span>
+										</div>
+									</group>
+								</group>
+								<group>
+									<field name="prod_note" />
+								</group>	
+								<separator string='General Report Line'/>
+                                <field name="batch_line" nolabel="1">
+                                    <tree editable="bottom" create="1">
+                                    	<field name="batch_number" required='1'/>
+                                        <field name="product_id" required='1'/>
+                                        <field name="start_coding" string='Start production time'  widget="float_time" />
+                                        <field name="end_coding" string='Counter Rinser' />
+                                        <field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+							</page>
+							<page string="GENERAL CHECKS (Early Shift Checks)" name="general_checks">
+                                <field name="checks_line" nolabel="1">
+                                    <tree editable="bottom" create="0" delete='0' decoration-warning="not actual" decoration-danger="not matching and actual">
+                                        <field name="name" readonly="1"/>
+                                        <field name="standard" readonly="1"/>
+                                        <field name="actual"  attrs="{'readonly' : [('editable','=',False)]}"/>
+                                        <field name="matching" invisible='1'/>
+                                        <field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="general_check_notes"/>
+                                </group>
+
+							</page>
+							<page string="PARAMETER MESIN" name="params_mch_line">
+								<separator string="Pengecekan parameter dilakukan 2 jam sekali"/>
+                                <field name="params_mch_line" nolabel="1">
+									<tree editable='bottom' create="0">
+										<field name="name" readonly='1'/>
+										<field name='param_0'  attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='param_2'  attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='param_4'  attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='param_6'  attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='param_8'  attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='param_10'  attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name='param_12'  attrs="{'readonly' : [('editable','=',False)]}"/>
+										<!-- <field name="check_time" readonly="1" required="1"/> -->
+										<field name="editable" invisible='1'/>
+									</tree>
+								</field>
+                                <group>
+									<field name="parameter_mesin_notes" string='Notes'/>
+								</group>
+                            </page>
+							<page string="BOTTLE RECORD SILO" name="bottle_record_silo_ids">
+								<field name="bottle_record_silo_ids">
+									<tree editable="bottom">
+										<field name="silo_type"  attrs="{'readonly' : [('editable','=',False)]}" />
+										<!-- <field name="bottle_id"  attrs="{'readonly' : [('editable','=',False)]}" /> -->
+										<field name="lot_id" domain="lot_domain"  attrs="{'readonly' : [('editable','=',False)]}" />
+										<field name="lot_domain" invisible='1'/>
+										<field name="supplier"  attrs="{'readonly' : [('editable','=',False)]}" />
+										<field name="time" widget="float_time"  attrs="{'readonly' : [('editable','=',False)]}"/>
+										<field name="bottle_in"  attrs="{'readonly' : [('editable','=',False)]}" />
+										<field name="bottle_out"  attrs="{'readonly' : [('editable','=',False)]}" />
+										<field name="stock_akhir"  attrs="{'readonly' : [('editable','=',False)]}" />
+										<field name="editable" invisible='1'/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+						<group>
+                            <group string="Another Awesome Notes">
+                                <field name="unscramble_note" nolabel="1" required="0"/>
+                            </group>
+                        </group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" groups="base.group_user"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+
+		<!-- Template Unscramble -->
+
+		<record id="br_unscramble_template_view_tree" model="ir.ui.view">
+            <field name="name">kmi.unscramble.template.view.tree</field>
+            <field name="model">kmi.unscramble</field>
+            <field name="arch" type="xml">
+                <tree create='1'>
+                    <field name="name"/>
+					<field name="release_date"/>
+					<field name="revision"/>
+					<field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+		<record id="br_unscramble_template_view_form" model="ir.ui.view">
+			<field name="name">kmi.daily.report.unscramble.template.view.form</field>
+			<field name="model">kmi.unscramble</field>
+			<field name="arch" type="xml">
+				<form string="">
+					<header>
+						<button name="action_approve_template" states="draft_model" string="Approve" type="object" class="oe_highlight"/>
+						<button name="action_draft_model" states="model" string="Revisi" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft_model,model"/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<h1>
+								<field name="name" placeholder="No. Dok"/>
+							</h1>
+						</div>
+						<group>
+                            <group>
+                            	<field name="release_date" readonly="0"/>
+                                <field name="revision" readonly="1"/>
+                            	<field name="location_id" required='1'/>
+                            </group>
+                        </group>
+						<notebook>
+							<page string="GENERAL CHECKS (Early Shift Checks)" name="general_checks">
+                                <field name="checks_line" nolabel="1">
+                                    <tree editable="bottom" create="1">
+                                        <field name="name"/>
+                                        <field name="standard"/>
+                                        <field name="type_operation"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="general_check_notes"/>
+                                </group>
+
+							</page>
+							<page string="PARAMETER MESIN" name="params_mch_line">
+                                <field name="params_mch_line" nolabel="1">
+									<tree create="1" editable='bottom'>
+										<field name="name"/>
+									</tree>
+								</field>
+                                <group>
+									<field name="parameter_mesin_notes" string='Notes'/>
+								</group>
+                            </page>
+						</notebook>
+						<group>
+                            <group string="Another Awesome Notes">
+                                <field name="unscramble_note" nolabel="1" required="0"/>
+                            </group>
+                        </group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" groups="base.group_user"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="kmi_unscramble_filter_search" model="ir.ui.view">
+            <field name="name">kmi.unscramble.filter.search</field>
+            <field name="model">kmi.unscramble</field>
+            <field name="arch" type="xml">
+                <search string="Pasteur Lists">
+                    <field name="okp_id"/>
+                    <field name="name"/>
+                    <!-- <field name="batch_id"/> -->
+                    <field name="product_id"/>
+                    <filter name="today" string="Today" domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" help="Draft Moves"/>
+                    <filter name="in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]" help="In Progress"/>
+                    <filter name="done" string="Done" domain="[('state', '=', 'done')]" help="Dumpings already release"/>
+                    <separator/>
+                    <!-- <filter name="late" string="Late" help="Deadline exceed or/and by the scheduled"
+                        domain="[('state', 'in', ('draft', 'waiting', 'confirmed')), '|', ('date', '&lt;', current_date)"/>  -->
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Date" name="date" domain="[]" context="{'group_by': 'date'}"/>
+                        <filter string="Shift" name="shift" domain="[]" context="{'group_by': 'shift'}"/>
+                        <filter string="Products" name="product" domain="[]" context="{'group_by': 'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+		<record id="br_unscramble_action" model="ir.actions.act_window">
+			<field name="name">Unscramble</field>
+            <field name="type">ir.actions.act_window</field>
+			<field name="res_model">kmi.unscramble</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+				    Laporan Harian Unscramble
+				</p><p>
+                    Pembentukan dan Pengisian Form Laporan Harian Unscramble (OBOL).
+                </p>
+			</field>
+			<field name="context">{'default_state': 'draft','search_default_today' : 1, 'search_default_product': 1}</field>
+			<field name="domain">[('state', 'not in', ['draft_model', 'model'])]</field>
+		</record>
+        
+		<record id="br_unscramble_template_action" model="ir.actions.act_window">
+			<field name="name">Unscramble</field>
+            <field name="type">ir.actions.act_window</field>
+			<field name="res_model">kmi.unscramble</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+				    Laporan Harian Unscramble (OBOL)
+				</p><p>
+                    Pembentukan dan Pengisian Form Laporan Harian Unscramble (OBOL).
+                </p>
+			</field>
+			<field name="context">{'default_state': 'draft_model'}</field>
+			<field name="domain">[('state', 'in', ['draft_model', 'model'])]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('br_unscramble_template_view_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('br_unscramble_template_view_form')})]"/>
+		</record>
+
+		<menuitem id="br_unscramble_menu_act" name="Unscramble" parent="daily_report_menu_categ" action="br_unscramble_action" sequence="4"/>
+		<menuitem id="br_unscramble_template_menu" name="Unscramble" parent="bmo_batch_record.batch_record_template_main_menu" action="br_unscramble_template_action"/>
+
+	</data>
+</odoo>

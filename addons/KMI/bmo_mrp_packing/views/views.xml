@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="bmo_packing.list">
+      <field name="name">bmo_packing list</field>
+      <field name="model">bmo_packing.bmo_packing</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="bmo_packing.action_window">
+      <field name="name">bmo_packing window</field>
+      <field name="res_model">bmo_packing.bmo_packing</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="bmo_packing.action_server">
+      <field name="name">bmo_packing server</field>
+      <field name="model_id" ref="model_bmo_packing_bmo_packing"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="bmo_packing" id="bmo_packing.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="bmo_packing.menu_1" parent="bmo_packing.menu_root"/>
+    <menuitem name="Menu 2" id="bmo_packing.menu_2" parent="bmo_packing.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="bmo_packing.menu_1_list" parent="bmo_packing.menu_1"
+              action="bmo_packing.action_window"/>
+    <menuitem name="Server to list" id="bmo_packing" parent="bmo_packing.menu_2"
+              action="bmo_packing.action_server"/>
+-->
+  </data>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_kerja_produksi" model="ir.actions.report">
+            <field name="name">Order Kerja Produksi(OKP)</field>
+            <field name="model">batch.mrp.production</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bmo_report_okp.report_okp</field>
+            <field name="report_file">bmo_report_okp.report_okp</field>
+            <field name="paperformat_id" ref="bmo_report_okp.order_kerja_produksi_paperformat"/>
+            <field name="print_report_name">'Bukti Penerimaan Barang - %s' % object.name</field>
+            <field name="binding_model_id" ref="bmo_mrp.model_batch_mrp_production"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_hasil_produksi" model="ir.actions.report">
+            <field name="name">Report Hasil Produksi</field>
+            <field name="model">batch.mrp.production</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bmo_report_okp.report_hasil_produksi</field>
+            <field name="report_file">bmo_report_okp.report_hasil_produksi</field>
+            <field name="paperformat_id" ref="bmo_report_okp.hasil_produksi_paperformat"/>
+            <field name="print_report_name">'Report Hasil Produksi - %s' % object.name</field>
+            <field name="binding_model_id" ref="bmo_mrp.model_batch_mrp_production"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

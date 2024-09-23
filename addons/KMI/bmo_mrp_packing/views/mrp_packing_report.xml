@@ -1,0 +1,232 @@
+<odoo>
+    <data>
+        <!-- Add you code here -->
+        <!-- mrp.production.packing.report tree view -->
+        <record id="pack_report_view_tree" model="ir.ui.view">
+            <field name="name">mrp.production.packing.report.view.tree</field>
+            <field name="model">mrp.production.packing.report</field>
+            <field name="arch" type="xml">
+                <tree duplicate="0">
+                    <field name="item_code"/>
+                    <field name="product_id"/>
+                    <field name="bo_seq_no"/>
+                    <field name="lot_producing_id"/>
+                    <field name="pallet_seq_no"/>
+                    <field name="pallet_no"/>
+                    <field name="start" widget="float_time"/>
+                    <field name="finish" widget="float_time"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- mrp.production.packing.report form view -->
+        <record id="pack_report_view_form" model="ir.ui.view">
+            <field name="name">mrp.production.packing.report.view.form</field>
+            <field name="model">mrp.production.packing.report</field>
+            <field name="arch" type="xml">
+                <form duplicate="0">
+                    <header>
+                        <field name="state" widget="statusbar" 
+                            statusbar_visible="draft,in_progress,done"/>
+                    </header>
+                    <sheet>
+                        <div>
+                            <h1><field name="name" class="oe_title"/></h1>
+                        </div>
+                        <group string="Informasi BHP">
+                            <group>
+                                <field name="mrp_packing_id"/>
+                                <field name="item_code"/>
+                                <field name="product_id"/>
+                            </group>
+                            <group>
+                                <field name="pallet_seq_no"/>
+                                <field name="pallet_no"/>
+                                <field name="bo_seq_no"/>
+                                <field name="lot_producing_id"/>
+                                <label for="start" string="Time"/>
+                                <div class="o_row">
+                                    <span>Start : </span><field name="start" class="oe_inline" widget="float_time"/>
+                                    <span>Finish : </span><field name="finish" class="oe_inline" widget="float_time"/>
+                                </div>
+                            </group>
+                            <group string="Pengecekan awal (menit ke-1)">
+                                <field name="first_check_code"/>
+                                <field name="first_check_time"/>
+                                <field name="first_check_count"/>
+                            </group>
+                            <!-- <group string="Pengecekan tengah (menit ke-8)">
+                                <field name="middle_check_code"/>
+                                <field name="middle_check_time"/>
+                                <field name="middle_check_count"/>
+                            </group> -->
+                            <group>
+                                <field name="final_code"/>
+                                <field name="retort_seq_no"/>
+                                <field name="okp_id"/>
+                            </group>
+                            <group>
+                                <field name="bo_filling"/>
+                                <field name="bo_banded"/>
+                                <field name="exp_in_month"/>
+                                <field name="po_fee"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Output Produksi" name="output_prod">
+                                <group string="Mixing">
+                                    <group>
+                                        <field name="plan_date_mixing"/>
+                                        <field name="actual_date_mixing"/>
+                                    </group>
+                                    <group>
+                                        <field name="output_mixing"/>
+                                    </group>
+                                </group>
+                                <group string="Packing">
+                                    <group>
+                                        <field name="plan_date_packing"/>
+                                        <field name="actual_date_packing"/>
+                                        <field name="lot_producing_id"/>
+                                        <field name="expiration_date"/>
+                                    </group>
+                                    <group>
+                                        <field name="cb_packing"/>
+                                        <field name="pcs_packing"/>
+                                        <field name="total_output_packing"/>
+                                        <field name="total_bo_packing"/>
+                                        <field name="current_location_id"/>
+                                    </group>
+                                </group>
+                                <group string="Sample QC">
+                                    <group>
+                                        <field name="total_sample_qc"/>
+                                    </group>
+                                    <group></group>
+                                </group>
+                            </page>
+                            <page string="Sortir" name="sortir">
+                                <group string="Sortir 1">
+                                    <group>
+                                        <field name="plan_date_sortir1"/>
+                                        <field name="actual_date_sortir1"/>
+                                        <field name="cb_sortir1"/>
+                                    </group>
+                                    <group>
+                                        <field name="pcs_sortir1"/>
+                                        <field name="total_pcs_sortir1"/>
+                                        <field name="total_sortir1"/>
+                                    </group>
+                                </group>
+                                <group string="Sortir 2">
+                                    <group>
+                                        <field name="plan_date_sortir2"/>
+                                        <field name="actual_date_sortir2"/>
+                                        <field name="cb_sortir2"/>
+                                    </group>
+                                    <group>
+                                        <field name="pcs_sortir2"/>
+                                        <field name="total_pcs_sortir2"/>
+                                        <field name="total_sortir2"/>
+                                    </group>
+                                </group>
+                                <group string="Actual Sortir">
+                                    <group>
+                                        <field name="actual_date_acs"/>
+                                        <field name="cb_acs"/>
+                                        <field name="pcs_acs"/>
+                                    </group>
+                                    <group>
+                                        <field name="total_pcs_acs"/>
+                                        <field name="total_reject_acs"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Banded" name="banded">
+                                <group>
+                                    <group>
+                                        <label for="plan_date" string="Time"/>
+                                        <div class="o_row">
+                                            <span>Start : </span><field name="plan_date" class="oe_inline" widget="float_time"/> - 
+                                            <span>Finish : </span><field name="actual_date" class="oe_inline" widget="float_time"/>
+                                        </div>
+                                        <field name="cb_banded"/>
+                                        <field name="pcs_banded"/>
+                                    </group>
+                                    <group>
+                                        <field name="total_pcs_banded"/>
+                                        <field name="total_banded"/>
+                                        <field name="reject_banded"/>
+                                        <field name="bhp_state"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Alokasi" name="alokasi">
+                                <group>
+                                    <group string="Alokasi">
+                                        <field name="picking_id"/>
+                                        <field name="picking_qty"/>
+                                        <field name="is_match"/>
+                                        <field name="picking_date"/>
+                                    </group>
+                                    <group string="Actual Kirim">
+                                        <field name="delivery_ids"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="PPIC - Delivery Note" name="ppic_dly_note">
+                                <group>
+                                    <group>
+                                        <field name="remaining_stock"/>
+                                        <field name="plan_delivery"/>
+                                        <field name="remarks_1st"/>
+                                    </group>
+                                    <group>
+                                        <field name="now"/>
+                                        <field name="lead_time"/>
+                                        <field name="status_ppic"/>
+                                        <field name="remarks_2nd"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Sample Marketing" name="sample_marketing">
+                                <group>
+                                    <group>
+                                        <field name="order_id"/>
+                                        <field name="order_date"/>
+                                        <field name="order_qty"/>
+                                    </group>
+                                    <group>
+                                        <field name="fup_no"/>
+                                        <field name="bbk"/>
+                                        <field name="order_total"/>
+                                        <field name="saldo_sm"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- mrp.production.packing.report action window -->
+        <record id="pack_report_action" model="ir.actions.act_window">
+            <field name="name">Laporan Hasil Produksi</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.production.packing.report</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Laporan Hasil Produksi
+                </p><p>
+                    Pembentukan dan dan Pengisian Form Laporan Hasil Produksi.
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="pack_report_menu_act" name="Laporan Hasil Produksi" 
+            parent="mrp_packing_menu_categ" action="pack_report_action" sequence="99"/>
+    </data>
+</odoo> 

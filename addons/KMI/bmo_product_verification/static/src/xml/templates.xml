@@ -1,0 +1,20 @@
+<!-- <?xml version='1.0' encoding='utf-8'?>
+<templates xml:space="preserve">
+    <t t-extend="web.ControlPanelX2Many">
+        <t t-jquery=".o_cp_pager" t-operation="after">
+        <t t-set="model" t-value="widget.model"/>
+        <t t-log="model"/>
+        <t t-if="widget.model == 'kmi.packing.incompatibility'">
+            <div class="o_list_table table table-sm table-hover 
+            table-striped o_list_table_ungrouped o_empty_list">
+                <table>
+                    <thead>
+                        <th colspan="4">Major breakdown</th>
+                        <th colspan="3">Minor breakdown</th>
+                    </thead>
+                </table>
+            </div>
+        </t>
+        </t>
+    </t>
+</templates> -->

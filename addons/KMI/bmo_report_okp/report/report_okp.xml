@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_okp">
+        <div class="container o_batch_mrp_production_report_page">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <table id="info">
+                            <div class="text-left">
+                                <h3>
+                                    <strong>
+                                        <p><span t-esc="o.env.user.company_id.name"/></p>
+                                    </strong>
+                                </h3>
+                            </div>
+                            <div class="text-center">
+                                <h2>
+                                    <strong>
+                                        <p>Order Kerja Produksi(OKP)</p>
+                                    </strong>
+                                </h2>
+                            </div>
+                            <br/>
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">No. OKP</th>
+                                    <th style="width: 5%;">:</th> 
+                                    <th style="width: 10%;"><span t-esc="o.okp_id.name"/></th>
+                                    <th style="width: 10%;">Tgl. OKP</th>
+                                    <th style="width: 5%;">:</th> 
+                                    <th style="width: 10%;"><span t-esc="o.date_okp"/></th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 10%;">No. OKP Ref</th>
+                                    <th style="width: 5%;">:</th> 
+                                    <th style="width: 10%;"><span t-esc="o.reference"/></th>
+                                    <th style="width: 10%;">Type OKP</th>
+                                    <th style="width: 5%;">:</th> 
+                                    <th style="width: 10%;"><span t-esc="o.tipe"/></th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 10%;">Formula</th>
+                                    <th style="width: 5%;">:</th> 
+                                    <th style="width: 10%;"><span t-esc="o.bom_id.product_tmpl_id.name"/></th>
+                                    <th style="width: 10%;">Verison</th>
+                                    <th style="width: 5%;">:</th> 
+                                    <th style="width: 10%;"><span t-esc="o.version"/></th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 10%;">Item Output</th>
+                                    <th style="width: 5%;">:</th> 
+                                    <th style="width: 10%;"><span t-esc="o.product_id.default_code"/></th>
+                                    <th style="width: 10%;">Batch Proses</th>
+                                    <th style="width: 5%;">:</th> 
+                                    <th style="width: 10%;"><span t-esc="o.batch_proses"/></th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 10%;">Remark</th>
+                                    <th style="width: 5%;">:</th> 
+                                    <th style="width: 10%;"><span t-esc="o.product_id.default_code"/></th>
+                                    <th style="width: 10%;">Std Output</th>
+                                    <th style="width: 5%;">:</th> 
+                                    <th style="width: 10%;"><span t-esc="int(o.bom_id.product_uom_id.factor_inv) * int(o.batch_proses)"/></th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <br/>
+                        <div>
+                            <table class="table table-bordered o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Item Code</th>
+                                        <th colspan="4">Item Description</th>
+                                        <th class="text-right">UOM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set='no' t-value='1'/>
+                                    <t t-foreach="o.mrp_line" t-as="line">
+                                        <t t-foreach="line[0]" t-as="a">
+                                            <t t-set='total_qty' t-value='0'/>
+                                            <tr>
+                                                <td class='text-center'>
+                                                    <span t-esc='no'/>
+                                                </td>
+                                                <td class='text-left'>
+                                                    <t t-esc="line.product_id.default_code"/>
+                                                </td>
+                                                <td class='text-left' colspan="5">
+                                                    <t t-esc="line.product_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <t t-set='no' t-value='no + 1'/>
+                                            <t t-foreach="line.move_raw_ids" t-as="move_line">
+                                                <tr>
+                                                    <td class='text-center'>
+                                                    </td>
+                                                    <td class='text-center'>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="move_line.product_id.default_code"/>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="line.lot_producing_id.name"/>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <!-- <t t-esc="move_line.product_id.use_expiration_date"/> -->
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="move_line.product_uom_qty"/>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="move_line.product_id.uom_id.name"/>
+                                                    </td>
+                                                </tr>
+                                                <t t-set='total_qty' t-value='total_qty + move_line.product_uom_qty'/>
+                                            </t>
+                                            <tr>
+                                                <td class='text-center' colspan="5">
+                                                </td>
+                                                <td class='text-right'>
+                                                    <span t-esc="total_qty" t-options='{"widget": "float", "precision": 0}'/>
+                                                </td>
+                                                <td class='text-left'>
+                                                    <t t-esc="line.product_id.uom_id.name"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>    
+                                </tbody>
+                            </table>
+                        </div>
+                        <br/>
+                        <br/>
+                        <table class="table table-bordered">
+                            <tr style="border:0px;">
+                                <td style="text-align:center;">Dibuat Oleh</td>
+                                <td style="text-align:center;">Disetujui Oleh</td>
+                                <td style="text-align:center;">Disetujui Oleh</td>
+                                <td style="text-align:center;">Diterima Oleh</td>
+                            </tr>
+                            <tr style='height:100px;'>
+                                <td style="border:0px;vertical-align:bottom;font-family:arial;"></td>
+                                <td style="border:0px;vertical-align:bottom;font-family:arial;"></td>
+                                <td style="border:0px;vertical-align:bottom;font-family:arial;"></td>
+                                <td style="border:0px;vertical-align:bottom;font-family:arial;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;">Admin Gudang</td>
+                                <td style="text-align:center;">Staff Gudang</td>
+                                <td style="text-align:center;">Manager Gudang</td>
+                                <td style="text-align:center;">Produksi</td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <th style="width: 10%;">Printed by</th>
+                                <th style="width: 5%;">:</th> 
+                                <th style="width: 10%;"><span t-esc="o.env.user.name"/></th>
+                                <th style="width: 10%;">Tanggal</th>
+                                <th style="width: 5%;">:</th>
+                                <th style="width: 10%;"><span t-esc="o.date_okp"/></th>
+                            </tr>
+                        </table>
+                    </t>
+                </t>
+            </t>
+        </div>
+    </template>
+</odoo>

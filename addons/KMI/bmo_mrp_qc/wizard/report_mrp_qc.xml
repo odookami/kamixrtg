@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<report
+		id="mrp_qc_detail_xlsx"
+		model="mrp.qc"
+		string="MRP QC Detail Report"
+		report_type="xlsx"
+		name="bmo_mrp_qc.report_mrp_qc_detail"
+		file="bmo_mrp_qc.report_mrp_qc_detail"
+		attachment_use="False"
+	/>
+
+</odoo>

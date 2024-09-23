@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bmo_product_st,product_st.product_st,model_product_st,,1,1,1,0
+access_bmo_product_st_line,product_st.product_st_line,model_product_st_line,,1,1,1,1
+access_master_product_st,access_master_product_st,model_master_product_st,,1,1,1,1

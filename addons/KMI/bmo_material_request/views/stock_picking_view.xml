@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- <record id="picking_vendor_form_inerhit_bmo_material_request" model="ir.ui.view">
+            <field name="name">mostock.picking.form.inherit.bmo_material_request</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="bmo_inventory.picking_vendor_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_add_approved']" position="after">
+                    <button string="Update Line" name="update_line" type="object" class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record> -->
+        <record id="vpicktree_inherit_bmo_mr" model="ir.ui.view">
+            <field name="name">stock.picking.tree.form.inherit.bmo.mr</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="tipe" readonly="1"/>
+                    <field name="batch_production_id"/>
+                    <field name="product_batch_id" />
+                    <field name="batch_proses" />
+                    <field name="uom_id" />
+                </xpath>
+            </field>
+        </record>
+        <record id="internal_requisition_stock_form_view" model="ir.ui.view">
+            <field name="name">stock.picking.form.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <!-- <xpath expr="//button[@name='action_add_approved']" position="after">
+                    <button string="test" name="test" type="object" class="oe_highlight" />
+                </xpath> -->
+                <xpath expr="//field[@name='priority']" position="after">
+                    <field name="custom_requisition_id"/>
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="tipe" readonly="1" attrs="{'invisible' : [('tipe','=',False)]}"/>
+                    <field name="batch_production_id" readonly="1" attrs="{'invisible' : [('batch_production_id','=',False)]}"/>
+                    <field name="master_okp_id" invisible="1"/>
+                    <field name="product_batch_id" attrs="{'invisible' : [('picking_type_code','!=', 'internal')]}"/>
+                    <field name="batch_proses" attrs="{'invisible' : [('picking_type_code','!=', 'internal')]}"/>
+                    <field name="uom_id" attrs="{'invisible' : [('picking_type_code','!=', 'internal')]}"/>
+                </xpath>
+                <xpath expr="//page[@name='note']" position="after">
+                    <page name="analis_amf" string="Analisa Melting" attrs="{'invisible' : [('tipe','!=', 'Mixing')]}">
+                    <field name="cek_product_amf" invisible="1"/>
+                    <field name="check_tipe_product" invisible="1"/>
+                    <button string="Update" name="update_data" type="object" class="oe_highlight"/>
+                    <table class="table-bordered table-sm" style='width:80%;' attrs="{'invisible' : [('cek_product_amf','=', False)]}">
+                        <thead>
+                            <th style='width:10px'>No.</th>
+                            <th>Proses</th>
+                            <th>Analisa</th>
+                            <th><field name="lot_amf_1_id" readonly="1"/></th>
+                            <th><field name="lot_amf_2_id" readonly="1"/></th>
+                        </thead>
+                        <tbody attrs="{'invisible' : [('check_tipe_product','=', 'Chilgo')]}">
+                            <tr>
+                                <th style='width:10px'>1</th>
+                                <th>
+                                    Thawing PSE 12-24 jam (sebelum melting)
+                                </th>
+                                <th>
+                                    Start Thawing (tanggal)
+                                </th>
+                                <th>
+                                    <field name="date_start_thawing" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="date_start_thawing_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>2</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Start Thawing (jam)
+                                </th>
+                                <th>
+                                    <field name="hour_start_thawing" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="hour_start_thawing_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>3</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Finish Thawing (tanggal)
+                                </th>
+                                <th>
+                                    <field name="date_finish_thawing" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="date_finish_thawing_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>4</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Finish Thawing (jam)
+                                </th>
+                                <th>
+                                    <field name="hour_finish_thawing" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="hour_finish_thawing_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>5</th>
+                                <th>
+                                    PSE pernah dilakukan melting sebelumnya*
+                                </th>
+                                <th>
+                                    PSE Pernah dimelting? Y or N
+                                </th>
+                                <th>
+                                    <field name="y_n_melting" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="y_n_melting_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>6</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Tanggal Melting
+                                </th>
+                                <th>
+                                    <field name="date_melting_pernah" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="date_melting_pernah_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>7</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Umur Melting sebelumnya
+                                </th>
+                                <th>
+                                    <field name="age_melting_pernah" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="age_melting_pernah_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>8</th>
+                                <th>
+                                    Melting PSE dalam kompor selama 15 jam
+                                </th>
+                                <th>
+                                    Start Melting (tanggal)
+                                </th>
+                                <th>
+                                    <field name="date_start_meling" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="date_start_meling_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>9</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Start Melting (jam)
+                                </th>
+                                <th>
+                                    <field name="hour_start_meling" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="hour_start_meling_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>10</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Nomor Kompor
+                                </th>
+                                <th>
+                                    <field name="no_kompor_meling" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="no_kompor_meling_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>11</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Nomor Jaket
+                                </th>
+                                <th>
+                                    <field name="no_jaket_meling" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="no_jaket_meling_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>12</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Finish Melting (tanggal)
+                                </th>
+                                <th>
+                                    <field name="date_finish_meling" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="date_finish_meling_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>13</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Finish Melting (jam)
+                                </th>
+                                <th>
+                                    <field name="hour_finish_meling" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="hour_finish_meling_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>14</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu PSE (70-85°C dalam jaket)
+                                </th>
+                                <th>
+                                    <field name="suhu_jaket" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_jaket_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>15</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Check Pertama Jam
+                                </th>
+                                <th>
+                                    <field name="check_pertama_jam" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="check_pertama_jam_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>16</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu
+                                </th>
+                                <th>
+                                    <field name="suhu_pertama_jam" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_pertama_jam_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>17</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Check Kedua Jam
+                                </th>
+                                <th>
+                                    <field name="check_kedua_jam" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="check_kedua_jam_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>18</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu
+                                </th>
+                                <th>
+                                    <field name="suhu_kedua_jam" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_kedua_jam_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>19</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu PSE (75-80°C After Melting 15 Jam)
+                                </th>
+                                <th>
+                                    <field name="suhu_after_melting" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_after_melting_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>20</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Warna PSE
+                                </th>
+                                <th>
+                                    <field name="warna_pse" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="warna_pse_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>21</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Abnormal
+                                </th>
+                                <th>
+                                    <field name="abnormal" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="abnormal_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>22</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Jam Ke-1
+                                </th>
+                                <th>
+                                    <field name="jam_ke_1" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="jam_ke_1_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>23</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu Ke-1
+                                </th>
+                                <th>
+                                    <field name="suhu_ke_1" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_ke_1_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>24</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Warna Ke-1
+                                </th>
+                                <th>
+                                    <field name="warna_ke_1" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="warna_ke_1_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th style='width:10px'>25</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Jam Ke-2
+                                </th>
+                                <th>
+                                    <field name="jam_ke_2" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="jam_ke_2_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>26</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu Ke-2
+                                </th>
+                                <th>
+                                    <field name="suhu_ke_2" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_ke_2_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>27</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Warna Ke-2
+                                </th>
+                                <th>
+                                    <field name="warna_ke_2" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="warna_ke_2_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th style='width:10px'>28</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Jam Ke-3
+                                </th>
+                                <th>
+                                    <field name="jam_ke_3" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="jam_ke_3_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>29</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu Ke-3
+                                </th>
+                                <th>
+                                    <field name="suhu_ke_3" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_ke_3_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>30</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Warna Ke-3
+                                </th>
+                                <th>
+                                    <field name="warna_ke_3" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="warna_ke_3_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th style='width:10px'>31</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Jam Ke-4
+                                </th>
+                                <th>
+                                    <field name="jam_ke_4" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="jam_ke_4_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>32</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu Ke-4
+                                </th>
+                                <th>
+                                    <field name="suhu_ke_4" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_ke_4_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>33</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Warna Ke-4
+                                </th>
+                                <th>
+                                    <field name="warna_ke_4" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="warna_ke_4_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+
+
+                            <tr>
+                                <th style='width:10px'>34</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Tanggal Serah Terima
+                                </th>
+                                <th>
+                                    <field name="tanggal_terima" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="tanggal_terima_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>35</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Jam Serah Terima
+                                </th>
+                                <th>
+                                    <field name="jam_terima" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="jam_terima_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                        </tbody>
+                        <tbody attrs="{'invisible' : [('check_tipe_product','=', 'Benecol')]}">
+                            <tr>
+                                <th style='width:10px'>1</th>
+                                <th>
+                                    Pelelehan AMF dalam steam box selama 1.5 jam
+                                </th>
+                                <th>
+                                    AMF Pernah dimelting? Y or N
+                                </th>
+                                <th>
+                                    <field name="melting_amf" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="melting_amf_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>2</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Tanggal Melting dan Jumlah (jam)
+                                </th>
+                                <th>
+                                    <field name="date_melting" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="date_melting_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>3</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Start Melting
+                                </th>
+                                <th>
+                                    <field name="start_melting" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="start_melting_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>4</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Tanggal
+                                </th>
+                                <th>
+                                    <field name="date_melting_amf" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="date_melting_amf_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>5</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Jam
+                                </th>
+                                <th>
+                                    <field name="hour_melting_amf" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="hour_melting_amf_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>6</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Pressure
+                                </th>
+                                <th>
+                                    <field name="pressure" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="pressure_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>7</th>
+                                <th>
+                                    Pencatatan suhu dan pressure steam box
+                                </th>
+                                <th>
+                                    Suhu (1 jam)
+                                </th>
+                                <th>
+                                    <field name="suhu_satu_jam" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_satu_jam_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>8</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Pressure (1 jam)
+                                </th>
+                                <th>
+                                    <field name="pressure_satu_jam" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="pressure_satu_jam_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>9</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu (1.5 jam)
+                                </th>
+                                <th>
+                                    <field name="suhu_satu_jam_set" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_satu_jam_set_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>10</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Pressure (1.5 jam)
+                                </th>
+                                <th>
+                                    <field name="pressure_satu_jam_set" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="pressure_satu_jam_set_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>11</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Finish Melting
+                                </th>
+                                <th>
+                                    <field name="finish_melting" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="finish_melting_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>12</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Tanggal
+                                </th>
+                                <th>
+                                    <field name="date_melting_pressure" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="date_melting_pressure_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>13</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Jam
+                                </th>
+                                <th>
+                                    <field name="hour_melting_pressure" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="hour_melting_pressure_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>14</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu AMF (dalam Drum)
+                                </th>
+                                <th>
+                                    <field name="suhu_pressure" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_pressure_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>15</th>
+                                <th>
+                                    Preparasi AMF (wadah stainless)
+                                </th>
+                                <th>
+                                    Qty Timbang AMF
+                                </th>
+                                <th>
+                                    <field name="preparasi_amf" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="preparasi_amf_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>16</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Warna AMF (standar : jernih)
+                                </th>
+                                <th>
+                                    <field name="warna_amf" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="warna_amf_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style='width:10px'>17</th>
+                                <th>
+                                </th>
+                                <th>
+                                    Suhu (standar : 60 - 95°C)
+                                </th>
+                                <th>
+                                    <field name="suhu_standar" attrs="{'invisible' : [('lot_amf_1_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                                <th>
+                                    <field name="suhu_standar_2" attrs="{'invisible' : [('lot_amf_2_id','=',False)]}" class="oe_inline"/>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- <record id="view_stock_move_operations_inherit_bmo_material_request" model="ir.ui.view">
+            <field name="name">stock.move.operations.form.inherit.bmo_material_request</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="mo_id" readonly="1" attrs="{'invisible' : [('mo_id', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record> -->
+
+        <record id="view_stock_move_line_operations_inherit_bmo_material_request" model="ir.ui.view">
+            <field name="name">stock.move.line.operations.form.inherit.bmo_material_request</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_uom_id']" position="after">
+                    <field name="verifikator_check" invisible='1'/>
+                    <field name="verifikator" required="1" attrs="{'invisible' : [('verifikator_check','=', False)],
+                                                       'column_invisible': [('parent.picking_type_code','!=','internal')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='product_uom_id']" position="after">
+                    <field name="verifikator_admin" required="1" attrs="{'column_invisible': [('parent.picking_type_code','!=','outgoing')]}"/>
+                    <field name="qty_used_okp" attrs="{'column_invisible': [('parent.tipe','!=','Mixing'),('parent.custom_requisition_id','!=',False)]}" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

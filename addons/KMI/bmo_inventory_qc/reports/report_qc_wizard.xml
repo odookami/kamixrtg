@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<record id="picking_excel_views" model="ir.ui.view">
+		<field name="name">wizard.reports</field>
+		<field name="model">wizard.reports</field>
+		<field name="arch" type="xml">
+			<form string="Export Picking">
+				<p class="oe_grey">
+					You want to Print Picking Excel Report?
+				</p>
+				<group>
+					<field name="date_start"/>
+				</group>
+				<footer>
+					<button string="Print Excel Report" class="btn-primary"
+						name="action_picking_report" type="object" />
+					<button string="Cancel" class="btn-primary" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="picking_excel_views_new" model="ir.ui.view">
+		<field name="name">internal.transfer.report</field>
+		<field name="model">internal.transfer.report</field>
+		<field name="arch" type="xml">
+			<form string="Export Picking">
+				<group>
+					<field name="file_name" filename="picking_data" />
+					<field name="picking_data" invisible="1" />
+				</group>
+				<footer>
+					<button string="Cancel" class="btn-primary" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<act_window id="action_picking_excel" 
+		name="Picking Excel Report "
+		res_model="wizard.reports"
+		binding_model="stock.picking" 
+		view_mode="form" target="new" />
+
+	<record id="action_wizard_report_qc" model="ir.actions.act_window">
+		<field name="name">Report QC</field>
+		<field name="res_model">wizard.reports</field>
+		<!-- <field name="view_type">form</field> -->
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem action="action_wizard_report_qc"
+			id="menu_wizard_report_qc"
+			parent="stock.menu_warehouse_report"/>
+
+</odoo>

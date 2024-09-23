@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<record id="mrp_excel_views" model="ir.ui.view">
+		<field name="name">wizard.reports.mrp</field>
+		<field name="model">wizard.reports.mrp</field>
+		<field name="arch" type="xml">
+			<form string="Export Mrp">
+				<p class="oe_grey">
+					You want to Print Verifikasi produk RM?
+				</p>
+				<footer>
+					<button string="Print Excel Report" class="btn-primary"
+						name="action_mrp_report" type="object" />
+					<button string="Cancel" class="btn-primary" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="mrp_mixing_excel_views_new" model="ir.ui.view">
+		<field name="name">mrp.report.mixing</field>
+		<field name="model">mrp.report.mixing</field>
+		<field name="arch" type="xml">
+			<form string="Export Verifikasi produk RM">
+				<group>
+					<field name="file_name" filename="mrp_data" />
+					<field name="mrp_data" invisible="1" />
+				</group>
+				<footer>
+					<button string="Cancel" class="btn-primary" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<act_window id="action_mrp_excel" 
+		name="Verifikasi produk RM "
+		res_model="wizard.reports.mrp"
+		binding_model="stock.picking" 
+		view_mode="form" target="new" />
+
+</odoo>

@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="number_batch_proses_view_tree" model="ir.ui.view">
+            <field name="name">number.batch.proses.tree</field>
+            <field name="model">number.batch.proses</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="number" />
+                    <field name="okp_id" />
+                    <field name="tipe" />
+                    <field name="mo_id" />
+                </tree>
+            </field>
+        </record>
+        <!-- batch.mrp.production tree view -->
+        <record id="batch_mrp_production_view_tree" model="ir.ui.view">
+            <field name="name">batch.mrp.production.view.tree</field>
+            <field name="model">batch.mrp.production</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="tipe"/>
+                    <field name="okp_id"/>
+                    <field name="date_okp"/>
+                    <field name="product_id"/>
+                    <field name="goods_qty" sum="Jumlah"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <!-- batch.mrp.production form view -->
+        <record id="batch_mrp_production_view_form" model="ir.ui.view">
+            <field name="name">batch.mrp.production.view.form</field>
+            <field name="model">batch.mrp.production</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="action_confirmed" states="draft" type="object" string="Confirm"/>
+                        <button name="action_cancel" states="progress" type="object" string="Cancelled" groups="bmo_mrp.group_mrp_okp_cancelled"/>
+                        <field name="actual_closing" readonly="1" invisible="1"/>
+                        <button string="Closes" name="action_closes_mrp" type="object" class="oe_highlight" states="progress,done"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,progress,done"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="tipe" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="okp_id" options="{'no_edit' : True,'no_create' : True,'no_open' : True}" domain="[('state','=','draft')]" attrs="{'readonly': [('state', '!=', 'draft')],'required': [('tipe', '!=', 'Mixing')],'invisible': [('tipe', '=', 'Mixing'),('okp_id', '=', False)]}"/>
+                                <field name="close_bo" invisible="1"/>
+                                <field name="batch_mo_id" options="{'no_open': True}" domain="[('batch_proses','>',0),('tipe','!=',tipe),('okp_id','=',okp_id),('close_bo','=',False)]" invisible="1"/>
+                                <field name="bom_id" required="1" domain="[('state','=','done'),('tipe','=',tipe)]" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create' : True,'no_open' : True,}"/>
+                                <field name="product_id" required="1" domain="[('tipe','=',tipe)]" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create' : True,'no_open' : True,}"/>
+                                <field name="version"/>
+                            </group>
+                            <group>
+                                <field name="date_okp" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="batch_proses" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="name" attrs="{'readonly' : [('actual_closing','!=',False)],'required': [('tipe', '=', 'Mixing')]}"/>
+                                <field name="number_bo" attrs="{'readonly': [('actual_closing', '!=', False)]}"/>
+                                <field name="bo_fee" />
+                                <field name="goods_qty"/>
+                                <field name="reject_qty"/>
+                                <field name="sampling_qty"/>
+                                <field name="sampling_ex_qty" />
+                                <field name="sampling_marketing_qty"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="planned_start" class="oe_inline" attrs="{'readonly' : [('state','in',['done','cancel'])],'required' : [('state','in',['confirmed','progress'])]}"/>
+                                <field name="planned_completion" class="oe_inline" attrs="{'readonly' : [('state','in',['done','cancel'])],'required' : [('state','in',['confirmed','progress'])]}"/>
+                                <field name="required_completion" class="oe_inline" attrs="{'readonly' : [('state','in',['done','cancel'])],'required' : [('state','in',['confirmed','progress'])]}"/>
+                            </group>
+                            <group>
+                                <field name="actual_date" class="oe_inline" attrs="{'readonly' : [('actual_closing','!=',False)]}"/>
+                                <field name="actual_complete_date" class="oe_inline" attrs="{'readonly' : [('actual_closing','!=',False)]}"/>
+                                <label for="breaktime"/>
+                                <div class="o_row" name="breaktime">
+                                    <field name="breaktime" widget="float_time" attrs="{'readonly' : [('actual_closing','!=',False)]}"/>
+                                    <span>Hour</span>
+                                </div>
+                                <field name="actual_closing" readonly="1"/>
+                                <label for="machine_hour"/>
+                                <div class="o_row" name="machine_hour">
+                                    <field name="machine_hour" widget="float_time"/>
+                                    <span>Hour</span>
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Manufacturing Orders" name="mrp_line">
+                                <field name="mrp_line" readonly="1" domain="[('state','!=','cancel')]">
+                                    <tree editable="bottom">
+                                        <field name="number_ref" string="Number"/>
+                                        <field name="name"/>
+                                        <field name="tipe" invisible="1"/>
+                                        <field name="bom_id"/>
+                                        <field name="lot_producing_id"/>
+                                        <field name="qty_producing" string="Qty Prod" sum="Jumlah"/>
+                                        <field name="goods_qty" sum="Jumlah"/>
+                                        <field name="reject_qty" sum="Jumlah"/>
+                                        <field name="sampling_qty" sum="Jumlah"/>
+                                        <field name="sampling_ex_qty" sum="Jumlah"/>
+                                        <field name="sampling_marketing_qty" attrs="{'invisible' : [('tipe','!=','Banded')]}" sum="Jumlah"/>
+                                        <field name="state"/>
+                                        <field name="confirm_cancel" invisible="1"/>
+                                        <field name="show_lock" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Detail Components" name="components" invisible="1">
+                                <field name="move_raw_ids" readonly="1"/>
+                            </page>
+                            <page string="Group Components" name="group_components_line">
+                                <field name="group_components_line" readonly="1">
+                                    <tree>
+                                        <field name="product_id"/>
+                                        <field name="qty"/>
+                                        <field name="product_uom_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Miscellaneous" name="miscellaneous">
+                                <group>
+                                    <group>
+                                        <field name="picking_type_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="location_src_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="location_dest_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="batch_mrp_production_search_view" model="ir.ui.view">
+            <field name="name">batch.mrp.production search</field>
+            <field name="model">batch.mrp.production</field>
+            <field name="arch" type="xml">
+                <search string="OKP search">
+                    <field name="okp_id"/>
+                    <field name="tipe"/>
+                    <field name="state"/>
+                    <group expand="0" string="Group By">
+                        <filter string="OKP" name="okp_id" context="{'group_by':'okp_id'}"/>
+                        <filter string="Tipe OKP" name="tipe" context="{'group_by':'tipe'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- batch.mrp.production action window -->
+        <record id="batch_mrp_production_action" model="ir.actions.act_window">
+            <field name="name">OKP</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">batch.mrp.production</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="batch_mrp_production_menu_act" parent="mrp.menu_mrp_manufacturing" action="batch_mrp_production_action" sequence="1" groups="bmo_mrp.group_mrp_okp"/>
+        <menuitem action="mrp.mrp_production_action" id="mrp.menu_mrp_production_action" parent="mrp.menu_mrp_manufacturing" sequence="2"/>
+
+    </data>
+</odoo>

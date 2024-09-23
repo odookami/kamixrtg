@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="view_sml_form" model="ir.ui.view">
+        <field name="name">import.sml</field>
+        <field name="model">import.sml</field>
+        <field name="arch" type="xml">
+            <form string="sml">
+                <h2>Select a picking file to import</h2>
+                <p></p>
+                <ul id="picking_format">
+                    <li> Microsoft Office Excel (.xlsx) -- 
+                        <a href="/bmo_inventory/static/templates/import_detail_do.xlsx" class="ml4">
+                            <i class="fa fa-download mr4"></i>Import Sample Template</a>
+                    </li>
+                </ul>
+                <group>
+                     <group>
+                        <field name="file"/>
+                     </group>
+                     <group>
+                     </group>
+                </group>
+                <footer>
+                    <button string='Import' name="import_sml" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+           </form>
+        </field>
+    </record>
+
+    <record id="action_sml_import" model="ir.actions.act_window">
+        <field name="name">action import sml</field>
+        <field name="res_model">import.sml</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    
+    <record id="import_sml_form_view_extend" model="ir.ui.view">
+        <field name="name">	stock.picking.form.import.sml</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_cancel']" position="after">
+                <button name="%(bmo_inventory.action_sml_import)d" string="Import SML" type="action"/>
+            </xpath>
+            <!-- <xpath expr="//field[@name='picking_type_code']" position="after">
+                <field name="show_check_availability" attrs="{'readonly': [('state', 'not in', ['draft','done', 'cancel'])]}"/>
+            </xpath> -->
+        </field>
+    </record>
+    
+    </data>
+</odoo>

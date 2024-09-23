@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="material_transaction_wizard_form" model="ir.ui.view">
+        <field name="name">material.transaction.wizard.form</field>
+        <field name="model">material.transaction.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Report Mrp Qc Summary">
+                <group>
+                    <group>
+                        <field name="product_id" class="oe_inline" required="1"
+                            options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"/>
+                    </group>
+                    <group>
+                        <field name="all_lot" />
+                        <field name="lot_ids" widget="many2many_tags" class="oe_inline" required="1"
+                            options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}"
+                            attrs="{'invisible':[('all_lot','=',True)]}"/>
+                            <!-- domain="[('product_id', '=', product_id)]" -->
+                    </group>
+                </group>
+                <group >
+                    <field name="data_file" widget="binary" readonly="1" filename="name"/>
+                    <field name="name" invisible="1"/>
+                </group> 
+                <footer>
+                    <button name="eksport_excel" string="Print XLS" type="object" class="btn-primary" icon="fa-print"/>
+                    <button string="Close" class="oe_link" special="cancel" icon="fa-close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_material_transaction_wizard" model="ir.actions.act_window">
+        <field name="name">Report Material Transaction</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">material.transaction.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="material_transaction_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem 
+        action="action_material_transaction_wizard"
+        id="menu_material_transaction_wizard"
+        parent="stock.menu_warehouse_report"
+        sequence="99"/>
+</odoo>

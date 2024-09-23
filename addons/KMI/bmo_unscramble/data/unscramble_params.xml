@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <!-- * Invopack Parameter -->
+            <record id="un_air_press_a_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Air Pressure A (bar)</field>
+                <field name="standard">4</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_air_press_b_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Air Pressure B (bar)</field>
+                <field name="standard">4</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_air_press_rinser_input_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Air pressure Rinser Input (Mpa)©</field>
+                <field name="standard">≥ 0.31</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_air_press_rinser_output_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Air pressure Rinser Output (Mpa)©</field>
+                <field name="standard">≥ 44.96</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_manual_oil_rinser_level_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Manual oil rinser level</field>
+                <field name="standard">med-low</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_auto_oil_rinser_level_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Automatic oil rinser level</field>
+                <field name="standard">medium</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_auto_oil_unsc_a_level_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Automatic oil unscramble A level</field>
+                <field name="standard">medium</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_auto_oil_unsc_b_level_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Automatic oil unscramble B level</field>
+                <field name="standard">medium</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_machine_hour_rinser_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Machine hours rinser</field>
+                <field name="standard">-</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_machine_hour_unsc_a_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Machine hours unsc. A</field>
+                <field name="standard">-</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_machine_hour_unsc_b_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Machine hours unsc. B</field>
+                <field name="standard">-</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_baut_rinser_gripper_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Baut rinser gripper</field>
+                <field name="standard">OK</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_tekanan_angin_mangkok_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Tekanan angin dari mangkok supply</field>
+                <field name="standard">OK</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_blower_air_condition_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Blower air condition</field>
+                <field name="standard">OK</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+
+
+
+            
+            <record id="un_blower_air_condition_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Blower air condition</field>
+                <field name="standard">OK</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_blower_air_condition_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Blower air condition</field>
+                <field name="standard">OK</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_blower_air_condition_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Blower air condition</field>
+                <field name="standard">OK</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+            <record id="un_blower_air_condition_params" model="kmi.checks.params">
+                <field name="active" eval="1"/>
+                <field name="name">Blower air condition</field>
+                <field name="standard">OK</field>
+                <field name="param_types">general</field>
+                <field name="param_group"></field>
+                <field name="report_type">Unscramble Machine</field>
+            </record>
+    </data>
+</odoo>

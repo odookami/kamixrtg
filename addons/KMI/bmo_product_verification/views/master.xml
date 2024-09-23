@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record model='ir.ui.view' id='faktor_koreksi_tree'>
+    	    <field name='name'>faktor_koreksi.tree</field>
+    	    <field name='model'>faktor.koreksi</field>
+    	    <field name='arch' type='xml'>
+    	        <tree string='description' editable='bottom'>
+    	            <field name='product_id'/>
+    	            <field name='bottle_id'/>
+    	            <field name="koreksi"/>
+    	        </tree>
+    	    </field>
+    	</record>
+
+        <record model='ir.ui.view' id='faktor_warna_tree'>
+            <field name='name'>faktor_warna.tree</field>
+            <field name='model'>faktor.warna</field>
+            <field name='arch' type='xml'>
+                <tree string='description' editable='bottom'>
+                    <field name='name'/>
+                    <field name='target'/>
+                    <!-- <field name='out_range'/> -->
+                    <field name="yellow"/>
+                    <field name="blue"/>
+                </tree>
+            </field>
+        </record>
+
+    	<record id="action_faktor_koreksi" model="ir.actions.act_window">
+    		<field name="name">Faktor Koreksi</field>
+    		<field name="res_model">faktor.koreksi</field>
+    		<field name="view_mode">tree</field>
+    	</record>
+
+        <record id="action_faktor_warna" model="ir.actions.act_window">
+            <field name="name">Faktor Warna</field>
+            <field name="res_model">faktor.warna</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+    	<menuitem id="faktor_koreksi_menu" name="Faktor Koreksi" parent="product_verification_main_menu" action="action_faktor_koreksi"/>
+        <menuitem id="faktor_warna_menu" name="Faktor Warna" parent="product_verification_main_menu" action="action_faktor_warna"/>
+    </data>
+</odoo>

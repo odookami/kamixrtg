@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model='ir.ui.view' id='qc_finish_good_tree'>
+			<field name='name'>qc_finish_good.tree</field>
+			<field name='model'>quality.check.finish.good</field>
+			<field name='arch' type='xml'>
+				<tree string='Quality Check Finish Good'>
+					<field name="name"/>
+					<field name="prod_packing_id"/>
+					<field name="lot_id"/>
+					<field name="product_id"/>
+					<field name="warehouse_id"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="qc_finish_good_form">
+			<field name="name">qc_finish_good.form</field>
+			<field name="model">quality.check.finish.good</field>
+			<field name="arch" type="xml">
+				<form string="description">
+					<header>
+						<button name="%(bmo_qc_fg.action_qc_transfer_reject_wizard)d" string="Scrap Reject" type="action" class="oe_highlight" attrs="{'invisible' : [('state','=', 'done'), ('scrap', '=', True)]}"/>
+						<!-- <button name="button_scrap" states="done" string="Scrap" type="object" class='oe_highlight'/> -->
+						<button name="action_submit" states="draft" string="Submit" type="object" class='oe_highlight'/>
+						<button name="action_draft" states="progress" string="Draft" type="object" class='oe_highlight'/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,progress,done" />
+						<button name="action_done" states="progress" string="Mark As Done" type="object"/>
+					</header>
+					<sheet>
+						<label for='name' string="Number"/>
+						<h1>
+							<field name="name" readonly='1'/>
+						</h1>
+						<group>
+							<group>
+								<field name="scrap" invisible='1'/>
+								<field name="lot_id" domain="[('product_id.tipe', '=', 'Banded')]"/>
+								<field name="product_id"/>
+							</group>
+							<group>
+								<field name="prod_packing_id" required='1' domain="[('packing_type', '=', 'Banded'), ('state', '=', 'done')]"/>
+								<field name="warehouse_id" required='1'/>
+								<field name="company_id" readonly='1'/>
+								<!-- <field name="location_id" readonly='1'/> -->
+								<field name="location_id"/>
+							</group>
+						</group>
+						<group>	
+							<field name="note" placeholder='Put your notes here....' cols='4'/>
+						</group>
+						<div class='float-right o_statusbar_button' states='progress'>
+							<button name="action_release" string="Release" class='btn-success mr-2 rounded-pill' type="object"/>
+							<button name="action_hold" string="Hold" class='btn-warning mr-2 rounded-pill' type="object"/>
+							<button name="action_reject" string="Reject" class='btn-danger rounded-pill' type="object"/>
+						</div>
+						<separator string='Quality Check '/>
+						<field name='qcfg_line'>
+							<tree editable='bottom'>
+								<field name="package_id"/>
+								<field name="location_id" domain="[('id', 'child_of', parent.location_id)]"/>
+								<field name='mrp_packing_line_id' invisible='1'/>
+								<field name="lot_id"/>
+								<field name="expired_date"/>
+								<field name="qty"/>
+								<field name="state"/>
+								<button name="action_release" type="object" class='btn-success mr-2 rounded-pill' 
+									attrs="{'column_invisible' : ([('parent.state', 'not in', ('progress','done'))]), 'invisible' : ([('state', 'not in', ['open', 'hold'])])}" icon='fa-check'/>
+								<button name="action_hold" type="object" class='btn-warning mr-2 rounded-pill' attrs="{'column_invisible' : ([('parent.state', '!=', 'progress')])}" icon='fa-minus'/>
+								<button name="action_reject" type="object" class='btn-danger rounded-pill' 
+									attrs="{'column_invisible' : ([('parent.state', 'not in', ('progress', 'done'))]), 'invisible' : ([('state', 'not in', ['open', 'hold'])])}" icon='fa-ban'/>
+							</tree>
+						</field>
+					<!-- <label for='note' string='Notes'/> -->
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_quality_check_finish_good" model="ir.actions.act_window">
+			<field name="name">QC Finish Good</field>
+			<field name="res_model">quality.check.finish.good</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="quality_check_finish_good_menu" name="QC Release Finish Good" parent="bmo_mrp_qc.mrp_qc_menu_do_stuff" action="action_quality_check_finish_good"/>
+	</data>
+</odoo>
+
+

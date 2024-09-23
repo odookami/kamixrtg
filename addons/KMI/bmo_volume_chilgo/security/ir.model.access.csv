@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_volume_chilgo,volume_chilgo,model_volume_chilgo,base.group_user,1,1,1,1
+access_volume_chilgo_line_one,volume_chilgo_line_one,model_volume_chilgo_line_one,,1,1,1,1
+access_volume_chilgo_line_two,volume_chilgo_line_two,model_volume_chilgo_line_two,,1,1,1,1
+access_volume_chilgo_line_three,volume_chilgo_line_three,model_volume_chilgo_line_three,,1,1,1,1

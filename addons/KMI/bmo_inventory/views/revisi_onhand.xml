@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="revisi_onhand_view_tree" model="ir.ui.view">
+        <field name="name">revisi.onhand.view.tree</field>
+        <field name="model">revisi.onhand</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" create="1" edit="1">
+                <field name="product_id" />
+                <field name="product_uom_id" />
+                <field name="qty" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="revisi_onhand_action" model="ir.actions.act_window">
+        <field name="name">Menu Revisi Quantity</field>
+        <field name="res_model">revisi.onhand</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="menu_revisi_onhand_action" name="Menu Revisi Quantity" parent="stock.menu_stock_config_settings" action="revisi_onhand_action" sequence="50"/>
+
+</odoo>

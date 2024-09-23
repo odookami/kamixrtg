@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<!-- <record model="ir.ui.view" id="show_status_form">
+    	    <field name="name">show_status.form</field>
+    	    <field name="model">wizard.dalam.wizard</field>
+    	    <field name="arch" type="xml">
+    	        <form string="description">
+    	            <header>
+    	            </header>
+    	            <sheet>
+    	                <group>
+    	                    <field name="product_id"/>
+    	                </group>
+    	            </sheet>
+    	        </form>
+    	    </field>
+    	</record> -->
+
+    	
+    </data>
+</odoo>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="category_product_new">
+            <field name="name">Product</field>
+            <field name="sequence">70</field>
+        </record>
+
+        <record id="group_product_write_new" model="res.groups">
+            <field name="name">Product - Write Access</field>
+            <field name="category_id" ref="bmo_inventory.category_product_new"/>
+        </record>
+
+        <record id="group_product_create_new" model="res.groups">
+            <field name="name">Product - Create Access</field>
+            <field name="category_id" ref="bmo_inventory.category_product_new"/>
+        </record>
+
+        <record id="group_product_delete_new" model="res.groups">
+            <field name="name">Product - Delete Access</field>
+            <field name="category_id" ref="bmo_inventory.category_product_new"/>
+        </record>
+
+        <record id="view_list_price" model="res.groups">
+            <field name="name">View Sales Price Product</field>
+        </record>
+
+        <record id="view_cost_price" model="res.groups">
+            <field name="name">View Cost Price Product</field>
+        </record>
+
+        <record model="ir.module.category" id="category_uom_new">
+            <field name="name">UoM</field>
+            <field name="sequence">70</field>
+        </record>
+
+        <record id="group_uom_write_new" model="res.groups">
+            <field name="name">UoM - Write Access</field>
+            <field name="category_id" ref="bmo_inventory.category_uom_new"/>
+        </record>
+
+        <record id="group_uom_create_new" model="res.groups">
+            <field name="name">UoM - Create Access</field>
+            <field name="category_id" ref="bmo_inventory.category_uom_new"/>
+        </record>
+
+        <record id="group_uom_delete_new" model="res.groups">
+            <field name="name">UoM - Delete Access</field>
+            <field name="category_id" ref="bmo_inventory.category_uom_new"/>
+        </record>
+
+        <record model="ir.module.category" id="category_stock_location_new">
+            <field name="name">Stock Locations</field>
+            <field name="sequence">70</field>
+        </record>
+
+        <record id="group_stock_location_write_new" model="res.groups">
+            <field name="name">Location - Write Access</field>
+            <field name="category_id" ref="bmo_inventory.category_stock_location_new"/>
+        </record>
+
+        <record id="group_stock_location_create_new" model="res.groups">
+            <field name="name">Location - Create Access</field>
+            <field name="category_id" ref="bmo_inventory.category_stock_location_new"/>
+        </record>
+
+        <record id="group_stock_location_delete_new" model="res.groups">
+            <field name="name">Location - Delete Access</field>
+            <field name="category_id" ref="bmo_inventory.category_stock_location_new"/>
+        </record>
+
+        <!-- =====================Inventory Adjustments======================== -->
+        <record model="ir.module.category" id="module_category_inventory_adjustment">
+            <field name="name">Inventory Adjustments</field>
+            <field name="sequence">60</field>
+        </record>
+
+        <record id="group_inventory_adjustment_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_category_inventory_adjustment"/>
+        </record>
+
+        <record id="group_inventory_adjustments_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_inventory_adjustment"/>
+            <field name="implied_ids" eval="[(4, ref('group_inventory_adjustment_user'))]"/>
+        </record>
+
+        <!-- =====================Scrap======================== -->
+        <record model="ir.module.category" id="module_category_inventory_scrap">
+            <field name="name">Scrap</field>
+            <field name="sequence">60</field>
+        </record>
+
+        <record id="group_inventory_scrap_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_category_inventory_scrap"/>
+        </record>
+
+        <record id="group_inventory_scrap_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_inventory_scrap"/>
+            <field name="implied_ids" eval="[(4, ref('group_inventory_scrap_user'))]"/>
+        </record>
+
+        <record id="group_restrict_warehous_new" model="res.groups">
+            <field name="name">Restrict Stock warehouses</field>
+        </record>
+
+        <!-- =====================REPORT INVENOTY======================== -->
+        <record model="ir.module.category" id="module_category_report_inventory">
+            <field name="name">Report Inventory</field>
+            <field name="sequence">60</field>
+        </record>
+
+        <record id="group_inventory_stock_valuation" model="res.groups">
+            <field name="name">Report Stock Valuation</field>
+            <field name="category_id" ref="bmo_inventory.module_category_report_inventory"/>
+        </record>
+
+        <record id="group_inventory_stock_in" model="res.groups">
+            <field name="name">Report Stock In</field>
+            <field name="category_id" ref="bmo_inventory.module_category_report_inventory"/>
+        </record>
+
+        <record id="group_inventory_stock_out" model="res.groups">
+            <field name="name">Report Stock Out</field>
+            <field name="category_id" ref="bmo_inventory.module_category_report_inventory"/>
+        </record>
+
+        <record id="group_inventory_valuation_report" model="res.groups">
+            <field name="name">Inventory Valuation Report</field>
+            <field name="category_id" ref="bmo_inventory.module_category_report_inventory"/>
+        </record>
+
+    </data>
+</odoo>

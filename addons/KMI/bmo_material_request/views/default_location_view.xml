@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="master_default_location_view_tree" model="ir.ui.view">
+        <field name="name">master.default.location.view.tree</field>
+        <field name="model">master.default.location</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="tipe" required="1"/>
+                <field name="location_id" options="{'no_create':True,'no_open': True}" required="1"/>
+                <field name="dest_location_id" options="{'no_create':True,'no_open': True}" required="1"/>
+                <field name="picking_type_id" options="{'no_create':True,'no_open': True}" required="1"/>
+                <field name="dest_location_2_id" options="{'no_create':True,'no_open': True}" attrs="{'required' : [('tipe','=','Mixing')]}"/>
+                <field name="picking_type_2_id" options="{'no_create':True,'no_open': True}" attrs="{'required' : [('tipe','=','Mixing')]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="master_default_location_view_form" model="ir.ui.view">
+        <field name="name">master.default.location.view.form</field>
+        <field name="model">master.default.location</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="tipe" required="1"/>
+                        <field name="location_id" options="{'no_create':True,'no_open': True}" required="1"/>
+                        <field name="dest_location_id" options="{'no_create':True,'no_open': True}" required="1"/>
+                        <field name="picking_type_id" options="{'no_create':True,'no_open': True}" required="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_master_default_location" model="ir.actions.act_window">
+        <field name="name">Default Location</field>
+        <field name="res_model">master.default.location</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipe','!=',False)]</field>
+    </record>
+
+</odoo>

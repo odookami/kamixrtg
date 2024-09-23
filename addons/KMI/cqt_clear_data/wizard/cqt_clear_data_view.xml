@@ -1,0 +1,62 @@
+<odoo>
+	<record id="cqt_clear_data_view_form" model="ir.ui.view">
+		<field name="name">cqt.clear.data.wizard.form</field>
+		<field name="model">cqt.clear.data</field>
+		<field name="arch" type="xml">
+			<form string="Clear Data">
+				<header>
+				</header>
+				<sheet>
+					<group col="3">
+						<group string="All Data">
+							<group><field name="all_data"/></group>
+						</group>
+						<group string="Contacts">
+							<field name="customer_vendor"/>
+						</group>
+						<group string="Inventory">
+							<field name="delivery_shipment" />
+						</group>
+					</group>
+					<group col="3">
+						<group string="Sale">
+							<field name="sale_delivery" />
+						</group>
+						<group string="Purchase">
+							<field name="purchase_shipment"/>
+						</group>
+						<group string="Accounting">
+							<field name="journals" />
+							<field name="invoice_payment_journal"/>
+							<field name="chart_of_account"/>
+						</group>
+					</group>
+					<foooter>
+						<button name="clear_data" string="Clear Data" type="object" class="btn-primary" icon="fa-trash"/>
+						<button string="Cancel " class="btn-secondary" special="cancel"/>
+					</foooter>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="cqt_clear_data_action" model="ir.actions.act_window">
+		<field name="name">Clear Data</field>
+		<field name="res_model">cqt.clear.data</field>
+		<field name="view_mode">form</field>
+		<field name="target">inline</field>
+	</record>
+
+	<menuitem name="Clear Data"
+        id="cqt_menu_clear_data_main"
+        groups="cqt_clear_data.group_clear_data"
+        web_icon="cqt_clear_data,static/description/icon.png"
+        sequence="10"/>
+
+	<menuitem id="cqt_clear_data_menu_parent" name="Clearance" parent="cqt_menu_clear_data_main"
+	sequence="1" groups="cqt_clear_data.group_clear_data" />
+
+	<menuitem id="cqt_clean_data_menu_sub" parent="cqt_clear_data_menu_parent"
+	action="cqt_clear_data_action" name="Clear Data" sequence="0" groups="cqt_clear_data.group_clear_data"/>
+
+</odoo>

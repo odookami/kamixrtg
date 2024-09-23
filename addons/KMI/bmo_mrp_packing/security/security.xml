@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="module_category_lhp">
+            <field name="name">Laporan Harian Packing</field>
+            <field name="sequence">99</field>
+        </record>
+
+        <record id="groups_lhp_admin_shift" model="res.groups">
+            <field name="name">Admin Shift</field>
+            <field name="category_id" ref="module_category_lhp"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+        <record id="groups_lhp_ppic" model="res.groups">
+            <field name="name">PPIC</field>            
+            <field name="category_id" ref="module_category_lhp"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+        <record id="groups_lhp_qc" model="res.groups">
+            <field name="name">QC</field>
+            <field name="category_id" ref="module_category_lhp"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>

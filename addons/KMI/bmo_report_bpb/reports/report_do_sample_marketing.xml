@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_do_sample_marketing">
+        <t t-call="web.html_container">
+            <t t-call="bmo_report_bpb.my_own_layout">
+                <t t-call="web.internal_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <style>
+                                table.table-no-border { 
+                                    page-break-inside: avoid;
+                                    border-collapse: collapse; 
+                                    margin-top: -10px; width: 100%;
+                                    table-layout: fixed; font-size: 13px; 
+                                    border: 1px solid #e7ebee;
+                                }
+                                table.table-bordered { 
+                                    border-collapse: collapse; 
+                                    margin-top: 10px; width: 100%;
+                                    table-layout: auto;
+                                }
+                                table.table-sm {
+                                    table-layout: fixed; font-size: 13px; 
+                                }
+                                .content-box{width:850px ; margin: 0 auto; padding-top:10px; padding-bottom:20px;}
+                            </style>
+                            <div class="row" id="info" >
+                                <div class="col-12">
+                                    <table class="table table-sm">
+                                        <h3 class="text-left" style="font-size: 12px;">
+                                            <strong>
+                                                <p><span t-esc="o.env.user.company_id.name"/></p>
+                                            </strong>
+                                        </h3>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: center;">
+                                <div class="col-12">
+                                    <table class="table table-sm" >
+                                        <h2 style="font-size: 30px;">
+                                            <strong>
+                                                <p>DELIVERY ORDER SAMPLE MARKETING</p>
+                                            </strong>
+                                        </h2>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-6" style='width:50%; display:flex; '>
+                                    <table class="content-box" >
+                                        <tr style="font-size: 24px;">
+                                            <th style="width: 21%; padding:5px 0px;">DO No.</th>
+                                            <th >: </th> 
+                                            <th ><span t-esc="o.name"/></th>
+                                            <th style="width: 25%;"></th>
+                                        </tr>
+                                        <tr style="font-size: 19px;">
+                                            <th style="width: 21%; padding:5px 0px;">Delivery Date</th>
+                                            <th >: </th> 
+                                            <th >
+                                                <t t-if="o.scheduled_date.strftime('%d-%b-%Y')">
+                                                    <b><span t-esc="(datetime.datetime.strptime(str(o.scheduled_date), '%Y-%m-%d %H:%M:%S')+datetime.timedelta(hours=7)).strftime('%d-%b-%Y ')" /></b>
+                                                </t>
+                                            </th>
+                                            <th style="width: 25%;"></th>
+                                        </tr>
+                                        <tr style="font-size: 19px;"> 
+                                            <th style="width: 21%; padding:5px 0px;">Expedition</th>
+                                            <th >: </th> 
+                                            <th ><span t-esc="o.ekspedisi"/></th>
+                                            <th style="width: 25%;"></th>
+                                        </tr>
+                                        <tr style="font-size: 19px;">
+                                            <th style="width: 21%; padding:5px 0px;">Customer</th>
+                                            <th >: </th> 
+                                            <th ><span t-esc="o.partner_id.display_name"/></th>
+                                            <th style="width: 25%;"></th>
+                                        </tr>
+                                        <tr style="font-size: 19px;">
+                                            <th style="width: 21%; padding:5px 0px;">Ship To</th>
+                                            <th >: </th>
+                                            <th ><span t-esc="o.partner_id.street"/></th>
+                                            <th style="width: 25%;"></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6" style='width:50%; display:flex; '>
+                                    <table class="content-box" >
+                                        <tr style="font-size: 19px;">
+                                            <th style="width: 21%; padding:5px 0px;">SO No.</th>
+                                            <th >: </th>
+                                            <th ><span t-esc="o.origin"/></th>
+                                            <th style="width: 25%;"></th>
+                                        </tr>
+                                        <tr style="font-size: 19px;">
+                                            <th style="width: 21%; padding:5px 0px;">Ship Date</th>
+                                            <th >: </th>
+                                            <th >
+                                                <t t-if="o.date_done">
+                                                    <b><span t-esc="o.date_done.strftime('%d-%b-%Y')"/></b>
+                                                </t>
+                                            </th> 
+                                            <th style="width: 25%;"></th>
+                                        </tr>
+                                        <tr style="font-size: 19px;">
+                                            <th style="width: 21%; padding:5px 0px;">Vehicle</th>
+                                            <th >: </th>
+                                            <th ><span t-esc="o.car_number"/></th>
+                                            <th style="width: 25%;"></th>
+                                        </tr>
+                                        <tr style="font-size: 19px;">
+                                            <th style="width: 21%; padding:5px 0px;">PO Customer</th>
+                                            <th >: </th>
+                                            <th ><span t-esc="o.origin"/></th>
+                                            <th style="width: 25%;"></th>
+                                        </tr>
+                                        <tr style="font-size: 19px;">
+                                            <th style="width: 21%; padding:5px 0px;">Remark</th>
+                                            <th >: </th>
+                                            <th ><span t-esc="o.note"/></th>
+                                            <th style="width: 25%;"></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-sm">
+                                        <thead style="font-size: 17px;">
+                                            <tr>
+                                                <th scope="col" style="width: 5%;" class='text-center'>No</th>
+                                                <th scope="col" style="width: 10%;">Item Code</th>
+                                                <th scope="col" style="width: 40%;">Item Description</th>
+                                                <th scope="col">Lot Number</th>
+                                                <th scope="col">Expired Date</th>
+                                                <!-- <th scope="col">QTY(CB)</th> -->
+                                                <th scope="col">QTY(PCS)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size: 17px;">
+                                            <t t-foreach="result" t-as="res">
+                                                <tr>
+                                                    <td class='text-center'>
+                                                        <span t-esc="res['no']"/>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="res['item_code']"/>
+                                                    </td>
+                                                    <td class='text-left' colspan="4">
+                                                        <t t-esc="res['product']"/>
+                                                    </td>
+                                                </tr>
+                                                    <tr>
+                                                        <td class='text-center'>
+                                                        </td>
+                                                        <td class='text-center'>
+                                                        </td>
+                                                        <td class='text-center'>
+                                                        </td>
+                                                        <td class='text-left'>
+                                                            <t t-esc="res['lot']"/>
+                                                        </td>
+                                                        <td class='text-left'>
+                                                            <t t-if="res['exp']">
+                                                                <b><span t-esc="res['exp']"/></b>
+                                                            </t>
+                                                        </td>
+                                                        <!-- <td class='text-left'>
+                                                            <t t-esc="res['qty_cb']" t-options='{"widget": "float", "precision": 3}'/>
+                                                        </td> -->
+                                                        <td class='text-left'>
+                                                            <t t-esc="res['qty_pcs']" t-options='{"widget": "float", "precision": 3}'/>
+                                                        </td>
+                                                    </tr>
+                                            </t>    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-bordered" style="page-break-before: avoid; font-size: 17px;">
+                                        <tr style="border:1px;">
+                                            <td style="text-align:center;">Created By</td>
+                                            <td style="text-align:center;">Approved By</td>
+                                            <td style="text-align:center;">Prepared By</td>
+                                            <td style="text-align:center;">Received By</td>
+                                        </tr>
+                                        <tr style='height:110px;'>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center;"></td>
+                                            <td style="text-align:center;"></td>
+                                            <td style="text-align:center;"></td>
+                                            <td style="text-align:center;"></td>
+                                        </tr>
+                                    </table>
+                                    <table style="font-size: 17px;">
+                                        <tr>
+                                            <th style="width: 10%;">Printed by</th>
+                                            <th style="width: 5%;">:</th> 
+                                            <th style="width: 10%;"><span t-esc="o.env.user.name"/></th>
+                                            <th style="width: 10%;">Tanggal</th>
+                                            <th style="width: 5%;">:</th>
+                                            <th style="width: 10%;"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%b-%Y')"/></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

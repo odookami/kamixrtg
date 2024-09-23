@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="form_picking_wizard" model="ir.ui.view">
+        <field name="name">form.wizard.picking.wizard</field>
+        <field name="model">picking.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import picking Line">
+                <h2>Select a picking file to import</h2>
+                <p></p>
+                <ul id="picking_format">
+                    <li> Microsoft Office Excel (.xlsx) -- 
+                        <a href="/bmo_inventory/static/templates/import_picking.xlsx" class="ml4">
+                            <i class="fa fa-download mr4"></i>Import Sample Template</a>
+                    </li>
+                </ul>
+                <field name="file_data" filename="file_name" widget="binary" required="1" class="oe_inline"/>
+                <field name="file_name" invisible="1"/>
+                <footer>
+                    <button string="Import" name="import_picking" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_picking_wizard" model="ir.actions.act_window">
+        <field name="name">Import picking</field>
+        <field name="res_model">picking.wizard</field>
+        <field name="target">new</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <record id="pop_deman_wizard_form" model="ir.ui.view">
+            <field name="name">pop_deman_wizard_form</field>
+            <field name="model">pop.deman.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Attention">
+                    <field name="note" />
+                    <footer>
+                        <button name="action_deman" string="Yes" type="object" class="btn-primary"/>
+                        <!-- <button string="Close" class="btn-warning oe_highlight" special="cancel"/> -->
+                        <!-- <button name="eksport_excel" string="Print XLS" type="object" class="btn-primary" icon="fa-print"/> -->
+                        <!-- <button name="action_deman" string="Yes" class="oe_link" icon="fa-close"/> -->
+                        <button string="No" class="oe_link" special="cancel" icon="fa-close"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_pop_deman_wizard_form" model="ir.actions.act_window">
+            <field name="name">Attention</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pop.deman.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="pop_deman_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+</odoo>

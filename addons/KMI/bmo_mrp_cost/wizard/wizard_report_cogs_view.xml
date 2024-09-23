@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="wizard_report_cogs_view_form" model="ir.ui.view">
+        <field name="name">wizard.report.cogs.form</field>
+        <field name="model">wizard.report.cogs</field>
+        <field name="arch" type="xml">
+            <form string="Select period">
+                <group>
+                    <group>
+                        <label for="date_start" string="Period"/>
+                        <div>
+                            <field name="date_start" class="oe_inline" required="1"/>
+                                -
+                            <field name="date_end" class="oe_inline" nolabel="1" required="1"/>
+                        </div>
+                    </group>
+                </group>
+                <!-- <group>
+                    <field name="fleg_sum_so" />
+                </group> -->
+                <group>
+                    <field name="data_file" widget="binary" readonly="1" filename="name"/>
+                    <field name="name" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="eksport_excel" string="Print XLS" type="object" class="btn-primary" icon="fa-print"/>
+                    <button string="Cancel" class="oe_link" special="cancel" icon="fa-close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model='ir.actions.act_window' id='action_wizard_report_cogs'>
+        <field name="name">Report Cogs</field>
+        <field name="res_model">wizard.report.cogs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="wizard_report_cogs_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

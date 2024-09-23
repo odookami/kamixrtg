@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record model='ir.ui.view' id='inline_product_verification_tree'>
+    	    <field name='name'>inline_product_verification.tree</field>
+    	    <field name='model'>inline.product.verification</field>
+            <field name="priority" eval='1'/>
+    	    <field name='arch' type='xml'>
+    	        <tree string='description' create='1'>
+    	            <field name='name'/>
+    	            <field name="okp_id"/>
+                    <field name="product_id"/>
+                    <field name="production_date"/>
+                    <field name="batch_no"/>
+                    <!-- <field name="tanggal_analisa"/> -->
+                    <field name="state"/>
+    	        </tree>
+    	    </field>
+    	</record>
+
+        <record model="ir.ui.view" id="inline_product_verification_form">
+            <field name="name">inline_product_verification.form</field>
+            <field name="model">inline.product.verification</field>
+            <field name="priority" eval='1'/>
+            <field name="arch" type="xml">
+                <form string="description" create='0'>
+                    <header>
+                        <button name="action_submit" states="draft" string="Submit" type="object" class="oe_highlight"/>
+                        <button name="action_done" states="in_progress" string="Release" type="object" class="oe_highlight" confirm="Apakah Anda yakin ingin Release record ini ???" groups='bmo_batch_record.group_batch_record_inline_release'/>/>
+                        <button name="action_leader_check" string="Leader Check" type="object" groups='bmo_mrp.group_mrp_leader' attrs="{'invisible' : [('leader_need_check', '=', False)]}" class="oe_highlight"/>
+                        <!-- <button name="check_null_value" string="Check Null Value" type="object"/> -->
+                        <field name="leader_check" invisible='1'/>
+                        <field name="leader_need_check" invisible='1'/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,in_progress,done"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Checked" attrs="{'invisible': [('leader_check', '=', False)]}"/>
+                        <label for="name" string="Name"/>
+                        <h1>
+                            <field name="name" readonly='1'/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="pasteur_id" domain="[('state', '!=', 'done')]" attrs="{'readonly' : [('state', '!=', 'draft')]}"/>
+                                <field name='okp_id' attrs="{'readonly' : [('state', '!=', 'draft')]}"/>
+                                <field name="product_id" attrs="{'readonly' : [('state', '!=', 'draft')]}"/>
+                                <field name="production_date"/>
+                                <field name="batch_no" attrs="{'readonly' : [('state', '!=', 'draft')]}"/>
+                                <field name="speed_filling" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+                                <field name="bottle_id" widget="selection" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+                                <field name="weight_tare"/>
+                                <field name="faktor_koreksi"/>
+                                <field name="faktor_warna_id"/>
+                                <field name="specific_gravity" digits="[4,4]" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+                                <field name="std_volume" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+                                <field name="metode_uji" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+                            </group>
+                            <group>
+                                <!-- <field name="average"/> -->
+                                <field name="pic_analisa" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+                                <field name="tanggal_analisa" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+                                <field name="jam_analisa" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}" widget="float_time" />
+                                <!-- <field name="tanggal_analisa"/> -->
+                                <field name="diperiksa" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+                                <field name="disetujui" attrs="{'readonly' : [('state', '!=', 'done')]}"/>
+                                <field name="tgl_setuju" attrs="{'readonly' : [('state', '!=', 'done')]}"/>
+                                <field name="revisi" readonly='1'/>
+                                <field name="release_date" readonly='1'/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Analisa">
+                                <field name='analisa_verifikasi_line'>
+                                    <tree editable='bottom' create='0' delete='0'>
+                                        <field name="number" readonly='1' style="width: 15px;"/>
+                                        <field name="bobot"/>
+                                        <!-- <field name="group"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string='Analisa 1' name='analisa_1'>
+                                <!-- <separator string='Product Verification Line'/> -->
+                                <field name='verification_product_1_line' context="{'default_group' : '1'}">
+                                    <tree editable='bottom' create='0' delete='0' decoration-warning="not weight or not kekuatan_seal or not visual_check" limit='500'>
+                                        <field name="group" invisible='1'/>
+                                        <field name="number" readonly='1' style="width: 15px;" string="No"/>
+                                        <field name="weight" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                        <field name="volume" widget='badge' decoration-warning="color == 'warning'" decoration-danger="color == 'danger'" decoration-primary="color == 'primary'"/>
+                                        <field name="kekuatan_seal" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                        <field name="visual_check" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                        <field name="color" invisible='1'/>
+                                        <field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+                                <hr/>
+                                <group>
+                                    <group string="Hasil Analisa Weight 1">
+                                        <field name="max_weight_1" string="Max"/>
+                                        <field name="min_weight_1" string="Min"/>
+                                        <field name="average_weight_1" string="Average"/>
+                                    </group>
+                                    <group string="Hasil Analisa Volume 1">
+                                        <field name="max_volume_1" string="Max"/>
+                                        <field name="min_volume_1" string="Min"/>
+                                        <field name="average_volume_1" string="Average"/>
+                                    </group>
+                                </group>
+                                
+                            </page>
+                            <page string='Analisa 2' name='analisa_2'>
+                                <field name='verification_product_2_line' context="{'default_group' : '2'}">
+                                    <tree editable='bottom' create='0' delete='0' decoration-warning="not weight or not kekuatan_seal or not visual_check" limit='500'>
+                                        <field name="group" invisible='1'/>
+                                        <field name="number" readonly='1' style="width: 15px;" string="No"/>
+                                        <field name="weight" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                        <field name="volume" widget='badge' decoration-warning="color == 'warning'" decoration-danger="color == 'danger'" decoration-primary="color == 'primary'"/>
+                                        <field name="kekuatan_seal" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                        <field name="visual_check" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                        <field name="color" invisible='1'/>
+                                        <field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+                                <hr/>
+                                <group>
+                                    <group string="Hasil Analisa Weight 2">
+                                        <field name="max_weight_2" string="Max"/>
+                                        <field name="min_weight_2" string="Min"/>
+                                        <field name="average_weight_2" string="Average"/>
+                                    </group>
+                                    <group string="Hasil Analisa Volume 2">
+                                        <field name="max_volume_2" string="Max"/>
+                                        <field name="min_volume_2" string="Min"/>
+                                        <field name="average_volume_2" string="Average"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string='Analisa 3' name='analisa_3'>
+                                <field name='verification_product_3_line' context="{'default_group' : '3'}">
+                                    <tree editable='bottom' create='0' delete='0' decoration-warning="not weight or not kekuatan_seal or not visual_check" limit='500'>
+                                        <field name="group" invisible='1'/>
+                                        <field name="number" readonly='1' style="width: 15px;" string="No"/>
+                                        <field name="weight" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                        <field name="volume" widget='badge' decoration-warning="color == 'warning'" decoration-danger="color == 'danger'" decoration-primary="color == 'primary'"/>
+                                        <field name="kekuatan_seal" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                        <field name="visual_check" attrs="{'readonly' : [('editable', '=', False)]}"/>
+                                        <field name="color" invisible='1'/>
+                                        <field name="editable" invisible='1'/>
+                                    </tree>
+                                </field>
+                                <hr/>
+                                <group>
+                                    <group string="Hasil Analisa Weight 3">
+                                        <field name="max_weight_3" string="Max"/>
+                                        <field name="min_weight_3" string="Min"/>
+                                        <field name="average_weight_3" string="Average"/>
+                                    </group>
+                                    <group string="Hasil Analisa Volume 3">
+                                        <field name="max_volume_3" string="Max"/>
+                                        <field name="min_volume_3" string="Min"/>
+                                        <field name="average_volume_3" string="Average"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <group string='Notes'>
+                                <group>
+                                    <field name="note"/>
+                                </group>
+                                <group>
+                                    <field name="kesimpulan"/>
+                                </group>
+                            </group>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Template -->
+
+        <record model='ir.ui.view' id='inline_product_verification_template_tree'>
+            <field name='name'>inline_product_verification.template.tree</field>
+            <field name='model'>inline.product.verification</field>
+            <!-- <field name="priority" eval='1'/> -->
+            <field name='arch' type='xml'>
+                <tree string='description' create='1'>
+                    <field name='name'/>
+                    <field name="product_id"/>
+                    <field name="revisi"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="inline_product_verification_template_form">
+            <field name="name">inline_product_verification_template.form</field>
+            <field name="model">inline.product.verification</field>
+            <!-- <field name="priority" eval='1'/> -->
+            <field name="arch" type="xml">
+                <form string="description" create='1'>
+                    <header>
+                        <button name="action_approve_template" states="draft_model" string="Approve" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft_model,model"/>
+                    </header>
+                    <sheet>
+                        <label for="name" string="Name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="product_id"/>
+                                <field name="speed_filling"/>
+                                <field name="std_volume"/>
+                                <field name="faktor_warna_id"/>
+                            </group>
+                            <group>
+                                <field name="revisi"/>
+                                <field name="release_date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Analisa">
+                                <field name='analisa_verifikasi_line'>
+                                    <tree editable='bottom' create='1' delete='1'>
+                                        <field name="number" readonly='0' style="width: 15px;"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string='Analisa 1' name='analisa_1'>
+                                <separator string='Product Verification 1'/>
+                                <field name='verification_product_1_line' context="{'default_group' : '1'}">
+                                    <tree editable='bottom' create='1' delete='1'>
+                                        <field name="group" invisible='1'/>
+                                        <field name="number"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string='Analisa 2' name='analisa_2'>
+                                <field name='verification_product_2_line' context="{'default_group' : '2'}">
+                                    <tree editable='bottom' create='1' delete='1'>
+                                        <field name="group" invisible='1'/>
+                                        <field name="number"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string='Analisa 3' name='analisa_3'>
+                                <field name='verification_product_3_line' context="{'default_group' : '3'}">
+                                    <tree editable='bottom' create='1' delete='1'>
+                                        <field name="group" invisible='1'/>
+                                        <field name="number"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_inline_product_verification" model="ir.actions.act_window">
+            <field name="name">Inline Product Verification</field>
+            <field name="res_model">inline.product.verification</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', 'not in', ('draft_model','model'))]</field>
+            <field name="context">{'default_state' : 'draft'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                View Inline Product Verification
+                </p>
+            </field>
+        </record>
+
+        <record id="action_inline_product_verification_template" model="ir.actions.act_window">
+            <field name="name">Inline Product Verification Template</field>
+            <field name="res_model">inline.product.verification</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', 'in', ('draft_model','model'))]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('inline_product_verification_template_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('inline_product_verification_template_form')})]"/>
+            <field name="context">{'default_state' : 'draft_model'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Create a Inline Product Verification Template
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="product_verification_main_menu" name="Product Verification" parent="bmo_batch_record.root_menu_batch_record"/>
+        <menuitem id="inline_product_verification_template_menu" name='Inline Product Verification' parent="bmo_batch_record.batch_record_template_main_menu" action="action_inline_product_verification_template" sequence="20"/>
+        <menuitem id="inline_product_verification_menu" name="Inline Product Verification" parent="product_verification_main_menu" action="action_inline_product_verification"/>
+    </data>
+</odoo>

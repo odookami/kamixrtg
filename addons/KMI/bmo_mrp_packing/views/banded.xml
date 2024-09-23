@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Add you code here -->
+        <record id="mrp_packing_banded_action" model="ir.actions.act_window">
+            <field name="name">BHP Banded</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.production.packing</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Bukti Hasil Produksi Packing (OBOL) - Banded
+                </p><p>
+                    Pembentukan dan Pengisian Form Bukti Hasil Produksi Packing (OBOL).
+                </p>
+            </field>
+            <field name="context">{'default_packing_type': 'Banded'}</field>
+            <field name="domain">[('packing_type', '=', 'Banded')]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('mrp_packing_view_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('mrp_packing_view_form')})]"/>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <!-- <menuitem id="mrp_packing_banded_menu_act" name="Form BHP Banded" sequence="2"
+            parent="mrp_packing_prd_menu_categ" action="mrp_packing_banded_action"/> -->
+    </data>
+</odoo>

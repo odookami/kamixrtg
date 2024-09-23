@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>    
+    <template id="report_star">
+        <t t-call="web.html_container">
+            <t t-call="bmo_report_bpb.my_own_layout">
+                <t t-call="web.internal_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <p style="page-break-inside: avoid;"></p>
+                            <style>
+                                table.table-no-border { 
+                                    page-break-inside: avoid;
+                                    border-collapse: collapse; 
+                                    margin-top: -10px; width: 100%;
+                                    table-layout: fixed; font-size: 13px; 
+                                    border: 1px solid #e7ebee;
+                                }
+                                table.table-bordered { 
+                                    border-collapse: collapse; 
+                                    margin-top: 10px; width: 100%;
+                                    table-layout: auto;
+                                }
+                                table.table-sm {
+                                    font-size: 13px; 
+                                }
+                                .content-box{width:850px ; margin: 0 auto; padding-top:10px; padding-bottom:20px;}
+                            </style>
+                            <div class="row" id="info" >
+                                <div class="col-12">
+                                    <table class="table table-sm">
+                                        <h3 class="text-left" style="font-size: 12px;">
+                                            <strong>
+                                                <p><span t-esc="o.env.user.company_id.name"/></p>
+                                            </strong>
+                                        </h3>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: center;">
+                                <div class="col-12">
+                                    <table class="table table-sm" >
+                                        <h2 style="font-size: 22px;">
+                                            <strong>
+                                                <p>SURAT TUGAS AMBIL RAK(STAR)</p>
+                                            </strong>
+                                        </h2>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" style="font-size: 14px;">
+                                <div class="col-6" style='width:50%; display:flex; '>
+                                    <table class="content-box" style="text-align: left !important;">
+                                        <tr>
+                                            <th >DO No.</th>
+                                            <th >:</th> 
+                                            <th ><span t-esc="o.name"/></th>
+                                        </tr>
+                                        <tr>
+                                            <th >Ship Date</th>
+                                            <th >:</th> 
+                                            <th >
+                                                <t t-if="o.date_done">
+                                                    <b><span t-esc="o.date_done.strftime('%d-%b-%Y')"/></b>
+                                                </t>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th >Expedition</th>
+                                            <th >:</th> 
+                                            <th ><span t-esc="o.ekspedisi"/></th>
+                                        </tr>
+                                        <tr>
+                                            <th >Customer</th>
+                                            <th >:</th> 
+                                            <th ><span t-esc="o.partner_id.display_name"/></th>
+                                        </tr>
+                                        <tr>
+                                            <th >Ship To</th>
+                                            <th >:</th>
+                                            <th ><span t-esc="o.partner_id.name"/></th>
+                                        </tr>
+                                        <tr>
+                                            <th ></th>
+                                            <th ></th>
+                                            <th ><span t-esc="o.partner_id.street"/></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6" style='width:50%; display:flex; '>
+                                    <table class="content-box" style="text-align: left !important;">
+                                        <tr>
+                                            <th style="width: 15%;">SO No.</th>
+                                            <th >: <span t-esc="o.origin"/></th>
+                                            <th ></th> 
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 15%;">Vehicle</th>
+                                            <th >: <span t-esc="o.car_number"/></th>
+                                            <th ></th> 
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 15%;">PO Customer</th>
+                                            <th >: <span t-esc="o.origin"/></th>
+                                            <th ></th> 
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 15%;">Remark</th>
+                                            <th >: <span t-esc="o.note"/></th>
+                                            <th ></th> 
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <table class="table table-sm">
+                                <thead style="font-size: 14px;">
+                                    <tr>
+                                        <th  style="width: 5%;" class='text-center'>No</th>
+                                        <th  >Item Code</th>
+                                        <th  >Item Description</th>
+                                        <th  >Locater</th>
+                                        <th  >No. Pallet</th>
+                                        <th  >Lot Number</th>
+                                        <th  >Expired Date</th>
+                                        <th  >QTY(CB)</th>
+                                        <th  >QTY(PCS)</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 12px;">
+                                    <t t-set='no' t-value='1'/>
+                                    <t t-foreach="o.move_ids_without_package" t-as="line">
+                                        <t t-foreach="line[0]" t-as="a">
+                                            <t t-set='total_cb' t-value='0'/>
+                                            <t t-set='total_pcs' t-value='0'/>
+                                            <tr>
+                                                <td class='text-center' >
+                                                    <span t-esc='no'/>
+                                                </td>
+                                                <td class='text-left'>
+                                                    <t t-esc="line.product_id.default_code"/>
+                                                </td>
+                                                <td class='text-left' colspan="7">
+                                                    <t t-esc="line.product_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <t t-set='no' t-value='no + 1'/>
+                                            <t t-foreach="line.move_line_ids.sorted(lambda r: r.package_id.name)" t-as="move_line">
+                                                <t t-set='total_qty' t-value='move_line.qty_done * 36'/>
+                                                <tr>
+                                                    <td class='text-center'>
+                                                    </td>
+                                                    <td class='text-center'>
+                                                    </td>
+                                                    <td class='text-center'>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="move_line.location_id.display_name"/>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="move_line.package_id.name"/>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="move_line.lot_id.name"/>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-if="move_line.expired_date">
+                                                            <b><span t-esc="(datetime.datetime.strptime(str(move_line.expired_date), '%Y-%m-%d %H:%M:%S')+datetime.timedelta(hours=7)).strftime('%d-%b-%Y ')" /></b>
+                                                            <!-- <b><span t-esc="move_line.expired_date.strftime('%d-%b-%Y')"/></b> -->
+                                                        </t>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="move_line.qty_done" t-options='{"widget": "float", "precision": 3}'/>
+                                                    </td>
+                                                    <td class='text-left'>
+                                                        <t t-esc="total_qty" t-options='{"widget": "float", "precision": 3}'/>
+                                                    </td>
+                                                </tr>
+                                                <t t-set='total_cb' t-value='total_cb + move_line.qty_done'/>
+                                                <t t-set='total_pcs' t-value='total_pcs + total_qty'/>
+                                            </t>
+                                            <tr >
+                                                <td class='text-center' colspan="7">
+                                                </td>
+                                                <td class='text-left'>
+                                                        <span t-esc="total_cb" t-options='{"widget": "float", "precision": 3}'/>
+                                                </td>
+                                                <td class='text-left'>
+                                                    <span t-esc="total_pcs" t-options='{"widget": "float", "precision": 3}'/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>    
+                                </tbody>
+                            </table>
+                                <!-- </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-bordered" style="page-break-before: avoid; font-size: 14px;">
+                                        <tr style="border:1px;">
+                                            <td style="text-align:center;">Created By</td>
+                                            <td style="text-align:center;">Approved By</td>
+                                            <td style="text-align:center;">Approved By</td>
+                                            <td style="text-align:center;">Prepared By</td>
+                                            <td style="text-align:center;">Received By</td>
+                                        </tr>
+                                        <tr style='height:100px;'>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                            <td style="border:1px;vertical-align:bottom;font-family:arial;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center;"></td>
+                                            <td style="text-align:center;"></td>
+                                            <td style="text-align:center;"></td>
+                                            <td style="text-align:center;"></td>
+                                            <td style="text-align:center;"></td>
+                                        </tr>
+                                    </table>
+                                    <table style="font-size: 14px;">
+                                        <tr>
+                                            <th style="width: 10%;">Printed by</th>
+                                            <th style="width: 5%;">:</th> 
+                                            <th style="width: 10%;"><span t-esc="o.env.user.name"/></th>
+                                            <th style="width: 10%;">Tanggal</th>
+                                            <th style="width: 5%;">:</th>
+                                            <th style="width: 10%;"><span t-esc="o.date.strftime('%d-%b-%Y')"/></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

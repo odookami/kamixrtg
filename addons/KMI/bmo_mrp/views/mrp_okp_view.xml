@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_okp_view_tree" model="ir.ui.view">
+        <field name="name">mrp.okp.view.tree</field>
+        <field name="model">mrp.okp</field>
+        <field name="arch" type="xml">
+            <tree string="OKP" create="0" edit="0" delete="0">
+                <field name="name" />
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id='view_mrp_okp_form' model='ir.ui.view'>
+        <field name="name">mrp.okp.form</field>
+        <field name="model">mrp.okp</field>
+        <field name="arch" type="xml">
+            <form string="OKP" create="0" edit="0" delete="0">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="OKP Name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <separator string="Batch mrp"/>
+                    <p class="oe_grey">
+                    </p>
+                    <field name="batch_mo_line" readonly="1"/>
+                    <separator string="Produksi"/>
+                    <p class="oe_grey">
+                    </p>
+                    <field name="mo_ids" readonly="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_mrp_okp_act_window" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">OKP</field>
+        <field name="res_model">mrp.okp</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_mrp_okp" name="Data OKP" parent="mrp.menu_mrp_configuration" sequence="50" action="action_mrp_okp_act_window" groups="base.user_root"/>
+
+</odoo>

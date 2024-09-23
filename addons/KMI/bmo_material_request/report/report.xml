@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_material_purchase_requisition" model="ir.actions.report">
+            <field name="name">Report BKP-OKP</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bmo_material_request.report_material_request</field>
+            <field name="report_file">bmo_material_request.report_material_request</field>
+            <field name="paperformat_id" ref="bmo_material_request.material_request_paperformat"/>
+            <field name="print_report_name">'Report BKP-OKP - %s' % object.name</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <report
+            id="bkp_okp_xls"
+            model="stock.picking"
+            string="Report BKP-OKP Xls"
+            report_type="xlsx"
+            name="bmo_material_request.bkp_okp_xls"
+            file="bmo_material_request.bkp_okp_xls"
+            attachment_use="False"
+        />
+
+        <record id="action_report_material_request" model="ir.actions.report">
+            <field name="name">Report Matrial Request</field>
+            <field name="model">material.purchase.requisition</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bmo_material_request.report_mr</field>
+            <field name="report_file">bmo_material_request.report_mr</field>
+            <field name="paperformat_id" ref="bmo_material_request.mr_paperformat"/>
+            <field name="print_report_name">'Report Matrial Request - %s' % object.name</field>
+            <field name="binding_model_id" ref="model_material_purchase_requisition"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

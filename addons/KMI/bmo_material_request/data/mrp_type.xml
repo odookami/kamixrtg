@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <!-- Add you code here -->
+        <record id="mo_mixing" model="mrp.production.type">
+            <field name="name">MO Mixing</field>
+            <field name="code">MOM</field>
+        </record>
+
+        <record id="mo_filling" model="mrp.production.type">
+            <field name="name">MO Filling</field>
+            <field name="code">MOF</field>
+        </record>
+
+        <record id="mo_banded" model="mrp.production.type">
+            <field name="name">MO Banded</field>
+            <field name="code">MOB</field>
+        </record>
+    </data>
+</odoo>

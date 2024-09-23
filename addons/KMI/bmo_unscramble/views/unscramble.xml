@@ -1,0 +1,220 @@
+<odoo>
+  	<data>
+		<record id="unscramble_view_form" model="ir.ui.view">
+			<field name="name">bmo.unscramble.form</field>
+			<field name="model">bmo.unscramble</field>
+			<field name="arch" type="xml">
+				<form string="">
+					<header>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<h1>
+								<field name="name" placeholder="No. Dok"/>
+							</h1>
+						</div>
+						<group>
+                            <group>
+                                <field name="date" required="1"/>
+                                <field name="hal" required="0"/>
+                            </group>
+                            <group>
+                                <field name="revisi" required="0"/>
+								<field name="report_type" invisible="1"/>
+                            </group>
+                        </group>
+						<notebook>
+							<page string="General Report" name="general_report">
+								<group>
+									<group>
+										<label for="preparation"/>
+										<div class="o_row" name="preparation">
+											<field name="preparation" nolabel="1"/>
+											<span> min</span>
+										</div>
+
+										<label for="total_breakdown"/>
+										<div class="o_row" name="total_breakdown">
+											<field name="total_breakdown" nolabel="1"/>
+											<span> min</span>
+										</div>
+
+										<label for="running_hours"/>
+										<div class="o_row" name="running_hours">
+											<field name="running_hours" nolabel="1"/>
+											<span> min</span>
+										</div>
+
+										<label for="total_reject_unscramble_a"/>
+										<div class="o_row" name="total_reject_unscramble_a">
+											<field name="total_reject_unscramble_a" nolabel="1"/>
+											<span> btl</span>
+										</div>
+
+										<label for="total_reject_unscramble_b"/>
+										<div class="o_row" name="total_reject_unscramble_b">
+											<field name="total_reject_unscramble_b" nolabel="1"/>
+											<span> btl</span>
+										</div>
+
+										<label for="total_reject_rinser"/>
+										<div class="o_row" name="total_reject_rinser">
+											<field name="total_reject_rinser" nolabel="1"/>
+											<span> btl</span>
+										</div>
+										
+									</group>
+									<group>
+										<label for="speed_max_unscramble_a"/>
+										<div class="o_row" name="speed_max_unscramble_a">
+											<field name="speed_max_unscramble_a" nolabel="1"/>
+											<span> btl/min</span>
+										</div>
+
+										<label for="speed_max_unscramble_b"/>
+										<div class="o_row" name="speed_max_unscramble_b">
+											<field name="speed_max_unscramble_b" nolabel="1"/>
+											<span> btl/min</span>
+										</div>
+									</group>
+								</group>
+								<group>
+									<group>
+										<field name="hari" />
+										<field name="tanggal" />
+										<field name="shift" />
+									</group>
+									<group>
+										<field name="team" />
+										<field name="kemasan" />
+										<field name="line_machine" />
+									</group>
+									<group>
+										<field name="product_name_batch" />
+										<field name="start_production_time" />
+										<field name="counter_rinser" />
+									</group>
+								</group>
+							</page>
+							<page string="PRODUCTION NOTES">
+								<group>
+									<field name="prod_note" />
+								</group>
+							</page>
+							<page string="GENERAL CHECKS (Early Shift Checks)" name="general_checks">
+								<!-- <button name="action_generate_checks" string="Generate Parameter" 
+                                    type="object" class="oe_highlight" states="draft" 
+                                    confirm="Parameter yg sudah ada akan 'direset ulang', Apakah Anda yakin ???"/> -->
+                                <group>
+                                    <field name="checks_line" nolabel="1">
+                                        <tree editable="bottom" create="0" limit="10">
+                                            <field name="param_group" readonly="1" force_save="1" required="1" optional="hide"/>
+                                            <field name="name" readonly="1" force_save="1" required="1"/>
+                                            <field name="standard" readonly="1" force_save="1" required="1"/>
+                                            <field name="actual"/>
+                                        </tree>
+                                    </field>
+                                </group>
+							</page>
+							<page string="PARAMETER MESIN" name="params_mch_line">
+                                <!-- <button name="action_generate_params" string="Generate Parameter" 
+                                    type="object" class="oe_highlight" states="draft" 
+                                    confirm="Parameter yg sudah ada akan 'direset ulang', Apakah Anda yakin ???"/> -->
+                                <group>
+									<field name="params_mch_line" nolabel="1" domain="[('param_types', '=', 'machine')]">
+										<tree create="1" limit="10" decoration-danger="is_mch_completed == False"
+											decoration-success="is_mch_completed != False">
+											<field name="name" invisible="1"/>
+											<field name="check_time" readonly="1" required="1"/>
+											<field name="is_mch_completed" invisible="1"/>
+										</tree>
+										<form>
+											<div>
+												<h1 class="oe_title">
+													Time Check <field name="check_time" readonly="0"/>
+												</h1>
+											</div>
+											<notebook>
+												<page string="Parameter Mesin">
+													<group>
+														<field name="detail_mch_line" nolabel="1">
+															<tree editable="bottom">
+																<field name="name"/>
+																<field name="value" required="0"/>
+															</tree>
+														</field>
+													</group>
+												</page>
+											</notebook>
+											<group>
+												<field name="note" nolabel="1" placeholder="Additional Note ..."/>
+											</group>
+										</form>
+									</field>
+								</group>
+                            </page>
+							<page string="BOTTLE RECORD SILO A" name="bottle_record_silo_a_ids">
+								<field name="bottle_record_silo_a_ids">
+									<tree editable="bottom">
+										<field name="bottle_id" />
+										<field name="lot" />
+										<field name="supplier" />
+										<field name="time" />
+										<field name="bottle_in" />
+										<field name="bottle_out" />
+										<field name="stock_akhir" />
+									</tree>
+								</field>
+							</page>
+							<page string="BOTTLE RECORD SILO B" name="bottle_record_silo_b_ids">
+								<field name="bottle_record_silo_b_ids">
+									<tree editable="bottom">
+										<field name="bottle_id" />
+										<field name="lot" />
+										<field name="supplier" />
+										<field name="time" />
+										<field name="bottle_in" />
+										<field name="bottle_out" />
+										<field name="stock_akhir" />
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" groups="base.group_user"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_unscramble" model="ir.actions.act_window">
+			<field name="name">Unscramble</field>
+			<field name="res_model">bmo.unscramble</field>
+			<field name="view_mode">tree,form</field>
+			<!-- <field name="domain">[('tipe', '=', 'internal')]</field> -->
+			<!-- <field name="context">{'default_tipe' : 'internal'}</field> -->
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+				Create a  Unscramble
+				</p>
+			</field>
+		</record>
+
+		<menuitem
+			id="unscramble_root"
+			name="Unscramble"
+			parent='bmo_batch_record.root_menu_batch_record'
+			sequence="3"/>
+
+		<menuitem
+			id="unscramble_menu"
+			name="Unscramble"
+			action="action_unscramble"
+			parent="unscramble_root"
+			sequence="4"/>
+
+	</data>
+</odoo>

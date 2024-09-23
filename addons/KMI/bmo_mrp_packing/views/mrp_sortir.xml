@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Add you code here -->
+        <!-- mrp.sortir.report search view -->
+        <record id="mrp_sort_view_search" model="ir.ui.view">
+            <field name="name">mrp.sortir.report.view.search</field>
+            <field name="model">mrp.sortir.report</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <!-- Add your fields here -->
+                    <field name="product_id"/>
+                    <field name="package_id"/>
+                    <field name="lot_producing_id"/>
+                    <group>
+                        <filter name="group_by_bhp" string="BHP Packing" 
+                            context="{'group_by': 'mrp_packing_id'}"/>
+                        <filter name="group_by_product" string="Item Name" 
+                            context="{'group_by': 'product_id'}"/>
+                        <filter name="group_by_lot" string="Item Lot" 
+                            context="{'group_by': 'lot_producing_id'}"/>
+                        <filter name="group_by_sort_seq" string="Sortir Ke-" 
+                            context="{'group_by': 'sort_seq'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- mrp.sortir.report tree view -->
+        <record id="mrp_sort_view_tree" model="ir.ui.view">
+            <field name="name">mrp.sortir.report.view.tree</field>
+            <field name="model">mrp.sortir.report</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <header>
+                        <button name="action_done" type="object" 
+                            string="Mark as Done" class="oe_highlight"/>
+                    </header>
+                    <!-- Add your fields here -->
+                    <field name="name" optional="hide"/>
+                    <!-- <field name="compute_bhp" invisible="1"/> -->
+                    <field name="mrp_packing_id"/>
+                    <field name="product_id"/>
+                    <field name="lot_producing_id"/>
+                    <field name="package_id"/>
+                    <field name="sort_seq"/>
+                    <field name="actual_date"/>
+                    <field name="output_cb"/>
+                    <field name="output_pcs"/>
+                    <field name="output_total"/>
+                    <field name="state" widget="badge" decoration-danger="state == 'reject'" 
+                        decoration-warning="state == 'hold'" decoration-info="state == 'in_progress'" 
+                        decoration-success="state == 'done'"/>
+                    <field name="hide_btn_create" string=" "/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- mrp.sortir.report action window -->
+        <record id="mrp_sort_action" model="ir.actions.act_window">
+            <field name="name">Laporan Sortir</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.sortir.report</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+            <!-- <field name="context">{
+                'search_default_group_by_bhp': 1,
+                'search_default_group_by_product': 1,
+            }</field> -->
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bmo_unscramble,bmo_unscramble.bmo_unscramble,model_bmo_unscramble,,1,1,1,1
+access_bmo_unscramble_line,bmo_unscramble.bmo_unscramble_line,model_bmo_unscramble_line,,1,1,1,1

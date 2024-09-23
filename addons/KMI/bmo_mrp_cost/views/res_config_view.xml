@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mrp_cost_settings" model="ir.ui.view">
+        <field name="name">MRP Cost Setting</field>
+        <field name="model">mrp.cost.settings</field>
+        <field name="arch" type="xml">
+            <form string="Configure" class="oe_form_configuration">
+                <header>
+                    <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                    <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                </header>
+                <field name="company_id" options="{'no_create': True}" invisible='1'/>
+                <group col="3">
+                    <group>
+                        <label for="product_rm_ids"/>
+                        <div>
+                            <field name="product_rm_ids" widget="many2many_tags" class="oe_inline" readonly='0'/>
+                        </div>
+                        <label for="product_dl_ids"/>
+                        <div>
+                            <field name="product_dl_ids" widget="many2many_tags" class="oe_inline" readonly='0'/>
+                        </div>
+                        <label for="product_depre_ids"/>
+                        <div>
+                            <field name="product_depre_ids" widget="many2many_tags" class="oe_inline" readonly='0'/>
+                        </div>
+                        <label for="product_foh_ids"/>
+                        <div>
+                            <field name="product_foh_ids" widget="many2many_tags" class="oe_inline" readonly='0'/>
+                        </div>
+                    </group>
+                </group>
+                <div>
+                    <span>(*) This configuration is related to the company you're logged into.</span>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mrp_cost_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mrp.cost.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+</odoo>

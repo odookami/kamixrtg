@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record model="ir.ui.view" id="product_st_inherit_form">
+    	    <field name="name">product_st_inherit.form</field>
+    	    <field name="model">product.st</field>
+    	    <field name="inherit_id" ref='bmo_product_st.product_st_view_form'/>
+    	    <field name="arch" type="xml">
+    	    	<xpath expr='//header' position='inside'>
+    	    		<button name="move_to_unloader" string="Create Filling" type="object"/>
+    	    	</xpath>
+    	    </field>
+    	</record>
+    </data>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+    	<record model="ir.ui.view" id="get_customer_form">
+    	    <field name="name">get_customer.form</field>
+    	    <field name="model">get.partner.wizard</field>
+    	    <field name="arch" type="xml">
+    	        <form string="description">
+    	            <sheet>
+    	                <group>
+                            <span>
+                                Get Customer From Oracle.
+                            </span>
+    	                    <field name="partners" invisible='1'/>
+    	                </group>
+    	            </sheet>
+    	            <footer>
+    	            	<button name="get_customer" string="Get Customer" type="object" class='oe_highlight'/>
+    	            	<button string="Cancel" type="object" special='cancel'/>
+    	            </footer>
+    	        </form>
+    	    </field>
+    	</record>
+
+    	<record id="action_get_partner" model="ir.actions.act_window">
+    		<field name="name">Get Customer</field>
+    		<field name="res_model">get.partner.wizard</field>
+    		<field name="view_mode">form</field>
+    		<field name="target">new</field>
+    	</record>
+    	<menuitem id="get_partner_menu" name="Get Customer" parent="contacts.menu_contacts" action="action_get_partner" sequence='3'/>
+        <menuitem id="get_partner_menu" name="Get Customer" parent="sale.sale_order_menu" action="action_get_partner" sequence='99'/>
+    	<menuitem id="contacts.res_partner_menu_config" name="Configuration" parent="contacts.menu_contacts" groups="base.group_system" sequence="4"/>
+    </data>
+</odoo>

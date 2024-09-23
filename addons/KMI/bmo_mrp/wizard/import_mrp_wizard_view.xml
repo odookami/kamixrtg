@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="form_wizard_import_mrp_kami" model="ir.ui.view">
+        <field name="name">form.wizard.import.mrp.kami</field>
+        <field name="model">import.mrp.kami</field>
+        <field name="arch" type="xml">
+            <form string="Import Budget Line">
+                <h2>Select a MRP file to import</h2>
+                <p></p>
+                <ul id="budget_format">
+                    <li> Microsoft Office Excel (.xlsx) -- 
+                        <a href="/bmo_mrp/static/templates/import_mrp_kami.xlsx" class="ml4">
+                            <i class="fa fa-download mr4"></i>Import Sample Template</a>
+                    </li>
+                </ul>
+                <field name="file_data" filename="file_name" widget="binary" required="1" class="oe_inline"/>
+                <field name="file_name" invisible="1"/>
+                <footer>
+                    <button string="Import" name="import_budget" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_wizard_import_mrp_kami" model="ir.actions.act_window">
+        <field name="name">Import Components MO</field>
+        <field name="res_model">import.mrp.kami</field>
+        <field name="target">new</field>
+        <field name="view_mode">form</field>
+    </record>
+    
+    <menuitem id="import_componenmo_menu_act" parent="mrp.menu_mrp_manufacturing" action="action_wizard_import_mrp_kami" sequence="100"/>
+
+</odoo>

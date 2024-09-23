@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <!-- model.name form view -->
+        <record id="data_revisi_view_tree" model="ir.ui.view">
+            <field name="name">data.revisi.view.tree</field>
+            <field name="model">data.revisi</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="data_revisi_action" model="ir.actions.act_window">
+            <field name="name">Type Data Revisi</field>
+            <field name="res_model">data.revisi</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="menu_data_revisi" name="Type Data Revisi" parent="mrp.menu_mrp_configuration" sequence="5" action="data_revisi_action"/>
+        <!-- mrp.bom inherit tree view -->
+        <record id="mrp_bom_tree_view_inherit_bmo_mrp" model="ir.ui.view">
+            <field name="name">mrp.bom.tree.view.tree.bmo.mrp</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="tipe"/>                    
+                </xpath>
+                <xpath expr="//field[@name='product_uom_id']" position="after">
+                    <field name="state"/>
+                </xpath>             
+            </field>
+        </record>
+        
+        <!-- mrp.bom inherit form view -->
+        <record id="mrp_bom_form_view_inehrit_bmo_mrp" model="ir.ui.view">
+            <field name="name">mrp.bom.form.inherit.bmo.mrp</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet[1]" position="before">
+                    <header>
+                        <button name="action_confirmed" attrs="{'invisible': [('state', '!=', 'draft')]}" string="Confirm" type="object" class="oe_highlight" groups="bmo_mrp.group_mrp_bom_user"/>
+                        <button name="action_done" attrs="{'invisible': [('state', '!=', 'confirmed')]}" string="Approved" type="object" class="oe_highlight" groups="bmo_mrp.group_mrp_bom_manager"/>
+                        <button id="revisi" name="%(bmo_mrp.action_wizard_revisi)d" type="action" state="confirmed,done" string="Revisi" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='product_tmpl_id']" position="before">
+                    <field name="tipe" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='product_tmpl_id']" position="attributes">
+                    <attribute name="domain">[('tipe','=',tipe)]</attribute>
+                    <attribute name="options">{'no_create':True,'no_open': True}</attribute>
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_uom_category_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="domain">[('tipe','=',tipe)]</attribute>
+                    <attribute name="options">{'no_create':True,'no_open': True}</attribute>
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_qty']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_uom_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='code']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                    <attribute name="string">Code Bom</attribute>
+                </xpath>
+                <xpath expr="//field[@name='code']" position="after">
+                    <!-- <field name="code_bon" attrs="{'readonly': [('state', '!=', 'draft')]}"/> -->
+                   <field name="version" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='bom_line_ids']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_id']" position="attributes">
+                    <attribute name="options">{'no_create':True,'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='operation_ids']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='by_products']" position="after">
+                    <page string="Revisi" name="revisi_ids" readonly="1">
+                        <field name="revisi_ids">
+                            <tree string="Revisi" create="0" edit="0" delete="0">
+                                <field name="name"/>
+                                <field name="date"/>
+                                <field name="user_id"/>
+                                <field name="data_revisi_id"/>
+                                <field name="description"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='byproduct_ids']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- mrp.bom inherit search view -->
+        <record id="view_mrp_bom_filter_inehrit_bmo_mrp" model="ir.ui.view">
+            <field name="name">mrp.bom.select.inherit.bmo.mrp</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.view_mrp_bom_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/group" position="inside">
+                    <filter string="Mixing" name="tipe" domain="[('tipe','=','Mixing')]"/>
+                    <filter string="Filling" name="tipe" domain="[('tipe','=','Filling')]"/>
+                    <filter string="Banded" name="tipe" domain="[('tipe','=','Banded')]"/>
+                </xpath>
+                <xpath expr="//group/filter[@name='product']" position="after">
+                    <filter string="Type" name="tipe" domain="[]" context="{'group_by': 'tipe'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,349 @@
+<odoo>
+    <data>
+        <!-- Add you code here -->
+        
+        <record id="br_label2_view_tree" model="ir.ui.view">
+            <field name="name">kmi.labeling2.view.tree</field>
+            <field name="model">kmi.labeling2</field>
+            <field name="arch" type="xml">
+                <tree duplicate="0">
+                    <!-- Add your fields here -->
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="num_of_pages"/>
+                    <field name="revision"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- kmi.daily.report form view -->
+        <record id="br_label2_view_form" model="ir.ui.view">
+            <field name="name">kmi.labeling2.view.form</field>
+            <field name="model">kmi.labeling2</field>
+            <field name="arch" type="xml">
+                <form string="" duplicate="0">
+                    <header>
+                        <!-- <button name="insert_production_record" string="Test Insert" type="object" context="{'batch_number' : 'A1'}"/> -->
+                        <button name="action_submit" states="draft" string="Submit" type="object" class="oe_highlight"/>
+                        <button name="action_done" states="in_progress" string="Release" type="object" class="oe_highlight"/>
+                        <button name="action_leader_check" string="Leader Check" type="object" groups='bmo_mrp.group_mrp_leader' attrs="{'invisible' : [('leader_need_check', '=', False)]}" class="oe_highlight"/>
+                        <!-- <button name="check_null_value" string="Check Null Value" type="object"/> -->
+                        <field name="leader_check" invisible='1'/>
+                        <field name="leader_need_check" invisible='1'/>
+                        <field name="state" widget="statusbar" 
+                            statusbar_visible="draft,in_progress,done"/>
+                    </header>
+                    <sheet>
+                        <div>
+                            <h1 class="oe_title">
+                                <field name="name" required="1" placeholder="No. Dok"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" required="1" attrs="{'readonly' : [('editable','=',False)]}"/>
+                                <field name="num_of_pages" required="0"/>
+                            </group>
+                            <group>
+                                <field name="revision" required="0"/>
+                                <field name="model_id" invisible='1'/>
+                                <!-- <field name="report_type" invisible="1"/> -->
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="date" required="0" attrs="{'readonly' : [('editable','=',False)]}"/>
+                                <field name="dayofweek" required="0"/>
+                            </group>
+                            <group>
+                                <field name="shift" required="0" attrs="{'readonly' : [('editable','=',False)]}"/>
+                                <field name="editable" invisible='1'/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="PRODUCTION RECORD" name="prod_record">
+                                <group string="LABEL USAGE">
+                                    <field name="material_line" nolabel="1">
+                                        <tree create="1">
+                                            <field name="time_change" required="1" widget="float_time"/>
+                                            <field name="item_code" required="0"/>
+                                            <field name="lot_id" required="0"/>
+                                            <field name="start" required="0" widget="float_time"/>
+                                            <field name="finish" required="0" widget="float_time"/>
+                                            <field name="ss_join" required="0"/>
+                                            <field name="ss_actual" required="0"/>
+                                            <field name="kmi_slice" required="0"/>
+                                        </tree>
+                                        <form>
+                                            <group>
+                                                <group>
+                                                    <field name="time_change" required="1" widget="float_time"/>
+                                                    <field name="item_code" required="0"/>
+                                                    <field name="lot_id" required="0"/>
+                                                </group>
+                                                <group>
+                                                    <field name="fs_roll" required="0"/>
+                                                    <field name="fs_kg" required="0"/>
+                                                    <field name="start" required="0" widget="float_time"/>
+                                                    <field name="finish" required="0" widget="float_time"/>
+                                                </group>
+                                                <group>
+                                                    <field name="in_qty" required="0" string="In Minute"/>
+                                                    <field name="batch_code" required="0"/>
+                                                    <field name="out_qty" required="0"/>
+                                                    <field name="reject_machine_qty" string="Reject" required="0"/>
+                                                    <field name="last_stock" required="0"/>
+                                                </group>
+                                                <group>
+                                                    <field name="return_qty" required="0"/>
+                                                    <field name="ss_join" required="0"/>
+                                                    <field name="ss_actual" required="0"/>
+                                                    <field name="kmi_slice" required="0"/>
+                                                    <field name="conv_kg_roll" required="0"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                                <group string="Konversi Reject Label ke Roll">
+                                    <field name="conversion_line" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="product_type" required="1"/>
+                                            <field name="reject_pcs" required="0"/>
+                                            <field name="reject_cm" required="0"/>
+                                            <field name="reject_pcs_m" required="0"/>
+                                            <field name="reject_cm_m" required="0"/>
+                                            <field name="std_pcs" required="0"/>
+                                            <field name="std_cm" required="0"/>
+                                            <field name="reject_rpcs" required="0"/>
+                                            <field name="reject_rcm" required="0"/>
+                                            <field name="total_reject" required="0"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group>
+                                    <field name="material_usage_note" class="oe_inline" required="0"/>
+                                </group>
+                            </page>
+                            <page string="CATATAN PROSES PRODUKSI" name="incompatibility_note">
+                                <group string="CATATAN KETIDAKSESUAIAN SELAMA PROSES PRODUKSI">
+                                    <field name="incompatibility_line" nolabel="1">
+                                        <tree editable="bottom" create="1">
+                                            <field name="start" widget='float_time' required="1"/>
+                                            <field name="finish" widget='float_time' required="0"/>
+                                            <field name="total" required="0"/>
+                                            <field name="uraian_masalah" required="0"/>
+                                            <field name="frekuensi" required="0"/>
+                                            <field name="status" required="0"/>
+                                            <field name="pic" required="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                        <group>
+                            <group string="Another Awesome Notes">
+                                <field name="labeling2_note" nolabel="1" required="0"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="br_label2_view_template_tree" model="ir.ui.view">
+            <field name="name">kmi.labeling2.view.tree</field>
+            <field name="model">kmi.labeling2</field>
+            <field name="arch" type="xml">
+                <tree duplicate="0">
+                    <!-- Add your fields here -->
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="num_of_pages"/>
+                    <field name="revision"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- kmi.daily.report form view -->
+        <record id="br_label2_view_template_form" model="ir.ui.view">
+            <field name="name">kmi.labeling2.view.form</field>
+            <field name="model">kmi.labeling2</field>
+            <field name="arch" type="xml">
+                <form string="" duplicate="0">
+                    <header>
+                        <button name="action_approve_template" states="draft_model" string="Approve" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" 
+                            statusbar_visible="draft_model,model"/>
+                    </header>
+                    <sheet>
+                        <div>
+                            <h1 class="oe_title">
+                                <field name="name" required="1" placeholder="No. Dok"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <!-- <group>
+                                <field name="date" required="1"/>
+                                <field name="num_of_pages" required="0"/>
+                            </group> -->
+                            <group>
+                                <field name="revision" required="0"/>
+                                <!-- <field name="report_type" invisible="1"/> -->
+                            </group>
+                        </group>
+                        <!-- <group>
+                            <group>
+                                <field name="date" required="0"/>
+                                <field name="dayofweek" required="0"/>
+                            </group>
+                            <group>
+                                <field name="shift" required="0"/>
+                            </group>
+                        </group> -->
+                        <notebook>
+                            <page string="PRODUCTION RECORD" name="prod_record">
+                                <group string="LABEL USAGE">
+                                    <field name="material_line" nolabel="1">
+                                        <tree create="1">
+                                            <field name="time_change" required="1" widget="float_time"/>
+                                            <field name="item_code" required="0"/>
+                                            <field name="lot_id" required="0"/>
+                                            <field name="start" required="0" widget="float_time"/>
+                                            <field name="finish" required="0" widget="float_time"/>
+                                            <field name="ss_join" required="0"/>
+                                            <field name="ss_actual" required="0"/>
+                                            <field name="kmi_slice" required="0"/>
+                                        </tree>
+                                        <form>
+                                            <group>
+                                                <group>
+                                                    <field name="time_change" required="1" widget="float_time"/>
+                                                    <field name="item_code" required="0"/>
+                                                    <field name="lot_id" required="0"/>
+                                                </group>
+                                                <group>
+                                                    <field name="fs_roll" required="0"/>
+                                                    <field name="fs_kg" required="0"/>
+                                                    <field name="start" required="0" widget="float_time"/>
+                                                    <field name="finish" required="0" widget="float_time"/>
+                                                </group>
+                                                <group>
+                                                    <field name="in_qty" required="0" string="In Minute"/>
+                                                    <field name="batch_code" required="0"/>
+                                                    <field name="out_qty" required="0"/>
+                                                    <field name="reject_machine_qty" string="Reject" required="0"/>
+                                                    <field name="last_stock" required="0"/>
+                                                </group>
+                                                <group>
+                                                    <field name="return_qty" required="0"/>
+                                                    <field name="ss_join" required="0"/>
+                                                    <field name="ss_actual" required="0"/>
+                                                    <field name="kmi_slice" required="0"/>
+                                                    <field name="conv_kg_roll" required="0"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                                <group string="Konversi Reject Label ke Roll">
+                                    <field name="conversion_line" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="product_type" required="1"/>
+                                            <field name="reject_pcs" required="0"/>
+                                            <field name="reject_cm" required="0"/>
+                                            <field name="reject_pcs_m" required="0"/>
+                                            <field name="reject_cm_m" required="0"/>
+                                            <field name="std_pcs" required="0"/>
+                                            <field name="std_cm" required="0"/>
+                                            <field name="reject_rpcs" required="0"/>
+                                            <field name="reject_rcm" required="0"/>
+                                            <field name="total_reject" required="0"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group>
+                                    <field name="material_usage_note" class="oe_inline" required="0"/>
+                                </group>
+                            </page>
+                            <page string="CATATAN PROSES PRODUKSI" name="incompatibility_note">
+                                <group string="CATATAN KETIDAKSESUAIAN SELAMA PROSES PRODUKSI">
+                                    <field name="incompatibility_line" nolabel="1">
+                                        <tree editable="bottom" create="1">
+                                            <field name="start" widget='float_time' required="1"/>
+                                            <field name="finish" widget='float_time' required="0"/>
+                                            <field name="total" required="0"/>
+                                            <field name="uraian_masalah" required="0"/>
+                                            <field name="frekuensi" required="0"/>
+                                            <field name="status" required="0"/>
+                                            <field name="pic" required="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                        <group>
+                            <group string="Another Awesome Notes">
+                                <field name="labeling2_note" nolabel="1" required="0"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+    
+        <!-- kmi.daily.report action window -->
+        <record id="br_label2_action" model="ir.actions.act_window">
+            <field name="name">Labeling 2</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kmi.labeling2</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Laporan Harian Labeling (OBOL) 2
+                </p><p>
+                    Pembentukan dan Pengisian Form Laporan Harian Labeling (OBOL) 2.
+                </p>
+            </field>
+            <field name="context">{'default_state': 'draft'}</field>
+            <field name="domain">[('state', 'not in', ['draft_model', 'model'])]</field>
+        </record>
+
+        <record id="br_label2_template_action" model="ir.actions.act_window">
+            <field name="name">Template Labeling 2</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kmi.labeling2</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Template Labeling2
+                </p><p>
+                    Pembentukan dan Pengisian Form Template Harian Labeling2.
+                </p>
+            </field>
+            <field name="context">{'default_state': 'draft_model'}</field>
+            <field name="domain">[('state', 'in', ['draft_model', 'model'])]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('br_label2_view_template_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('br_label2_view_template_form')})]"/>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="br_label2_menu_act" name="Labeling 2" 
+            parent="daily_report_menu_categ" action="br_label2_action" sequence="3"/>
+        
+        <menuitem id="br_label2_template_menu" name="Labeling 2 Template" 
+            parent="bmo_batch_record.batch_record_template_main_menu" action="br_label2_template_action"/>
+
+    </data>
+</odoo>

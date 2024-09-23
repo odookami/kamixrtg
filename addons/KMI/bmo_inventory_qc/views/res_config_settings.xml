@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record model='ir.ui.view' id='res_config_settings_stock_allowance_tree'>
+    	    <field name='name'>res_config_settings_stock_allowance.tree</field>
+    	    <field name='model'>res.config.settings</field>
+    	    <field name='inherit_id' ref='stock.res_config_settings_view_form'/>
+    	    <field name='arch' type='xml'>
+    	    	<xpath expr="//div[hasclass('app_settings_block')][@data-key='stock']" position='inside'>
+    	    		<h2>Allowance Receipt</h2>
+    	    		
+    	    		<div class="row mt16 o_settings_container" name="receipt_container">
+    	    			<div class="col-12 col-lg-6 o_setting_box" title="Receipt Allowance akan membutuhkan approval tambahan jika salah satu product lebih atau kurang dari persentase allowance">
+		                    <div class="o_setting_right_pane">
+		                        <label for="receipt_allowance"/>
+		                        <div class="content-group">
+		                            <div class="mt16">
+		                                <field name="receipt_allowance" class="o_light_label"/><span> %</span>
+		                            </div>
+		                        </div>
+		                    </div>
+	                	</div>
+    	    		</div>
+    	    	</xpath>
+    	    </field>
+    	</record>
+    </data>
+</odoo>

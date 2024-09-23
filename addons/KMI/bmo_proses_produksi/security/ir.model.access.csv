@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bmo_proses_produksi,access_bmo_proses_produksi,bmo_proses_produksi.model_bmo_proses_produksi,,1,1,1,1
+access_bmo_proses_line,access_bmo_proses_line,model_bmo_proses_line,,1,1,1,1

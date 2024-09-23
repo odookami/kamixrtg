@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model='ir.ui.view' id='inventory_reason_reject_tree'>
+            <field name='name'>inventory_reason_reject.tree</field>
+            <field name='model'>inventory.reject.reason</field>
+            <field name='arch' type='xml'>
+                <tree editable='bottom'>
+                    <field name='name'/>
+                </tree>
+            </field>
+        </record>
+
+    	<record model='ir.ui.view' id='quality_check_template_tree'>
+    	    <field name='name'>quality_check_template.tree</field>
+    	    <field name='model'>inventory.quality.check.template</field>
+    	    <field name='arch' type='xml'>
+    	        <tree editable='bottom'>
+    	        	<field name="sequence"/>
+    	        	<field name="name"/>
+    	        </tree>
+    	    </field>
+    	</record>
+
+        <record id="action_inventory_reason_reject" model="ir.actions.act_window">
+            <field name="name">Reason Reject</field>
+            <field name="res_model">inventory.reject.reason</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model='ir.ui.view' id='manufacturer_plant_tree'>
+            <field name='name'>manufacturer_plant.tree</field>
+            <field name='model'>manufacturer.plant</field>
+            <field name='arch' type='xml'>
+                <tree string='description' editable='bottom'>
+                    <field name='name' required='1'/>
+                    <field name="country_id" required='1'/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_manufacturer_plant" model="ir.actions.act_window">
+            <field name="name">Manufacturer Plant</field>
+            <field name="res_model">manufacturer.plant</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+    	<record id="action_quality_check_template" model="ir.actions.act_window">
+    		<field name="name">Receipt Quality Check Template</field>
+    		<field name="res_model">inventory.quality.check.template</field>
+    		<field name="view_mode">tree,form</field>
+    	</record>
+
+        <menuitem id="quality_check_templates_parent_menu" name="Quality Check Templates" parent="stock.menu_stock_config_settings"/>
+
+        <menuitem id="inventory_reason_reject_menu" name="Reason Reject" parent="quality_check_templates_parent_menu" action="action_inventory_reason_reject"/>
+    	<menuitem id="quality_check_template_menu" name="Receipt QC Template" parent="quality_check_templates_parent_menu" action="action_quality_check_template"/>
+        <menuitem id="manufacturer_plant_menu" name="Manufacturer Plant" parent="quality_check_templates_parent_menu" action="action_manufacturer_plant"/>
+    </data>
+</odoo>

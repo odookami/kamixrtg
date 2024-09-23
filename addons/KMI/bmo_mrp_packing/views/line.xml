@@ -1,0 +1,289 @@
+<odoo>
+    <data>
+        <!-- Add you code here -->
+        <!-- mrp.production.packing inherit form view -->
+        <record id="inherited_mrp_packing_view_form" model="ir.ui.view">
+            <field name="name">mrp.production.packing.inherit.view.form</field>
+            <field name="model">mrp.production.packing</field>
+            <field name="inherit_id" ref="bmo_mrp_packing.mrp_packing_view_form"/>
+            <field name="arch" type="xml">
+                <!-- Add your xpath here -->
+                <xpath expr="//group[1]" position="after">
+                    <!-- Add your fields here -->
+                    <notebook>
+                        <page string="Detail BHP" name="detail_bhp">
+                            <field name="mrp_packing_line" nolabel="1" 
+                                context="{'mrp_packing_id': id}"
+                                attrs="{'invisible': [('state', '=', 'draft')], 
+                                    'readonly': [('state', '=', 'done')]}">
+                                <tree>
+                                    <!-- <field name="pallet_seq_no"/> -->
+                                    <!-- <field name="pallet_no"/> -->
+                                    <field name="package_id"/> 
+                                    <field name="start"/>
+                                    <field name="finish"/>
+                                    <field name="qty_in_ct" attrs="{'column_invisible': 
+                                        [('parent.packing_type', '!=', ('Filling'))]}" string="Qty CB"/>
+                                    <field name="qty_in_pcs" attrs="{'column_invisible': 
+                                        [('parent.packing_type', '!=', ('Filling'))]}" string="Qty pcs"/>
+                                    <field name="total_output" attrs="{'column_invisible': 
+                                        [('parent.packing_type', '!=', ('Filling'))]}" force_save="1"/>
+                                    <field name="qty_banded_in_ct" attrs="{'column_invisible': 
+                                        [('parent.packing_type', '!=', ('Banded'))]}" string="Qty CB"/>
+                                    <field name="qty_banded_in_pcs" attrs="{'column_invisible': 
+                                        [('parent.packing_type', '!=', ('Banded'))]}" string="Qty pcs"/>
+                                    <field name="total_output_banded" attrs="{'column_invisible': 
+                                        [('parent.packing_type', '!=', ('Banded'))]}"/>
+                                    <field name="state" readonly="1"/>
+                                    <!-- <button name="action_reject" type="object" string="Reject" 
+                                        class="oe_highlight" states="hold"/> -->
+                                    <field name="mrp_packing_id" invisible="1"/>
+                                    <!-- <field name="product_status"/>
+                                    <field name="location_dest_id" optional="hide"/> -->
+                                </tree>
+                                <form>
+                                    <header>
+                                        <button name="action_hold" type="object" string="Hold" 
+                                            class="oe_highlight" states="in_progress"/>
+                                        <button name="action_reject" type="object" string="Reject" 
+                                            class="oe_highlight" states="hold"/>
+                                        <button name="action_done" type="object" string="Mark As Done" 
+                                            class="oe_highlight" states="in_progress,hold"/>
+                                        <button name="action_revisi" type="object" string="Revisi" class="oe_highlight"
+                                            attrs="{'invisible': ['|', ('picking_id', '!=', False), ('state', '!=', 'done')]}"/>
+                                        <field name="state" widget="statusbar" statusbar_visible="in_progress,done"/>
+                                    </header>
+                                    <sheet>
+                                    <group>
+                                        <group>
+                                            <!-- <field name="pallet_seq_no" required="1"/>  -->
+                                            <field name="package_id" required="1" attrs="{'readonly': [('state', '!=', 'in_progress')]}"/> 
+                                            <!-- <field name="pallet_no" required="1"/> -->
+                                            <field name="picking_id" invisible="1"/>
+                                        </group>
+                                        <group>
+                                            <label for="start" string="Time"/>
+                                            <div class="o_row">
+                                                <span>Start : </span><field name="start" class="oe_inline" 
+                                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"
+                                                    required="1" widget="mask" data-inputmask="'alias': 'hh:mm'"/> 
+                                                <span>Finish : </span><field name="finish" class="oe_inline" 
+                                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"
+                                                    required="1" widget="mask" data-inputmask="'alias': 'hh:mm'"/>
+                                            </div>
+                                            <field name="packing_type" invisible="1"/>
+                                        </group>
+                                        <group string="Pengecekan awal (menit ke-1)" 
+                                            attrs="{'invisible': [('packing_type', '!=', 'Filling')]}">
+                                            <field name="first_check_code"
+                                                attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                            <field name="first_check_time" widget="mask" data-inputmask="'alias': 'hh:mm'"
+                                                attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                            <field name="first_check_count"
+                                                attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                        </group>
+                                        <!-- <group string="Pengecekan tengah (menit ke-8)"
+                                            attrs="{'invisible': [('packing_type', '!=', 'Filling')]}">
+                                            <field name="middle_check_code"
+                                                attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                            <field name="middle_check_time" widget="mask" data-inputmask="'alias': 'hh:mm'"
+                                                attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                            <field name="middle_check_count"
+                                                attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                        </group> -->
+                                        <group>
+                                            <label for="qty_in_ct" string="Quantity"
+                                                attrs="{'invisible': [('packing_type', '!=', 'Filling')]}"/>
+                                            <div class="o_row" attrs="{'invisible': [('packing_type', '!=', 'Filling')]}">
+                                                <field name="qty_in_ct" class="oe_inline" 
+                                                    attrs="{'required': [('packing_type', '=', 'Filling')], 
+                                                    'readonly': [('state', '!=', 'in_progress')]}"/><span>CB</span>
+                                                <field name="qty_in_pcs" class="oe_inline" 
+                                                    attrs="{'required': [('packing_type', '=', 'Filling')], 
+                                                    'readonly': [('state', '!=', 'in_progress')]}"/><span>pcs</span>
+                                            </div>
+                                            <label for="qty_in_ct" string="Quantity Sebelum Banded"
+                                                attrs="{'invisible': [('packing_type', '!=', 'Banded')]}"/>
+                                            <div class="o_row" attrs="{'invisible': [('packing_type', '!=', 'Banded')]}">
+                                                <field name="qty_in_ct" class="oe_inline" 
+                                                    attrs="{'required': [('packing_type', '=', 'Banded')], 
+                                                    'readonly': [('state', '!=', 'in_progress')]}"/><span>CB</span>
+                                                <field name="qty_in_pcs" class="oe_inline" 
+                                                    attrs="{'required': [('packing_type', '=', 'Banded')], 
+                                                    'readonly': [('state', '!=', 'in_progress')]}"/>
+                                            </div>
+                                            <label for="total_output"/>
+                                            <div class="o_row">
+                                                <field name="total_output" class="oe_inline" required="1"
+                                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                                <span>pcs</span>
+                                            </div>
+                                            <label for="uom_id"/>
+                                            <div class="o_row">
+                                                <field name="uom_id" class="oe_inline" required="1"
+                                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                                <!-- <span>pcs</span> -->
+                                            </div>
+                                        </group>
+                                        <group attrs="{'invisible': [('packing_type', '!=', 'Banded')]}">
+                                            <label for="qty_banded_in_ct" string="Quantity Hasil Banded"/>
+                                            <div class="o_row">
+                                                <field name="qty_banded_in_ct" class="oe_inline" 
+                                                    attrs="{'required': [('packing_type', '=', 'Banded')], 
+                                                    'readonly': [('state', '!=', 'in_progress')]}"/><span>CB</span>
+                                                <field name="qty_banded_in_pcs" class="oe_inline" 
+                                                    attrs="{'required': [('packing_type', '=', 'Banded')],
+                                                    'readonly': [('state', '!=', 'in_progress')]}"/><span>pcs</span>
+                                            </div>
+                                            <label for="total_output_banded"/>
+                                            <div class="o_row">
+                                                <field name="total_output_banded" class="oe_inline" 
+                                                    attrs="{'required': [('packing_type', '=', 'Banded')],
+                                                    'readonly': [('state', '!=', 'in_progress')]}"/><span>pcs</span>
+                                            </div>
+                                        </group>
+                                        <group string="PIC ***">
+                                            <field name="user_mrp" required="1"
+                                                attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                        </group>
+                                    </group>
+                                    </sheet>
+                                    <div class="oe_chatter">
+                                        <field name="message_follower_ids" groups="base.group_user"/>
+                                        <field name="activity_ids"/>
+                                        <field name="message_ids"/>
+                                    </div>
+                                </form>
+                            </field>
+                            <field name="total_output" invisible="1"/>
+                        </page>
+                        <!-- <page string="Other Information" name="other_info">
+                            <group>
+                                <group>
+                                    <field name="picking_type_id" readonly="1" force_save="1"/>
+                                </group>
+                                <group>
+                                    <field name="location_src_id" readonly="1" force_save="1"/>
+                                    <field name="location_dest_id" readonly="0"/>
+                                </group>
+                            </group>
+                        </page> -->
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- mrp.production.packing.line form view -->
+        <record id="mrp_packing_line_view_form" model="ir.ui.view">
+            <field name="name">mrp.production.packing.line.view.form</field>
+            <field name="model">mrp.production.packing.line</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <!-- <field name="pallet_seq_no" required="1"/>  -->
+                                <field name="package_id" required="1" attrs="{'readonly': [('state', '!=', 'in_progress')]}"/> 
+                                <!-- <field name="pallet_no" required="1"/> -->
+                            </group>
+                            <group>
+                                <label for="start" string="Time"/>
+                                <div class="o_row">
+                                    <span>Start : </span><field name="start" class="oe_inline" 
+                                        attrs="{'readonly': [('state', '!=', 'in_progress')]}"
+                                        required="1" widget="mask" data-inputmask="'alias': 'hh:mm'"/> 
+                                    <span>Finish : </span><field name="finish" class="oe_inline" 
+                                        attrs="{'readonly': [('state', '!=', 'in_progress')]}"
+                                        required="1" widget="mask" data-inputmask="'alias': 'hh:mm'"/>
+                                </div>
+                                <field name="packing_type" invisible="1"/>
+                            </group>
+                            <group string="Pengecekan awal (menit ke-1)" 
+                                attrs="{'invisible': [('packing_type', '!=', 'Filling')]}">
+                                <field name="first_check_code"
+                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                <field name="first_check_time" widget="mask" data-inputmask="'alias': 'hh:mm'"
+                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                <field name="first_check_count"
+                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                            </group>
+                            <!-- <group string="Pengecekan tengah (menit ke-8)"
+                                attrs="{'invisible': [('packing_type', '!=', 'Filling')]}">
+                                <field name="middle_check_code"
+                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                <field name="middle_check_time" widget="mask" data-inputmask="'alias': 'hh:mm'"
+                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                <field name="middle_check_count"
+                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                            </group> -->
+                            <group>
+                                <label for="qty_in_ct" string="Quantity"
+                                    attrs="{'invisible': [('packing_type', '!=', 'Filling')]}"/>
+                                <div class="o_row" attrs="{'invisible': [('packing_type', '!=', 'Filling')]}">
+                                    <field name="qty_in_ct" class="oe_inline" 
+                                        attrs="{'required': [('packing_type', '=', 'Filling')], 
+                                        'readonly': [('state', '!=', 'in_progress')]}"/><span>CB</span>
+                                    <field name="qty_in_pcs" class="oe_inline" 
+                                        attrs="{'required': [('packing_type', '=', 'Filling')], 
+                                        'readonly': [('state', '!=', 'in_progress')]}"/><span>pcs</span>
+                                </div>
+                                <label for="qty_in_ct" string="Quantity Sebelum Banded"
+                                    attrs="{'invisible': [('packing_type', '!=', 'Banded')]}"/>
+                                <div class="o_row" attrs="{'invisible': [('packing_type', '!=', 'Banded')]}">
+                                    <field name="qty_in_ct" class="oe_inline" 
+                                        attrs="{'required': [('packing_type', '=', 'Banded')], 
+                                        'readonly': [('state', '!=', 'in_progress')]}"/><span>CB</span>
+                                    <field name="qty_in_pcs" class="oe_inline" 
+                                        attrs="{'required': [('packing_type', '=', 'Banded')], 
+                                        'readonly': [('state', '!=', 'in_progress')]}"/>
+                                </div>
+                                <label for="total_output"/>
+                                <div class="o_row">
+                                    <field name="total_output" class="oe_inline" required="1"
+                                        attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                    <span>pcs</span>
+                                </div>
+                                <label for="uom_id"/>
+                                <div class="o_row">
+                                    <field name="uom_id" class="oe_inline" required="1"
+                                        attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                    <!-- <span>pcs</span> -->
+                                </div>
+                            </group>
+                            <group attrs="{'invisible': [('packing_type', '!=', 'Banded')]}">
+                                <label for="qty_banded_in_ct" string="Quantity Hasil Banded"/>
+                                <div class="o_row">
+                                    <field name="qty_banded_in_ct" class="oe_inline" 
+                                        attrs="{'required': [('packing_type', '=', 'Banded')], 
+                                        'readonly': [('state', '!=', 'in_progress')]}"/><span>CB</span>
+                                    <field name="qty_banded_in_pcs" class="oe_inline" 
+                                        attrs="{'required': [('packing_type', '=', 'Banded')],
+                                        'readonly': [('state', '!=', 'in_progress')]}"/><span>pcs</span>
+                                </div>
+                                <label for="total_output_banded"/>
+                                <div class="o_row">
+                                    <field name="total_output_banded" class="oe_inline" 
+                                        attrs="{'required': [('packing_type', '=', 'Banded')],
+                                        'readonly': [('state', '!=', 'in_progress')]}"/><span>pcs</span>
+                                </div>
+                                <label for="uom_id"/>
+                                <div class="o_row">
+                                    <field name="uom_id" class="oe_inline" required="1"
+                                        attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                                    <!-- <span>pcs</span> -->
+                                </div>
+                            </group>
+                            <group string="PIC ***">
+                                <field name="user_mrp" required="1"
+                                    attrs="{'readonly': [('state', '!=', 'in_progress')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

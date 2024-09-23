@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_penerimaan_barang" model="ir.actions.report">
+            <field name="name">Bukti Penerimaan Barang(BPB)</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bmo_report_bpb.report_bpb</field>
+            <field name="report_file">bmo_report_bpb.report_bpb</field>
+            <field name="paperformat_id" ref="bmo_report_bpb.penerimaan_barang_paperformat"/>
+            <field name="print_report_name">'Bukti Penerimaan Barang - %s' % object.name</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_barang_keluar" model="ir.actions.report">
+            <field name="name">Bukti Barang Keluar(BBK)</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bmo_report_bpb.report_bbk</field>
+            <field name="report_file">bmo_report_bpb.report_bbk</field>
+            <field name="paperformat_id" ref="bmo_report_bpb.barang_keluar_paperformat"/>
+            <field name="print_report_name">'Bukti Barang Keluar - %s' % object.name</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_star" model="ir.actions.report">
+            <field name="name">Surat Tugas Ambil Rak(STAR)</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bmo_report_bpb.report_star</field>
+            <field name="report_file">bmo_report_bpb.report_star</field>
+            <field name="paperformat_id" ref="bmo_report_bpb.report_star_paperformat"/>
+            <field name="print_report_name">'Report STAR - %s' % object.name</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_do" model="ir.actions.report">
+            <field name="name">Delivery Order</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bmo_report_bpb.report_do</field>
+            <field name="report_file">bmo_report_bpb.report_do</field>
+            <field name="paperformat_id" ref="bmo_report_bpb.report_do_paperformat"/>
+            <field name="print_report_name">'Report Do - %s' % object.name</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="report_do_sample_marketing" model="ir.actions.report">
+            <field name="name">Delivery Order Sample Marketing</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bmo_report_bpb.report_do_sample_marketing</field>
+            <field name="report_file">bmo_report_bpb.report_do_sample_marketing</field>
+            <field name="paperformat_id" ref="bmo_report_bpb.report_do_sample_marketing_paperformat"/>
+            <field name="print_report_name">'Report Do - %s' % object.name</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <report
+            id="partner_xlsx"
+            model="stock.picking"
+            string="Usulan Pemusnaan Produk Reject"
+            report_type="xlsx"
+            name="bmo_report_bpb.usulan_pemusnaan_produk_reject_xlsx"
+            file="bmo_report_bpb.usulan_pemusnaan_produk_reject_xlsx"
+            attachment_use="False"
+        />
+    </data>
+</odoo>

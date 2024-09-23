@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_pm_daily_config,access_mrp_pm_daily_config,model_mrp_pm_daily,base.group_user,1,1,1,1
+access_mrp_pm_daily_line_config,access_mrp_pm_daily_line_config,model_mrp_pm_daily_line,base.group_user,1,1,1,1
+access_mrp_material_usage,access_mrp_material_usage,model_mrp_material_usage,base.group_user,1,1,1,1
+access_mrp_pm_daily_report,access_mrp_pm_daily_report,model_mrp_pm_daily_report,base.group_user,1,1,1,1

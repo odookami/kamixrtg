@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="product_template_kanban_view_inherit_bmo_inventory" model="ir.ui.view">
+            <field name="name">Product.template.product.kanban.inherit.bmo.inventory</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='product_lst_price']" position="attributes">
+                    <attribute name="groups">bmo_inventory.view_list_price</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_template_tree_view_inherit_bmo_inventory" model="ir.ui.view">
+            <field name="name">product.template.product.tree.inherit.bmo.inventory</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='list_price']" position="attributes">
+                    <attribute name="groups">bmo_inventory.view_list_price</attribute>
+                </xpath>
+                <xpath expr="//field[@name='standard_price']" position="attributes">
+                    <attribute name="groups">bmo_inventory.view_cost_price</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_template_form_view_inherit_bmo_inventory" model="ir.ui.view">
+            <field name="name">product.template.common.form.inherit.bmo.inventory</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='group_standard_price']/label[1]" position="attributes">
+                        <attribute name="groups">bmo_inventory.view_list_price</attribute>
+                    </xpath>
+
+                    <xpath expr="//div[@name='pricing']" position="attributes">
+                        <attribute name="groups">bmo_inventory.view_list_price</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='list_price']|//field[@name='lst_price']" position="attributes">
+                        <attribute name="groups">bmo_inventory.view_list_price</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='categ_id']" position="after">
+                        <field name="alis_name" />
+                        <field name="alias" />
+                    </xpath>
+                
+                    <xpath expr="//div[@name='standard_price_uom']" position="attributes">
+                        <attribute name="groups">bmo_inventory.view_cost_price</attribute>
+                    </xpath>
+                    
+                    <xpath expr="//label[@for='standard_price']" position="attributes">
+                        <attribute name="groups">bmo_inventory.view_cost_price</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_product_form_expiry_inherit_bmo_inventory" model="ir.ui.view">
+            <field name="name">product.template.inherit.form.bmo.inventory</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product_expiry.view_product_form_expiry"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='use_time']" position="before">
+                    <label for="expiration_month"/>
+                    <div>
+                        <field name="expiration_month" class="oe_inline"/>
+                        <span> Month</span>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_template_form_view_reservation_button">
+            <field name="name">product.template.reservation.button</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_inline oe_stat_button" name="action_view_reservations" type="object" attrs="{'invisible':[('type', '!=', 'product')]}" icon="fa-lock">
+                        <field string="Stock Reservations" name="reservation_count" widget="statinfo" />
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_product_tree_view_inherit_bmo_inventory" model="ir.ui.view">
+            <field name="name">product.product.tree.inherit.bmo.inventory</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lst_price']" position="attributes">
+                    <attribute name="groups">bmo_inventory.view_list_price</attribute>
+                </xpath>
+                <field name="standard_price" position="attributes">
+                    <attribute name="groups">bmo_inventory.view_cost_price</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="product_normal_form_view" model="ir.ui.view">
+            <field name="name">product.product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref = "product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='group_standard_price']/label[1]" position="attributes">
+                    <attribute name="groups">bmo_inventory.view_list_price</attribute>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_inline oe_stat_button" name="action_view_reservations" type="object" attrs="{'invisible':[('type', '!=', 'product')]}" icon="fa-lock">
+                        <field string="Stock Reservations" name="reservation_count" widget="statinfo" />
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_kanban_stock_view">
+            <field name="name">Product Kanban Stock</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//templates//field[@name='lst_price']" position="attributes">
+                    <attribute name="groups">bmo_inventory.view_list_price</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

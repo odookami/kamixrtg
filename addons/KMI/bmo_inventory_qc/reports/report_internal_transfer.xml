@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<record id="picking_excel_views" model="ir.ui.view">
+		<field name="name">wizard.reports</field>
+		<field name="model">wizard.reports</field>
+		<field name="arch" type="xml">
+			<form string="Export Picking">
+				<p class="oe_grey">
+					You want to Print Picking Excel Report?
+				</p>
+				<footer>
+					<button string="Print Excel Report" class="btn-primary"
+						name="action_picking_report" type="object" />
+					<button string="Cancel" class="btn-primary" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="picking_excel_views_new" model="ir.ui.view">
+		<field name="name">internal.transfer.report</field>
+		<field name="model">internal.transfer.report</field>
+		<field name="arch" type="xml">
+			<form string="Export Picking">
+				<group>
+					<field name="file_name" filename="picking_data" />
+					<field name="picking_data" invisible="1" />
+				</group>
+				<footer>
+					<button string="Cancel" class="btn-primary" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<!-- <record id="stock_picking_export_qc" model="ir.ui.view">
+		<field name="name">	stock.picking.export</field>
+		<field name="model">stock.picking</field>
+		<field name="inherit_id" ref="stock.view_picking_form" />
+		<field name="arch" type="xml">
+			<xpath expr="//header[2]/button[@name='action_cancel']" position="after">
+				<button name="%(bmo_inventory_qc.action_picking_excel)d" string="Export QC" type="action"/>
+			</xpath>
+		</field>
+	</record> -->
+
+	<act_window id="action_picking_excel" 
+		name="Picking Excel Report "
+		res_model="wizard.reports"
+		binding_model="stock.picking" 
+		view_mode="form" target="new" />
+
+</odoo>

@@ -1,0 +1,22 @@
+<odoo>
+	<data>
+		<record model='ir.ui.view' id='res_partner_read_oracle_form'>
+		    <field name='name'>res_partner_read_oracle.form</field>
+		    <field name='model'>res.partner</field>
+		    <field name='inherit_id' ref='base.view_partner_form'/>
+		    <field name='arch' type='xml'>
+		    	<field name="vat" position='after'>
+	    			<!-- <field name="id_oracle"/> -->
+	    			<field name="cust_account_id"/>
+	    			<field name="cust_acct_site_id"/>
+	    			<field name="party_id"/>
+	    		</field>
+		    </field>
+		</record>		
+	</data>
+</odoo>
+
+
+
+
+

@@ -1,0 +1,201 @@
+<odoo>
+  	<data>
+		<record id="retort_view_tree" model="ir.ui.view">
+			<field name="name">retort.tree</field>
+			<field name="model">retort</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="date"/>
+					<field name="revision"/>
+					<field name="shift"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record id="retort_view_form" model="ir.ui.view">
+			<field name="name">retort_view_form</field>
+			<field name="model">retort</field>
+			<field name="arch" type="xml">
+				<form string="Form Retort">
+					<header>
+						<field name="state" widget="statusbar" 
+								statusbar_visible="draft,in_progress,done"/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<h1>
+                                <field name="name" required="1" placeholder="No. Dok"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<field name="date" required="1"/>
+								<field name="num_of_pages"/>
+							</group>
+							<group>
+								<field name="revision" required="0"/>
+								<field name="report_type" invisible="1"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="General Report" name="general_report">
+								<group>
+									<group>
+										<label for="preparation"/>
+										<div class="o_row" name="preparation">
+											<field name="preparation" nolabel="1"/>
+											<span> min</span>
+										</div>
+
+										<label for="total_breakdown"/>
+										<div class="o_row" name="total_breakdown">
+											<field name="total_breakdown" nolabel="1"/>
+											<span> min</span>
+										</div>
+
+										<label for="running_hours"/>
+										<div class="o_row" name="running_hours">
+											<field name="running_hours" nolabel="1"/>
+											<span> min</span>
+										</div>
+									</group>
+
+									<group>
+										<field name="batch" />
+										<field name="product_name" />
+										<field name="start" />
+										<field name="finish" />
+									</group>
+								</group>
+								<group>
+									<field name="note"/>
+								</group>
+							</page>
+							<page string="PRODUCTION NOTES" name='prod_note'>
+								<group string='PRODUCTION NOTES'>
+									<group>
+										<field name="hari"/>
+										<field name="tanggal"/>
+										<field name="shift"/>
+									</group>
+									<group>
+										<field name="team"/>
+										<field name="kemasan"/>
+									</group>
+								</group>
+							</page>
+							<page string="GENERAL CHECKS (Early Shift Checks)" name="general_checks">
+								<!-- <button name="action_generate_checks" string="Generate Parameter" 
+                                    type="object" class="oe_highlight" states="draft" 
+                                    confirm="Parameter yg sudah ada akan 'direset ulang', Apakah Anda yakin ???"/> -->
+                                <group>
+                                    <field name="checks_line" nolabel="1">
+                                        <tree editable="bottom" create="0" limit="10">
+                                            <field name="param_group" readonly="1" force_save="1" required="1" optional="hide"/>
+                                            <field name="name" readonly="1" force_save="1" required="1"/>
+                                            <field name="standard" readonly="1" force_save="1" required="1"/>
+                                            <field name="actual"/>
+                                        </tree>
+                                    </field>
+                                </group>
+							</page>
+							<page string="PRODUCTION RECORD" name="prd_record">
+                                <!-- <button name="action_generate_prod_record" string="Generate Parameter" 
+                                    type="object" class="oe_highlight" states="draft" 
+                                    confirm="Parameter yg sudah ada akan 'direset ulang', Apakah Anda yakin ???"/> -->
+                                <group>
+                                    <field name="prod_rec_line" nolabel="1" domain="[('param_types', '=', 'record')]">
+                                        <tree create="1" limit="10" decoration-danger="is_prod_rec_completed == False"
+                                            decoration-success="is_prod_rec_completed != False">
+                                            <field name="name" invisible="1"/>
+                                            <field name="check_time" string="No. Retort" readonly="1" required="1"/>
+                                            <field name="is_prod_rec_completed" invisible="1"/>
+                                        </tree>
+                                        <form>
+                                            <h1>
+                                                No. Retort : <field name="check_time" readonly="1"/>
+                                            </h1>
+                                            <notebook>
+                                                <page string="Production Record">
+                                                    <group>
+                                                        <field name="detail_prod_rec_line" nolabel="1">
+                                                            <tree editable="bottom">
+                                                                <field name="name"/>
+                                                                <field name="value" required="0"/>
+                                                            </tree>
+                                                        </field>
+                                                    </group>
+                                                </page>
+                                            </notebook>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+							<page string="CATATAN PROSES PRODUKSI" name="incompatibility_note">
+                                <!-- <script type="text/javascript" 
+                                    src="/bmo_daily_report/static/src/js/section.js">
+                                </script> -->
+                                <group string="CATATAN KETIDAKSESUAIAN SELAMA PROSES PRODUKSI">
+                                    <field name="incompatibility_line" nolabel="1">
+                                        <tree editable="bottom" create="1">
+                                             <!-- * Major breakdown -->
+                                            <field name="start" required="1"/>
+                                            <field name="finish" required="0"/>
+                                            <field name="total" required="0"/>
+                                            <field name="uraian_masalah" required="0"/>
+                                            <!-- * Minor breakdown -->
+                                            <field name="frekuensi" required="0"/>
+                                            <field name="status" required="0"/>
+                                            <field name="pic" required="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+						</notebook>
+						<group>
+                            <group string="Another Awesome Notes">
+                                <field name="another_note" nolabel="1" required="0"/>
+                            </group>
+                            <group>
+                                <field name="operator_id" required="0"/>
+                                <field name="leader_id" required="0"/>
+								<field name="spv_id" required="0"/>
+                            </group>
+                        </group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" groups="base.group_user"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_retort" model="ir.actions.act_window">
+				<field name="name">Retort</field>
+				<field name="res_model">retort</field>
+				<field name="view_mode">tree,form</field>
+				<!-- <field name="domain">[('tipe', '=', 'internal')]</field> -->
+				<!-- <field name="context">{'default_tipe' : 'internal'}</field> -->
+				<field name="help" type="html">
+					<p class="o_view_nocontent_smiling_face">
+					Create a Retort
+					</p>
+				</field>
+			</record>
+
+		<menuitem
+		id="retort_root"
+		name="Retort"
+		parent='bmo_batch_record.root_menu_batch_record'
+		sequence="4"/>
+		<menuitem
+			id="retort_menu"
+			name="Retort"
+			action="action_retort"
+			parent="retort_root"
+			sequence="5"/>
+  	</data>
+</odoo>

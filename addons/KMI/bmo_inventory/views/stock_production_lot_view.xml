@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="view_production_lot_form_inherit_bmo_inventory" model="ir.ui.view">
+        <field name="name">stock.production.lot.form.inerhit.bmo_inventory</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="picking_id"/>
+                <!-- <field name="partner_id"/> -->
+                <field name="karantina"/>
+                <!-- <field name="qty_karantina"/> -->
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_update_lot_arcive" model="ir.actions.server">
+        <field name="name">Update Lot Arcive not Quant</field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="model_id" ref="bmo_inventory.model_stock_production_lot"/>
+        <field name="binding_model_id" ref="bmo_inventory.model_stock_production_lot"/>
+        <field name="code">
+            for item in records:
+                item.arcive_lot()
+        </field>
+    </record>
+</odoo>

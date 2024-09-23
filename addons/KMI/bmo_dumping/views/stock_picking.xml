@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record model='ir.ui.view' id='stock_picking_create_dumping_tree'>
+    	    <field name='name'>stock_picking_create_dumping.tree</field>
+    	    <field name='model'>stock.picking</field>
+    	    <field name="inherit_id" ref='bmo_material_request.internal_requisition_stock_form_view'/>
+    	    <field name='arch' type='xml'>
+    	        <xpath expr='//header' position='inside'>
+    	        	<button name="create_dumping" string="Create Dumping" class="oe_highlight" type="object" attrs="{'invisible' : [('need_dumping_create', '=', False)]}" />
+    	        	<field name="dumping_created" invisible='1'/>
+                    <field name="need_dumping_create" invisible='1'/>
+    	        </xpath>
+    	    </field>
+    	</record>
+    </data>
+</odoo>

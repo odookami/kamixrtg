@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem 
+        id="menu_purchase_requisition" 
+        name="Material Request" 
+        groups="bmo_material_request.group_purchase_requisition_user" 
+        web_icon="bmo_material_request,static/description/icon.png" 
+        sequence="31"/>
+    <menuitem 
+        id="menu_item_purchase_requisition" 
+        name="Material Request" 
+        parent="menu_purchase_requisition"/>
+    <menuitem 
+        id="menu_action_purchase_requisition" 
+        name="Material Request" 
+        parent="menu_item_purchase_requisition" 
+        action="action_material_purchase_requisition"/>
+    
+    <menuitem 
+        id="menu_setting_matrial" 
+        name="Configuration" 
+        parent="menu_purchase_requisition" 
+        sequence="100" 
+        groups="bmo_material_request.group_purchase_requisition_manager" />
+    <menuitem 
+        id="menu_setting_config_matrial" 
+        parent="menu_setting_matrial" 
+        sequence="1" 
+        action="bmo_material_request.action_material_settings" />
+    <menuitem 
+        id="menu_setting_config_matrial_default_location" 
+        parent="menu_setting_matrial" 
+        sequence="10" 
+        action="bmo_material_request.action_master_default_location" />
+    
+    <menuitem 
+        id="menu_setting_config_special_product" 
+        parent="menu_setting_matrial" 
+        sequence="10" 
+        action="bmo_material_request.action_config_special_product" />
+
+</odoo>

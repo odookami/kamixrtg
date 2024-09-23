@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+    <record id="group_clear_data" model="res.groups">
+        <field name="name">Clear Data</field>
+        <field name="category_id" ref="base.module_category_usability"/>
+    </record>
+</data>
+</odoo>

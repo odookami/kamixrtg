@@ -1,0 +1,171 @@
+<odoo>
+    <data noupdate="0">
+        <!-- Add you code here -->
+        <!-- mrp.production.packing.line search view -->
+        <record id="bhp_whs_view_search" model="ir.ui.view">
+            <field name="name">mrp.production.packing.line.view.search</field>
+            <field name="model">mrp.production.packing.line</field>
+            <field name="arch" type="xml">
+                <search string="Search Description">
+                    <!-- Add your fields here -->
+					<field name="name"/>
+					<field name="package_id"/>
+					<field name="picking_id"/>
+					<field name="mrp_packing_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="No. BHP" name="no_bhp" 
+							context="{'group_by': 'mrp_packing_id'}"/>
+                        <filter string="Transfer" name="transfer" 
+							context="{'group_by': 'picking_id'}"/>
+					</group>
+                </search>
+            </field>
+        </record>
+
+        <!-- mrp.production.packing.line tree view -->
+        <record id="bhp_whs_view_tree" model="ir.ui.view">
+            <field name="name">mrp.production.packing.line.whs.view.tree</field>
+            <field name="model">mrp.production.packing.line</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" create="0" delete="0" duplicate="0">
+                    <header>
+                        <button name="action_release" type="object" 
+                            string="Release to WHS" class="oe_highlight"/>
+                    </header>
+                    <field name="mrp_packing_state" invisible="1"/>
+                    <field name="package_id" readonly="1"/>
+                    <field name="mrp_packing_id" readonly="1" optional="hide"/>
+                    <field name="okp_id" readonly="1"/>
+                    <field name="product_id" readonly="1"/>
+                    <field name="lot_producing_id" readonly="1"/>
+                    <field name="expiration_date" readonly="1"/>
+                    <field name="total_output" optional="hide"/>
+                    <field name="location_id" invisible="1"/>
+                    <field name="location_dest_ids" invisible="1"/>
+                    <field name="location_dest_id" required="1"
+                        attrs="{'readonly': [('move_line_id', '!=', False)]}"
+                        domain="[('id', 'child_of', location_id), ('id', 'not in', location_dest_ids)]"/>
+                    <field name="user_whs" required="1"/>
+                    <field name="packing_type" invisible="0"/>
+                    <field name="qty_in_ct" readonly="1"/>
+                    <field name="qty_in_pcs" readonly="1"/>
+                    <field name="total_output" readonly="1"/>
+                    <field name="state" invisible="1"/>
+                    <field name="move_line_id" invisible="1"/>
+                    <field name="picking_id" readonly="1"/>
+                    <field name="state_picking" />
+                    <field name="state_sortir" />
+                    <field name="batch_mrp_id" invisible="1"/>
+                    <field name="state_mrp" />
+                    <button name="action_show_details" type="object" icon="fa-list"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- mrp.production.packing.line pack action window -->
+        <record id="bhp_pack_whs_action" model="ir.actions.act_window">
+            <field name="name">BHP Pack to WHS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.production.packing.line</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{
+                'default_packing_type': 'Filling',
+                'search_default_no_bhp': 1,
+            }</field>
+            <field name="domain">
+                [('packing_type', '=', 'Filling'), ('state', '=', 'done')]
+            </field>
+            <!-- <field name="domain">
+                [('packing_type', '=', 'Filling'), ('state', '=', 'done'), 
+                ('mrp_packing_state', '=', 'done'),]
+            </field> -->
+            <field name="view_ids" eval="[(5, 0, 0), 
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bhp_whs_view_tree')})]"/>
+        </record>
+    
+        <record id="bhp_banded_whs_view_tree" model="ir.ui.view">
+            <field name="name">mrp.production.packing.line.whs.banded.view.tree</field>
+            <field name="model">mrp.production.packing.line</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" create="0" delete="0" duplicate="0">
+                    <header>
+                        <button name="action_release" type="object" 
+                            string="Release to WHS" class="oe_highlight"/>
+                            <!-- attrs="{'invisible': [('mrp_packing_state', '!=', 'done')]}"/> -->
+                    </header>
+                    <field name="mrp_packing_state" invisible="1"/>
+                    <field name="package_id" readonly="1"/>
+                    <field name="mrp_packing_id" readonly="1" optional="hide"/>
+                    <field name="okp_id" readonly="1"/>
+                    <field name="product_id" readonly="1"/>
+                    <field name="lot_producing_id" readonly="1"/>
+                    <field name="expiration_date" readonly="1"/>
+                    <field name="total_output" optional="hide"/>
+                    <field name="location_id" invisible="1"/>
+                    <field name="location_dest_ids" invisible="1"/>
+                    <field name="location_dest_id" required="1"
+                        attrs="{'readonly': [('move_line_id', '!=', False)]}"
+                        domain="[('id', 'child_of', location_id), ('id', 'not in', location_dest_ids)]"/>
+                    <field name="user_whs" required="1"/>
+                    <field name="packing_type" invisible="0"/>
+                    <field name="qty_banded_in_ct" readonly="1"/>
+                    <field name="qty_banded_in_pcs" readonly="1"/>
+                    <field name="total_output_banded" readonly="1"/>
+                    <field name="state" invisible="1"/>
+                    <field name="move_line_id" invisible="1"/>
+                    <field name="picking_id" readonly="1"/>
+                    <field name="state_picking"/>
+                    <field name="state_sortir" />
+                    <field name="state_mrp" />
+                    <button name="action_show_details" type="object" icon="fa-list"/>
+                </tree>
+            </field>
+        </record>    
+
+        <!-- mrp.production.packing.line banded action window -->
+        <record id="bhp_banded_whs_action" model="ir.actions.act_window">
+            <field name="name">BHP Banded to WHS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.production.packing.line</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{
+                'default_packing_type': 'Banded',
+                'search_default_no_bhp': 1,
+            }</field>
+            <field name="domain">
+                [('packing_type', '=', 'Banded'), ('state', '=', 'done')]
+            </field>
+            <!-- <field name="domain">
+                [('packing_type', '=', 'Banded'), ('state', '=', 'done'), 
+                ('mrp_packing_state', '=', 'done'),]
+            </field> -->
+            <field name="view_ids" eval="[(5, 0, 0), 
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bhp_banded_whs_view_tree')})]"/>
+        </record>
+
+        <!-- This Menu Item Must have a parent -->
+        <!-- <menuitem id="mrp_packing_whs_menu_categ" name="Warehouse" 
+            parent="mrp_packing_menu_categ" sequence="2"/> -->
+
+        <!-- This Menu Item must have a parent and an action -->
+        <!-- <menuitem id="bph_pack_whs_menu_act" name="BHP Pack" 
+            parent="mrp_packing_whs_menu_categ" action="bhp_pack_whs_action"/> -->
+
+        <!-- This Menu Item must have a parent and an action -->
+        <!-- <menuitem id="bph_banded_whs_menu_act" name="BHP Banded" 
+            parent="mrp_packing_whs_menu_categ" action="bhp_banded_whs_action"/> -->
+
+        <!-- <record model="ir.actions.server" id="action_server_release_to_whs">
+            <field name="name">Release to WHS</field>
+            <field name="model_id" ref="bmo_mrp_packing.model_mrp_production_packing_line"/>
+            <field name="binding_model_id" ref="bmo_mrp_packing.model_mrp_production_packing_line"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+            if records.state == 'done' or not records.move_line_id:
+                records.action_release()
+            </field>
+        </record> -->
+
+    </data>
+</odoo>

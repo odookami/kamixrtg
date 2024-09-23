@@ -1,0 +1,146 @@
+<odoo>
+  <data>
+    <record id="loader_view_tree" model="ir.ui.view">
+        <field name="name">loader.tree</field>
+        <field name="model">loader</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="revisi"/>
+                <field name="day"/>
+                <field name="shift"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="loader_view_form" model="ir.ui.view">
+        <field name="name">loader_view_form</field>
+        <field name="model">loader</field>
+        <field name="arch" type="xml">
+            <form string="Form Laporan Harian Loader (OBOL)">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                            No. Dok
+                        <h1>
+                            <field name="name" readonly="False"/>
+                        </h1>
+                    </div>
+                        <group>
+                            <field name="date" required="1"/>
+                            <field name="hal"/>
+                            <field name="revisi"/>
+                        </group>
+                        <group>
+                            <group string='GENERAL REPORT'>
+                                <field name="preparation"/>
+                                <field name="total_breakdown"/>
+                                <field name="running_hours"/>
+                                <field name="total_reject"/>
+                            </group>
+                            <group string='PRODUCTION NOTES'>
+                                <field name="day"/>
+                                <field name="shift"/>
+                                <field name="team"/>
+                                <field name="kemasan"/>
+                                <field name="line_machine"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="note"/>
+                        </group>
+                    <notebook>
+                      <page name="general_checks_line_ids" string="General Checks Lines">
+                          <field name="general_checks_line_ids">
+                              <tree editable="bottom">
+                                  <field name="parameter"/>
+                                  <field name="std" />
+                                  <field name="actual" />
+                              </tree>
+                          </field>
+                          <group>
+                            <field name="note_1" />
+                          </group>
+                      </page>
+                      <page name="production_record_line_ids" string="Production Record Lines">
+                          <field name="production_record_line_ids">
+                              <tree editable="bottom">
+                                  <field name="retort_code"/>
+                                  <field name="product_name" />
+                                  <field name="cage_1_start" />
+                                  <field name="cage_1_finish" />
+                                  <field name="cage_2_start" />
+                                  <field name="cage_2_finish" />
+                                  <field name="cage_3_start" />
+                                  <field name="cage_3_finish" />
+                                  <field name="cage_4_start" />
+                                  <field name="cage_4_finish" />
+                              </tree>
+                          </field>
+                          <group>
+                            <field name="note_2"/>
+                          </group>
+                          <group>
+                            <field name="keterangan"/>
+                          </group>
+                      </page>
+                      <page name="breakdown_line_ids" string="Breakdown Lines">
+                          <field name="breakdown_line_ids">
+                              <tree editable="bottom">
+                                  <field name="no"/>
+                                  <field name="start" />
+                                  <field name="finish" />
+                                  <field name="total" />
+                                  <field name="uraian_masalah" />
+                                  <field name="frekuensi" />
+                                  <field name="status" />
+                                  <field name="pic" />
+                              </tree>
+                          </field>
+                          <group>
+                            <field name="note_2"/>
+                          </group>
+                          <group>
+                            <field name="keterangan"/>
+                          </group>
+                      </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_loader" model="ir.actions.act_window">
+        <field name="name">Loader</field>
+        <field name="res_model">loader</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="domain">[('tipe', '=', 'internal')]</field> -->
+        <!-- <field name="context">{'default_tipe' : 'internal'}</field> -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a Loader
+            </p>
+        </field>
+    </record>
+
+    <!-- <menuitem
+      id="loader_root"
+      name="Loader"
+      parent='bmo_batch_record.root_menu_batch_record'
+      sequence="4"/> -->
+      <!-- <menuitem
+        id="loader_menu"
+        name="Loader"
+        action="action_loader"
+        parent="daily_report_menu_categ"
+        sequence="5"/> -->
+    <menuitem id="loader_menu" name="Loader" 
+            parent="bmo_daily_report.daily_report_menu_categ" action="action_loader" sequence="5"/>
+  </data>
+</odoo>

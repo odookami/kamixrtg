@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- mrp.production inherit tree view -->
+    <record id="mrp_production_tree_view_inherit_bmo_mrp" model="ir.ui.view">
+        <field name="name">mrp.production.tree.inhrit.bmo.mrp</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="default_order">okp_id desc</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="okp_id"/>
+                <field name="tipe"/>
+                <field name="number_ref"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="production_form" model="ir.ui.view">
+        <field name="name">mrp.production.form</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_mark_done'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_mark_done'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_mark_done']" position="after">
+                <button name="button_mark_done" 
+                    attrs="{'invisible': [('state', 'not in', ('confirmed', 'progress','to_close'))]}" 
+                    string="Mark as Approved" type="object" class="oe_highlight" groups="mrp.group_mrp_user"/>
+                <button name="button_mark_done" 
+                    attrs="{'invisible': [('state', 'not in', ('approved'))]}" string="Mark as Done" type="object" class="oe_highlight" groups="mrp.group_mrp_manager"/>
+                <button name="set_qty_done" attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}" string="Set Qty Done" type="object"/>
+            </xpath>
+            <xpath expr="//button[@name='button_scrap']" position="attributes">
+                <attribute name="groups">bmo_mrp.group_mrp_user_scrap</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_unbuild']" position="attributes">
+                <attribute name="groups">bmo_mrp.group_mrp_user_unbuild</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_scrap']" position="after">
+                <field name="tipe" invisible="1"/>
+                <button 
+                    name="button_sampling" 
+                    type="object" 
+                    string="Sampling" 
+                    attrs="{'invisible': [('state', 'in', ('cancel', 'draft'))]}" 
+                    groups="bmo_mrp.group_mrp_user_sampling"/>
+                <!-- <button 
+                    name="button_sampling_marketing" 
+                    type="object" 
+                    string="Sampling Marketing" 
+                    attrs="{'invisible': [('state', 'in', ('cancel', 'draft'))]}" 
+                    groups="bmo_mrp.group_mrp_user_sampling_marketing"/> -->
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="replace"/>
+            <xpath expr="//button[@name='action_cancel']" position="replace">
+                <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': ['|'('id', '=', False), ('state', 'in', ('done', 'cancel'))]}" 
+                    confirm="Some product moves have already been confirmed, this manufacturing order can't be completely cancelled. Are you still sure you want to process ?"
+                    groups="bmo_mrp.group_mrp_mo_cancelled"/>
+
+            </xpath>
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">draft,confirmed,approved,done</attribute>
+            </xpath>
+            
+            <xpath expr="//button[@name='action_see_move_scrap']" position="after">
+                <button class="oe_stat_button" name="action_see_move_sampling" type="object" icon="fa-arrows-v" attrs="{'invisible': [('sampling_count', '=', 0)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="sampling_count"/>
+                        </span>
+                        <span class="o_stat_text">Sampling</span>
+                    </div>
+                </button>
+                <button class="oe_stat_button" name="action_see_move_sampling_marketing" type="object" icon="fa-arrows-v" attrs="{'invisible': [('sampling_marketing_count', '=', 0)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="sampling_marketing_count"/>
+                        </span>
+                        <span class="o_stat_text">Sampling Marketing</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='product_tracking']" position="after">
+                <field name="okp_id" required="1" readonly="1" options="{'no_open': True}"/>
+                <field name="tipe" required="1" readonly="1"/>
+                <field name="number_ref" readonly="1"/>
+                <field name="bache_id" invisible="1"/>
+                <field name="id" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_id']" position="after">
+                <label for="suggest_qty" string="Suggest Qty"/>
+                <div class="o_row no-gutters d-flex">
+                    <field name="suggest_qty"/>
+                    <label for="sugges_uom_id" string="" class="oe_inline"/>
+                    <field name="sugges_uom_id"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='lot_producing_id']" position="attributes">
+                <attribute name="context">{'default_product_id': product_id, 'default_company_id': company_id, 'default_bache_id' : bache_id, 'default_mo_id' : id}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="goods_qty"/>
+                <field name="reject_qty" readonly="1"/>
+                <field name="sampling_qty" readonly="1"/>
+                <field name="sampling_ex_qty" readonly="1"/>
+                <field name="sampling_marketing_qty" readonly="1" attrs="{'invisible' : [('tipe','!=','Banded')]}"/>
+                <field name="shift" attrs="{'readonly' : [('state','in',['done','cancel'])]}"/>
+                <field name="actual_date" class="oe_inline" attrs="{'readonly' : [('state','in',['done','cancel'])]}"/>
+                <field name="actual_complete_date" class="oe_inline" attrs="{'readonly' : [('state','in',['done','cancel'])]}"/>
+                <field name="move_finished_ids" invisible="1"/>
+                <field name="finished_move_line_ids" invisible="1"/>
+                <field name="product_uom_qty" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- mrp.production inherit search view -->
+    <record id="view_mrp_production_filter_inehrit_bmo_mrp" model="ir.ui.view">
+        <field name="name">mrp.production.select.inherit.bmo.mrp</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/group" position="inside">
+                <filter string="Mixing" name="tipe" domain="[('tipe','=','Mixing')]"/>
+                <filter string="Filling" name="tipe" domain="[('tipe','=','Filling')]"/>
+                <filter string="Banded" name="tipe" domain="[('tipe','=','Banded')]"/>
+            </xpath>
+            <xpath expr="//group/filter[@name='product']" position="after">
+                <filter string="OKP" name="group_okp_id" domain="[]" context="{'group_by': 'okp_id'}" />
+                <filter string="Type" name="group_tipe" domain="[]" context="{'group_by': 'tipe'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp.mrp_production_action" model="ir.actions.act_window">
+        <field name="name">Manufacturing Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+        <field name="view_id" eval="False"/>
+        <field name="search_view_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="context">{'search_default_todo': False, 'search_default_group_okp_id': True, 'search_default_group_tipe': True, 'default_company_id': allowed_company_ids[0]}</field>
+        <field name="domain">[('picking_type_id.active', '=', True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No manufacturing order found. Let's create one.
+            </p>
+            <p>
+                Consume <a name="%(product.product_template_action)d" type='action' tabindex="-1">components</a> and build finished products using <a name="%(mrp.mrp_bom_form_action)d" type='action' tabindex="-1">bills of materials</a>
+            </p>
+        </field>
+    </record>
+
+</odoo>

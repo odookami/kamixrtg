@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Add you code here -->
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="mrp_packing_menu_root" sequence="37" name="BHP Packing"
+            web_icon="bmo_mrp_packing,static/description/icon.png"/>
+
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="mrp_packing_prd_menu_categ" name="Production" 
+            parent="mrp_packing_menu_root" sequence="1"/>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="mrp_packing_menu_act" name="Form BHP Pack" sequence="1"
+            parent="mrp_packing_prd_menu_categ" action="mrp_packing_action"/>
+        
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="mrp_packing_banded_menu_act" name="Form BHP Banded" sequence="2"
+            parent="mrp_packing_prd_menu_categ" action="mrp_packing_banded_action"/>
+        
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="mrp_packing_whs_menu_categ" name="Warehouse" 
+            parent="mrp_packing_menu_root" sequence="2"/>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="bph_pack_whs_menu_act" name="BHP Pack" 
+            parent="mrp_packing_whs_menu_categ" action="bhp_pack_whs_action"/>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="bph_banded_whs_menu_act" name="BHP Banded" 
+            parent="mrp_packing_whs_menu_categ" action="bhp_banded_whs_action"/>
+
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="mrp_packing_reporting_menu_categ" name="Reporting" 
+            parent="mrp_packing_menu_root" sequence="3"/>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="mrp_sort_menu_act" name="Laporan Sortir" 
+            parent="mrp_packing_reporting_menu_categ" 
+            action="mrp_sort_action" sequence="1"/>
+
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="mrp_packing_config_menu_categ" name="Configuration" 
+            parent="mrp_packing_menu_root" sequence="99"/>
+        
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="mrp_packing_res_config" name="Settings" 
+            parent="mrp_packing_config_menu_categ" 
+            sequence="-99" action="action_bhp_settings"/>   
+    </data>
+</odoo>

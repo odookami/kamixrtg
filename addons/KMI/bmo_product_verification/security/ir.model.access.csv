@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inline_product_verification,access_inline_product_verification,model_inline_product_verification,base.group_user,1,1,1,0
+access_product_verification_line,access_product_verification_line,model_product_verification_line,base.group_user,1,1,1,1
+access_bottle_type,access_bottle_type,model_bottle_type,base.group_user,1,1,1,1
+access_faktor_koreksi,access_faktor_koreksi,model_faktor_koreksi,base.group_user,1,1,1,1
+access_analisa_verifikasi,access_analisa_verifikasi,model_analisa_verifikasi,base.group_user,1,1,1,1
+access_faktor_warna,access_faktor_warna,model_faktor_warna,base.group_user,1,1,1,1

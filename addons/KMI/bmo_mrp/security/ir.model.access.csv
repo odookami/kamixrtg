@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bmo_mrp_mrp_okp,bmo_mrp.mrp_okp,model_mrp_okp,,1,0,0,0
+access_bmo_mrp_mrp_okp_okp_write_new,bmo_mrp.mrp_okp_okp_write_new,model_mrp_okp,bmo_mrp.group_okp_write_new,1,1,0,0
+access_bmo_mrp_mrp_okp_okp_create_new,bmo_mrp.mrp_okp_okp_create_new,model_mrp_okp,bmo_mrp.group_okp_create_new,1,0,1,0
+access_bmo_mrp_mrp_okp_okp_delete_new,bmo_mrp.mrp_okp_okp_delete_new,model_mrp_okp,bmo_mrp.group_okp_delete_new,1,0,0,1
+access_number_batch_proses,access_number_batch_proses,model_number_batch_proses,,1,1,1,1
+access_batch_mrp_production,bmo_mrp.batch_mrp_production,model_batch_mrp_production,,1,1,1,1
+access_bmo_mrp_data_revisi,bmo_mrp.data_revisi,model_data_revisi,,1,1,1,1
+access_group_components_mrp,bmo_mrp.group_components_mrp,model_group_components_mrp,,1,1,1,1
+access_bmo_mrp_wizard_revisi,bmo_mrp.wizard_revisi,model_wizard_revisi,,1,1,1,1
+access_bmo_mrp_revisi_bom,bmo_mrp.revisi_bom,model_revisi_bom,,1,1,1,1
+access_type_category,bmo_mrp.type_category,model_type_category,,1,1,1,1
+access_mrp_report_mixing,access_mrp_report_mixing,model_mrp_report_mixing,,1,1,1,1
+access_wizard_reports_mrp,access_wizard_reports_mrp,model_wizard_reports_mrp,,1,1,1,1
+access_import_mrp_kami,access_import_mrp_kami,model_import_mrp_kami,,1,1,1,1

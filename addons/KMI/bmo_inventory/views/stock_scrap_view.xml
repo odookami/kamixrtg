@@ -1,0 +1,53 @@
+<odoo>
+	<data>
+		<record id="stock_scrap_form_view2_inherit_bmo_inventory" model="ir.ui.view">
+			<field name="name">stock.scrap.form2.inherit.bmo.inventory</field>
+			<field name="model">stock.scrap</field>
+			<field name="inherit_id" ref="stock.stock_scrap_form_view2"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='product_id']" position="before">
+					<field name="master_type_id" widget="selection" attrs="{'required' : [('tipe','in',['scrap','sampling','sampling_marketing'])]}"/>
+				</xpath>
+				<xpath expr="//field[@name='product_id']" position="after">
+					<field name="tipe" invisible="1"/>
+				</xpath>
+				<!-- <xpath expr="//footer[1]/button[@name='action_validate']" position="attributes">
+					<attribute name="attrs">{'invisible' : [('tipe','=','scrap')]}</attribute>
+				</xpath>
+
+				<xpath expr="//footer[1]/button[@name='action_validate']" position="after">
+					<button name="action_confirmed" string="Done" type="object" class="btn-primary" attrs="{'invisible' : [('tipe','=','sampling')]}"/>
+				</xpath> -->
+				
+			</field>
+		</record>
+		<!-- stock.scrap inherit form view -->
+		<record id="stock_scrap_form_view_inherit_bmo_inventory" model="ir.ui.view">
+			<field name="name">stock.scrap.form.inherit.bmo.inventory</field>
+			<field name="model">stock.scrap</field>
+			<field name="inherit_id" ref="stock.stock_scrap_form_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='action_validate']" position="before">
+					<button name="action_confirmed" 
+						states="draft" string="Confirm" 
+						type="object" class="oe_highlight" 
+						context="{'not_unlink_on_discard': True}" groups="bmo_inventory.group_inventory_scrap_user"/>
+				</xpath>
+				<xpath expr="//button[@name='action_validate']" position="attributes">
+					<attribute name="states">confirmed</attribute>
+					<attribute name="groups">bmo_inventory.group_inventory_scrap_user</attribute>
+				</xpath>
+				<xpath expr="//field[@name='state']" position="attributes">
+					<attribute name="statusbar_visible">draft,confirmed,done</attribute>
+				</xpath>
+				<xpath expr="//field[@name='product_id']" position="before">
+					<field name="master_type_id" widget="selection"/>
+				</xpath>
+				<xpath expr="//field[@name='product_id']" position="after">
+					<field name="tipe" invisible="1"/>
+				</xpath>
+			</field>
+		</record>
+
+	</data>
+</odoo>

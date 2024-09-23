@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="stock.action_stock_scrap">
+        <field name="domain">[('tipe','=','scrap')]</field>
+        <field name="context">{'default_tipe':'scrap',}</field>
+    </record>
+
+    <menuitem 
+        id="mrp.menu_mrp_scrap" 
+        name="Scrap" 
+        parent="mrp.menu_mrp_manufacturing" 
+        action="stock.action_stock_scrap" 
+        sequence="25"
+        groups="bmo_mrp.group_mrp_user_scrap"/>
+
+    <record model="ir.actions.act_window" id="action_stock_sampling">
+        <field name="name">Sampling Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.scrap</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[('tipe','=','sampling')]</field>
+        <field name="context">{'default_tipe':'sampling',}</field>
+    </record>
+
+    <menuitem 
+        id="menu_mrp_sampling" 
+        name="Sampling" 
+        parent="mrp.menu_mrp_manufacturing" 
+        action="action_stock_sampling" 
+        sequence="26" 
+        groups="bmo_mrp.group_mrp_user_sampling"/>
+
+    <record model="ir.actions.act_window" id="action_stock_sampling_marketing">
+        <field name="name">Sampling Marketing Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.scrap</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[('tipe','=','sampling_marketing')]</field>
+        <field name="context">{'default_tipe':'sampling_marketing',}</field>
+    </record>
+
+    <menuitem 
+        id="menu_mrp_sampling_marketing" 
+        name="Sampling Marketing" 
+        parent="mrp.menu_mrp_manufacturing" 
+        action="action_stock_sampling_marketing" 
+        sequence="27" 
+        groups="bmo_mrp.group_mrp_user_sampling_marketing"/>
+</odoo>

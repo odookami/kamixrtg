@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <!-- Add you code here -->
+            
+        <record id="res_config_settings_pm_daily_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.mrp.pm.daily</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="99"/>
+            <field name="inherit_id" ref="mrp.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]/div[@data-key='mrp']" position="inside">
+                    <!-- Add your fields here -->
+                    <!-- * PM Harian -->
+                    <h2>PM Harian</h2>
+                    <div class="row mt16 o_settings_container" name="pm_container">
+                        <div class="col-12 col-lg-6 o_setting_box" title="Set PM - Product Category.">
+                            <div class="o_setting_right_pane">
+                                <label for="pm_categ_id"/>
+                                <div class="row">
+                                    <div class="text-muted col-lg-8">
+                                        Set PM - Product Category.
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="pm_categ_id" required="1" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" title="Set Gain Locations">
+                            <div class="o_setting_right_pane">
+                                <div class="row">
+                                    <div class="o_form_label col-lg-8">
+                                        Gain Locations
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="gain_loc_id"/>
+                                        <field name="gain_loc_id" required="1" class="o_light_label"/>
+                                    </div>
+                                    <div class="mt16">
+                                        <label for="gain_dest_id"/>
+                                        <field name="gain_dest_id" required="1" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" title="Set Return to WHS Locations">
+                            <div class="o_setting_right_pane">
+                                <div class="row">
+                                    <div class="o_form_label col-lg-8">
+                                        Return to WHS Locations
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="return_loc_id"/>
+                                        <field name="return_loc_id" required="1" class="o_light_label"/>
+                                    </div>
+                                    <div class="mt16">
+                                        <label for="return_dest_id"/>
+                                        <field name="return_dest_id" required="1" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" title="Set Loss Locations">
+                            <div class="o_setting_right_pane">
+                                <div class="row">
+                                    <div class="o_form_label col-lg-8">
+                                        Loss Locations
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="loss_loc_id"/>
+                                        <field name="loss_loc_id" required="1" class="o_light_label"/>
+                                    </div>
+                                    <div class="mt16">
+                                        <label for="loss_dest_id"/>
+                                        <field name="loss_dest_id" required="1" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,168 @@
+<odoo>
+  <data>
+    <record id="visual_produk_view_tree" model="ir.ui.view">
+        <field name="name">visual.produk.tree</field>
+        <field name="model">visual.produk</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="product_name"/>
+                <field name="product_prod"/>
+                <field name="shift"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="visual_produk_view_form" model="ir.ui.view">
+            <field name="name">visual_produk_view_form</field>
+            <field name="model">visual.produk</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                                No. Dok
+                            <h1>
+                                <field name="name" readonly="False"/>
+                            </h1>
+                        </div>
+                            <group>
+                                <field name="date" required="1"/>
+                                <field name="shift" required="1"/>
+                                <field name="hal"/>
+                                <field name="revisi"/>
+                                <!-- <field name="menggantikan_no"/> -->
+                                <!-- <field name="tanggal_menggantikan"/> -->
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="product_name" required='1'/>
+                                    <field name="product_prod"/>
+                                    <field name="product_batch"/>
+                                    <!-- <field name="product_weight"/> -->
+                                    <!-- <field name="product_sg"/> -->
+                                </group>
+                                <group>
+                                    <field name="speed_filling"/>
+                                    <field name="filling_prod"/>
+                                    <field name="filling_batch"/>
+                                    <!-- <field name="filling_weight"/> -->
+                                    <!-- <field name="filling_sg"/> -->
+                                </group>
+                                <group>
+                                    <field name="type_of_bottle"/>
+                                    <field name="bottle_prod"/>
+                                    <field name="bottle_batch"/>
+                                    <!-- <field name="bottle_weight"/> -->
+                                    <!-- <field name="bottle_sg"/> -->
+                                </group>
+                            </group>
+                            <group>
+                                <field name="ket" />
+                            </group>
+                        <notebook>
+                            <page name="visual_produk_line_one_ids" string="A.">
+                                <field name="visual_produk_line_one_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <!-- <field name="std_volume" /> -->
+                                        <field name="volume" />
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="max_1" />
+                                    <field name="min_1" />
+                                    <field name="average_1" />
+                                    <field name="pic_analisa_1" />
+                                    <field name="tgl_analisa_1" />
+                                    <field name="jam_analisa_1" />
+                                </group>
+                            </page>
+                            <page name="visual_produk_line_two_ids" string="B.">
+                                <field name="visual_produk_line_two_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <!-- <field name="std_volume" /> -->
+                                        <field name="volume" />
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="max_2" />
+                                    <field name="min_2" />
+                                    <field name="average_2" />
+                                    <field name="pic_analisa_2" />
+                                    <field name="tgl_analisa_2" />
+                                    <field name="jam_analisa_2" />
+                                </group>
+                            </page>
+                            <page name="visual_produk_line_three_ids" string="C.">
+                                <field name="visual_produk_line_three_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <!-- <field name="std_volume" /> -->
+                                        <field name="volume" />
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="max_3" />
+                                    <field name="min_3" />
+                                    <field name="average_3" />
+                                    <field name="pic_analisa_3" />
+                                    <field name="tgl_analisa_3" />
+                                    <field name="jam_analisa_3" />
+                                </group>
+                            </page> 
+                        </notebook>
+                        <group>
+                            <group>
+                                <field name="catatan" />
+                            </group>
+                            <group>
+                                <field name="periksa" />
+                                <field name="tgl_periksa" />
+                            </group>
+                            <group>
+                                <field name="setujui" />
+                                <field name="tgl_setuju" />
+                            </group>
+                            <group>
+                                <field name="kesimpulan" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+    <record id="action_visual_produk" model="ir.actions.act_window">
+            <field name="name">Form Visual Produk</field>
+            <field name="res_model">visual.produk</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="domain">[('tipe', '=', 'internal')]</field> -->
+            <!-- <field name="context">{'default_tipe' : 'internal'}</field> -->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Create a Form Visual Produk
+                </p>
+            </field>
+        </record>
+
+    <menuitem
+      id="visual_produk_root"
+      name="Visual Produk"
+      parent='bmo_batch_record.root_menu_batch_record'
+      sequence="4"/>
+      <menuitem
+        id="visual_produk_menu"
+        name="Form Visual Produk"
+        action="action_visual_produk"
+        parent="visual_produk_root"
+        sequence="5"/>
+  </data>
+</odoo>

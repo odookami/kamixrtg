@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_cost_user,bmo_mrp_cost.mrp_cost,model_mrp_cost,bmo_mrp_cost.group_mrp_cost_user,1,1,1,0
+access_mrp_cost_manager,bmo_mrp_cost.mrp_cost,model_mrp_cost,bmo_mrp_cost.group_mrp_cost_manager,1,1,1,1
+access_mrp_cost_line,bmo_mrp_cost.mrp_cost,model_mrp_cost_line,,1,1,1,1
+access_mrp_cost_settings,bmo_mrp_cost.mrp_cost_settings,model_mrp_cost_settings,,1,1,1,1
+access_wizard_report_cogs,bmo_mrp_cost.wizard_report_cogs,model_wizard_report_cogs,,1,1,1,1
+access_product_cost_mrp_history,bmo_mrp_cost.product_cost_mrp_history,model_product_cost_mrp_history,,1,1,1,1
+access_mrp_valuation_adjustment_lines,bmo_mrp_cost.mrp_valuation_adjustment_lines,model_mrp_valuation_adjustment_lines,,1,1,1,1

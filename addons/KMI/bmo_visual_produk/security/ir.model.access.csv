@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_visual_produk,visual_produk,model_visual_produk,base.group_user,1,1,1,1
+access_visual_produk_line_one,visual_produk_line_one,model_visual_produk_line_one,,1,1,1,1
+access_visual_produk_line_two,visual_produk_line_two,model_visual_produk_line_two,,1,1,1,1
+access_visual_produk_line_three,visual_produk_line_three,model_visual_produk_line_three,,1,1,1,1

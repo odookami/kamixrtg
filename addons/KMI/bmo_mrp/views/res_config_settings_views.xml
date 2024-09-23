@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <record id="res_config_settings_view_form_bmo_mrp" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.bmo.mrp</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="mrp.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='process_operations_setting_container']" position="inside">
+                    <div class="col-12 col-lg-6 o_setting_box" id="user_manager_id">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">User Manager</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." role="img"/>
+                            <div class="text-muted">
+                                       User Manager
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="user_manager_id" class="col-lg-3 o_light_label"/>
+                                    <field name="user_manager_id" options="{'no_create_edit': True, 'no_open': True}" context="{'active_test': False}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="scrap_location_id">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Scrap Location</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." role="img"/>
+                            <div class="text-muted">
+                                       Scrap Location
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="scrap_location_id" class="col-lg-3 o_light_label"/>
+                                    <field name="scrap_location_id" options="{'no_create_edit': True, 'no_open': True}" context="{'active_test': False}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="sampling_location_id">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Sampling Location</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." role="img"/>
+                            <div class="text-muted">
+                                       Sampling Location
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="sampling_location_id" class="col-lg-3 o_light_label"/>
+                                    <field name="sampling_location_id" options="{'no_create_edit': True, 'no_open': True}" context="{'active_test': False}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="sampling_marketing_location_id">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Sampling Marketing Location</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." role="img"/>
+                            <div class="text-muted">
+                                       Sampling Marketing Location
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="sampling_marketing_location_id" class="col-lg-3 o_light_label"/>
+                                    <field name="sampling_marketing_location_id" options="{'no_create_edit': True, 'no_open': True}" context="{'active_test': False}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="reject_fg_location_id">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Reject FG Location</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." role="img"/>
+                            <div class="text-muted">
+                                       Reject FG Location
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="reject_fg_location_id" class="col-lg-3 o_light_label"/>
+                                    <field name="reject_fg_location_id" options="{'no_create_edit': True, 'no_open': True}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_card_locator,stock_card_locator,model_stock_card_locator,,1,1,1,1
+access_stock_card_summary,stock_card_summary,model_stock_card_summary,,1,1,1,1

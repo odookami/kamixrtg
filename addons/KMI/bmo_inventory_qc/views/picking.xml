@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="vpicktree_inherit_bmo_inventory_qc" model="ir.ui.view">
+			<field name="name">stock.picking.tree.inherit.bmo.inventory.qc</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.vpicktree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='state']" position="before">
+					<field name="value_qc"/>
+				</xpath>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="stock_picking_quality_check_form">
+			<field name="name">stock_picking_quality_check.form</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref='stock.view_picking_form'/>
+			<field name="arch" type="xml">
+			
+				<xpath expr="//button[@name='action_cancel']" position="attributes">
+					<attribute name="groups">bmo_inventory_qc.button_cancel</attribute>
+				</xpath>
+
+				<xpath expr="//header" position="attributes">
+					<attribute name="attrs">{'invisible' : [('picking_type_code', '=', 'incoming')]}</attribute>
+				</xpath>
+
+				<xpath expr='//header' position='after'>
+					<header attrs="{'invisible' : [('picking_type_code', '!=', 'incoming')]}">
+						<button name="action_confirm" confirm="Are you sure?" attrs="{'invisible': [('show_mark_as_todo', '=', False)]}" string="Mark as Todo" type="object" class="oe_highlight" groups="base.group_user"/>
+						<button name="%(bmo_inventory.action_picking_wizard)d" id="picking_wizard_id" icon="fa-folder-open" string="Import" type="action" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+						<button name="%(bmo_inventory.action_stock_move_line_wizard)d" id="stock_move_line_wizard" icon="fa-folder-open" string="Import" type="action" attrs="{'invisible': [('state', '!=', 'approval_1')]}" groups='bmo_inventory_qc.group_warehouse'/>
+						<button name="button_validate" confirm="Are you sure?" string="Submit" type="object" class='oe_highlight' groups='bmo_inventory_qc.group_ppic_user' attrs="{'invisible' : ['|',('state', '!=', 'assigned'), ('warehouse_reject', '=', False)]}"/>
+						<button name="button_submit_approval" confirm="Are you sure?" string="Submit" type="object" class='oe_highlight' groups='bmo_inventory_qc.group_ppic_user' attrs="{'invisible' : ['|',('state', '!=', 'assigned'), ('warehouse_reject', '=', True)]}"/>
+						<button name="button_validate" states="approval_1" string="Check" type="object" class='oe_highlight' groups='bmo_inventory_qc.group_warehouse'/>
+						<button name="button_validate" confirm="Are you sure?" states="approval_2" string="Validate" type="object" class='oe_highlight' groups='bmo_inventory_qc.group_quality_control_user'/>
+						<button name="action_cancel" confirm="Are you sure?" attrs="{'invisible': [('state', 'not in', ('assigned', 'confirmed', 'partially_available', 'draft', 'waiting'))]}" string="Cancel" type="object"/>
+						<button name="%(bmo_inventory_qc.action_picking_excel)d" string="Export QC" type="action"/>
+						<button name="%(stock.act_stock_return_picking)d" string="Return" attrs="{'invisible': [('state', '!=', 'done')]}" type="action" groups="base.group_user"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirmed,assigned,done"/>
+					</header>
+				</xpath>
+
+				<field name='origin' position='after'>
+					<field name="warehouse_reject" invisible='1'/>
+					<field name="show_qc_checked" invisible='1'/>
+					<field name="show_qc_open" invisible='1'/>
+					<field name="show_qc_form" invisible='1'/>
+					<field name="show_qc_hold" invisible='1'/>
+				</field>
+				
+				<xpath expr="//div[hasclass('oe_button_box')]" position='after'>
+					<widget name="web_ribbon" bg_color="bg-danger" title="Not Checked" attrs="{'invisible' : [('show_qc_open', '=', False)]}" />
+					<widget name="web_ribbon" bg_color="bg-warning" title="Hold" attrs="{'invisible' : [('show_qc_open', '=', False)]}" />
+					<widget name="web_ribbon" title="Checked" attrs="{'invisible' : [('show_qc_checked', '=', False)]}" />
+				</xpath>
+
+				<xpath expr="//page[@name='detailed_operations_hidden']" position='before'>
+					<page string='Quality Check' name='quality_check' attrs="{'invisible' : [('show_qc_form','=', False)]}" 
+						groups="bmo_inventory_qc.group_quality_control_user">
+						<field name="stock_move_quality_check_line">
+							<tree delete='0'>
+								<field name="product_id"/>
+								<field name="location_dest_id"/>
+								<field name="lot_id"/>
+								<field name="qty"/>
+								<field name="qty_reject"/>
+								<field name="uom_id"/>
+								<field name="status_qc"/>
+							</tree>
+							<form>
+								<group>
+									<group>
+										<field name="product_id" readonly='1'/>
+										<field name="lot_id" readonly='1'/>
+										<field name="status_qc" readonly='1'/>
+										<field name="location_dest_id" readonly='1'/>
+										<field name="check" invisible='1'/>
+									</group>
+									<group>
+										<label for="qty"/>
+										<div class="o_row">
+											<field name="qty" invisible='1'/>
+											<field name="qty" readonly='1'/>
+											<field name="uom_id" readonly='1' options="{'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+										</div>
+										<label for="qty_reject"/>
+										<div class="o_row">
+											<field name="qty_reject"/>
+											<field name="uom_id" readonly='1' options="{'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+										</div>
+										<field name="manufacturer_plant" options="{'no_create': True}"/>
+										<field name="origin" string="Country of Origin"/>
+										<field name="production_date"/>
+									</group>
+								</group>
+								<group>
+									<field name="reject_reason"/>
+								</group>
+								<notebook attrs="{'invisible' : [('parent.picking_type_code','!=', 'incoming')]}">
+									<page string='Quality Check'>
+										<field name='quality_check_line' >
+											<tree editable='bottom' create='false' delete='false'>
+												<field name="sequence" readonly='1'/>
+												<field name="name" readonly='1'/>
+												<!-- <field name="item_code"/> -->
+												<field name="parameter_text" required='1'/>
+												<field name="parameter" invisible='1'/>
+											</tree>
+										</field>
+										<div class='float-right o_statusbar_button' attrs="{'invisible' : [('check', '=', True)]}">
+											<button name="action_release" string="Release" accesskey="R" type="object" class='btn-success mr-2 rounded-pill'/>
+											<button name="action_hold" string="Hold" type="object" class='btn-warning mr-2 rounded-pill'/>
+											<button name="action_reject" string="Reject" type="object" class='btn-danger rounded-pill'/>
+										</div>
+									</page>
+								</notebook>
+							</form>
+						</field>
+					</page>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

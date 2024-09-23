@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_kmi_dumping,access_kmi_dumping,bmo_dumping.model_kmi_dumping,,1,1,1,0
+access_kmi_dumping_line,access_kmi_dumping_line,bmo_dumping.model_kmi_dumping_line,,1,1,1,1
+access_master_dumping,access_master_dumping,bmo_dumping.model_master_dumping,,1,1,1,1

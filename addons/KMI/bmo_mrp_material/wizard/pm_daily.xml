@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <!-- Add you code here -->
+        <record id="mrp_pm_daily_report_form" model="ir.ui.view">
+            <field name="name">mrp_pm_daily_report_form</field>
+            <field name="model">mrp.pm.daily.report</field>
+            <field name="arch" type="xml">
+                <form string="Report">
+                    <group>
+                        <group>
+                            <label for="date_from" string="Periode"/>
+                            <div class="o_row">
+                                <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
+                            </div>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <group invisible="1">
+                        <field name="name" invisible="1"/>
+                        <field name="data_file" filename="name" invisible="1"/>
+                    </group> 
+                    <footer>
+                        <button name="action_export_xls" string="Export" type="object" class="btn-primary"/>
+                        <button string="Close" class="btn-warning oe_highlight" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="mrp_pm_daily_report_action" model="ir.actions.act_window">
+            <field name="name">Export Report PM Harian</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.pm.daily.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="mrp_pm_daily_report_menu" 
+            sequence="99" action="mrp_pm_daily_report_action" 
+            name="PM Harian" parent="mrp.menu_mrp_reporting"/>
+
+    </data>
+</odoo>

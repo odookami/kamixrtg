@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem 
+        id="root_menu_mrp_cost" 
+        name="MRP Costs" 
+        sequence="40" 
+        web_icon="bmo_mrp_cost,static/src/img/icon.png" 
+        groups="bmo_mrp_cost.group_mrp_cost_user,bmo_mrp_cost.group_mrp_cost_manager"/>
+    <menuitem 
+        id="menu_mrp_cost" 
+        parent="bmo_mrp_cost.root_menu_mrp_cost" 
+        action="action_mrp_cost" 
+        sequence="10" 
+        groups="bmo_mrp_cost.group_mrp_cost_user"/>
+    <menuitem 
+        id="root_menu_master_data_mrp_cost" 
+        name="Master Data" 
+        sequence="40" 
+        parent="bmo_mrp_cost.root_menu_mrp_cost"/>
+    <menuitem 
+        action="mrp_cost_type_action" 
+        parent="bmo_mrp_cost.root_menu_master_data_mrp_cost" 
+        id="menu_mrp_cost_type" 
+        sequence="3"/>
+    <menuitem 
+        id="root_menu_wizard_report_cogs" 
+        name="Report" 
+        sequence="40" 
+        parent="bmo_mrp_cost.root_menu_mrp_cost"/>
+    <menuitem 
+        action="action_wizard_report_cogs" 
+        parent="bmo_mrp_cost.root_menu_wizard_report_cogs" 
+        id="menu_mrp_wizard_report_cogs" 
+        sequence="50"/>
+    
+    <menuitem 
+        id="root_menu_configurasi" 
+        name="Configuration" 
+        sequence="100" 
+        parent="bmo_mrp_cost.root_menu_mrp_cost"/>
+
+    <menuitem 
+        action="action_mrp_cost_settings" 
+        parent="bmo_mrp_cost.root_menu_configurasi" 
+        id="menu_mrp_cost_config" 
+        sequence="50"/>
+    
+    <menuitem id="menu_period_mrp_cost" name="Periods" parent="bmo_mrp_cost.root_menu_configurasi" sequence="70"/>
+    <menuitem id="menu_action_account_fiscalyear_mrp_cost" action="bmo_mrp_cost.action_account_fiscalyear_mrp_cost" parent="bmo_mrp_cost.menu_period_mrp_cost"/>
+    <menuitem id="menu_action_account_period_mrp_cost" action="bmo_mrp_cost.action_account_period_mrp_cost" parent="bmo_mrp_cost.menu_period_mrp_cost"/>
+
+
+</odoo>

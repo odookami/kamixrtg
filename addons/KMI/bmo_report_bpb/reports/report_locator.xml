@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_card_locator_form" model="ir.ui.view">
+        <field name="name">stock.card.locator.form</field>
+        <field name="model">stock.card.locator</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <group>
+                    <group>
+                        <field name="all_product" />
+                        <field name="product_ids" widget="many2many_tags" options="{'no_create':True,'no_edit':True}" attrs="{'invisible':[('all_product','=',True)]}"/>
+                    </group>
+                    <group>
+                        <field name="all_lot" />
+                        <field name="lot_ids" widget="many2many_tags" options="{'no_create':True,'no_edit':True}" attrs="{'invisible':[('all_lot','=',True)]}"/>
+                    </group>
+                    <group>
+                        <field name="all_loc" />
+                        <field name="location_ids" widget="many2many_tags" options="{'no_create':True,'no_edit':True}" attrs="{'invisible':[('all_loc','=',True)]}"/>
+                    </group>
+                </group>
+                <group >
+                    <field name="data_file" widget="binary" readonly="1" filename="name"/>
+                    <field name="name" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="eksport_excel" string="Print XLS" type="object" class="btn-primary" icon="fa-print"/>
+                    <button string="Close" class="oe_link" special="cancel" icon="fa-close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_stock_card_locator" model="ir.actions.act_window">
+        <field name="name">Stock Card Locator</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.card.locator</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="stock_card_locator_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem action="action_stock_card_locator" id="menu_stock_card_locator" parent="stock.menu_warehouse_report" sequence="29"/>
+
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="form_stock_move_line_wizard" model="ir.ui.view">
+        <field name="name">form.wizard.stock.move.line.wizard</field>
+        <field name="model">stock.move.line.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import picking Line">
+                <h2>Select a detail operation file to import</h2>
+                <p></p>
+                <ul id="picking_format">
+                    <li> Microsoft Office Excel (.xlsx) -- 
+                        <a href="/bmo_inventory/static/templates/import_detail_operation.xlsx" class="ml4">
+                            <i class="fa fa-download mr4"></i>Import Sample Template</a>
+                    </li>
+                </ul>
+                <h2>Information</h2>
+                <p></p>
+                <ul id="info_format">
+                    <li> Help Format Date "YYYY-MM-DD H:M:S"</li>
+                </ul>
+                <field name="file_data" filename="file_name" widget="binary" required="1" class="oe_inline"/>
+                <field name="file_name" invisible="1"/>
+                <footer>
+                    <button string="Import" name="import_picking" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_stock_move_line_wizard" model="ir.actions.act_window">
+        <field name="name">Import Detail Operation</field>
+        <field name="res_model">stock.move.line.wizard</field>
+        <field name="target">new</field>
+        <field name="view_mode">form</field>
+    </record>
+
+</odoo>

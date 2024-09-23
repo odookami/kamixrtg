@@ -1,0 +1,88 @@
+<odoo>
+    <data>
+
+        <!-- model.name tree view -->
+        <record id="bmo_proses_produksi_view_tree" model="ir.ui.view">
+            <field name="name">bmo.proses.produksi.view.tree</field>
+            <field name="model">bmo.proses.produksi</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <!-- Add your fields here -->
+                    <field name="name"/>
+                    <field name="produk_id"/>
+                    <field name="tanggal"/>
+                    <field name="versi"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- model.name form view -->
+        <record id="bmo_proses_produksi_view_form" model="ir.ui.view">
+            <field name="name">bmo.proses.produksi.view.form</field>
+            <field name="model">bmo.proses.produksi</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="state" widget="statusbar"
+						    statusbar_visible="draft,in_progress,done"/>
+                        <button name="action_submit" type="object" states="draft" 
+                            class="oe_highlight" string="Submit"/>
+                        <button name="action_done" type="object" states="in_progress" 
+                            class="oe_highlight" string="Done"/>
+                        <button name="action_export" type="object" states="done" 
+                            class="btn-primary" string="Export"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Number"/>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <!-- Add your fields here -->
+                            <field name="produk_id" required="1"/>
+                            <field name="tanggal" required="1"/>
+                            <field name="versi"/>
+                        </group>
+                        <notebook>
+                            <page string="Tahapan proses produksi" name="proses_info">
+                                <field name="proses_produksi_line" nolabel="1" widget="one2many_tags">
+                                    <tree editable="bottom">
+                                        <field name="flow_proses" widget='image'/>
+                                        <field name="penjelasan"/>
+                                        <field name="catatan"/>
+                                        <field name="gambar_penjelasan" widget='image'/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- model.name action window -->
+        <record id="bmo_proses_produksi_action" model="ir.actions.act_window">
+            <field name="name">Form Tahapan Proses Produksi</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bmo.proses.produksi</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="kmi_proses_root" name="Tahapan Proses Produksi" 
+            parent="bmo_batch_record.root_menu_batch_record" sequence="6"/>
+        <menuitem id="menu_kmi_proses" parent="kmi_proses_root" 
+            action="bmo_proses_produksi_action" sequence="3"/>
+
+    </data>
+</odoo>

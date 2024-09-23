@@ -1,0 +1,158 @@
+<odoo>
+  	<data>
+		<record id="labeling3_view_tree" model="ir.ui.view">
+			<field name="name">bmo.labeling3.tree</field>
+			<field name="model">bmo.labeling3</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="date"/>
+					<field name="revision"/>
+					<field name="shift"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record id="labeling3_view_form" model="ir.ui.view">
+			<field name="name">bmo.labeling3.form</field>
+			<field name="model">bmo.labeling3</field>
+			<field name="arch" type="xml">
+				<form string="">
+					<header>
+						<field name="state" widget="statusbar" 
+								statusbar_visible="draft,in_progress,done"/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<h1>
+                                <field name="name" required="1" placeholder="No. Dok"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<field name="date" required="1"/>
+								<field name="num_of_pages"/>
+							</group>
+							<group>
+								<field name="revision" required="0"/>
+								<field name="report_type" invisible="1"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="PRODUCTION NOTES" name='prod_note'>
+								<group>
+									<group>
+										<field name="dayofweek"/>
+										<field name="tanggal"/>
+										<field name="shift"/>
+									</group>
+								</group>
+							</page>
+							<page string="PARAMETER PRODUKSI" name="params_prod">
+                                <notebook>
+									<page string="Label Usage" name="labeling3_line_ids">
+										<field name="labeling3_line_ids">
+											<tree editable="bottom">
+												<field name="change_time" />
+												<field name="code_id" />
+												<field name="lot_id" />
+												<field name="roll" />
+												<field name="kilo" />
+												<field name="start" />
+												<field name="finish" />
+												<field name="in_minute" />
+												<field name="code_batch" />
+												<field name="out_minute" />
+												<field name="reject" />
+												<field name="last_stock" />
+												<field name="re_turn" />
+												<field name="join" />
+												<field name="actual" />
+												<field name="splice" />
+												<field name="konversi" />
+											</tree>
+										</field>
+									</page>
+									<page string="Konversi reject label ke roll" name="labeling3_konversi_ids">
+										<field name="labeling3_konversi_ids">
+											<tree editable="bottom">
+												<field name="product_cgm_id" />
+												<field name="product_nbe_id" />
+												<field name="hi_c" />
+												<field name="jumlah" />
+												<field name="meter" />
+												<field name="standart" />
+												<field name="reject" />
+												<field name="total_reject" />
+											</tree>
+										</field>
+									</page>
+								</notebook>
+								<field name="note" string='Notes :' />
+							</page>
+							<page string="CATATAN PROSES PRODUKSI" name="incompatibility_note">
+                                <!-- <script type="text/javascript" 
+                                    src="/bmo_daily_report/static/src/js/section.js">
+                                </script> -->
+                                <group string="CATATAN KETIDAKSESUAIAN SELAMA PROSES PRODUKSI">
+                                    <field name="incompatibility_line" nolabel="1">
+                                        <tree editable="bottom" create="1">
+                                             <!-- * Major breakdown -->
+                                            <field name="start" required="1"/>
+                                            <field name="finish" string='Stop' required="0"/>
+                                            <field name="total" required="0"/>
+                                            <field name="uraian_masalah" required="0"/>
+                                            <!-- * Minor breakdown -->
+                                            <field name="frekuensi" required="0"/>
+                                            <field name="status" required="0"/>
+                                            <field name="pic" required="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+						</notebook>
+						<group>
+                            <group string="Another Awesome Notes">
+                                <field name="another_note" nolabel="1" required="0"/>
+                            </group>
+                            <group>
+                                <field name="operator_id" required="0"/>
+                                <field name="leader_id" required="0"/>
+                            </group>
+                        </group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" groups="base.group_user"/>
+						<field name="activity_ids"/>
+						<field name="message_ids"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_labeling3" model="ir.actions.act_window">
+				<field name="name">Labeling L3</field>
+				<field name="res_model">bmo.labeling3</field>
+				<field name="view_mode">tree,form</field>
+				<!-- <field name="domain">[('tipe', '=', 'internal')]</field> -->
+				<!-- <field name="context">{'default_tipe' : 'internal'}</field> -->
+				<field name="help" type="html">
+					<p class="o_view_nocontent_smiling_face">
+					Create a Labeling L3
+					</p>
+				</field>
+			</record>
+
+		<menuitem
+		id="labeling3_root"
+		name="Labeling L3"
+		parent='bmo_batch_record.root_menu_batch_record'
+		sequence="4"/>
+		<menuitem
+			id="labeling3_menu"
+			name="Labeling L3"
+			action="action_labeling3"
+			parent="labeling3_root"
+			sequence="5"/>
+  	</data>
+</odoo>

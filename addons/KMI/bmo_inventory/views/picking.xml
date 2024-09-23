@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="picking_vendor_form" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_confirm']" position="after">
+                    <button 
+                        name="action_add_approved" 
+                        attrs="{'invisible': [('state', '!=','approved')]}" 
+                        string="Submitted" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
+                </xpath>
+                <xpath expr="//button[@name='button_validate']" position="replace"/>
+                <xpath expr="//button[@name='button_validate']" position="replace">
+                    <button 
+                        name="button_validate" 
+                        attrs="{'invisible': [('state', '!=','assigned')]}" 
+                        string="Validate" type="object" groups="stock.group_stock_user" class="oe_highlight"/>
+                    <!-- <field name="check_bhp" invisible="1"/>
+                    <button 
+                        name="action_ongoing_kmi" 
+                        attrs="{'invisible': [('check_bhp','=',False)]}"
+                        string="Validate" type="object" groups="stock.group_stock_user" class="oe_highlight"/> -->
+                </xpath>
+                <xpath expr="//button[@name='do_unreserve']" position="attributes">
+                    <attribute name='attrs'>
+                        {'invisible': [
+                            '|', '|', '|', 
+                            ('picking_type_code', '=', 'incoming'), 
+                            ('immediate_transfer', '=', True), '&amp;', 
+                            ('state', 'not in', ('assigned', 'partially_available', 'approved')), 
+                            ('move_type', '!=', 'one'), 
+                            '&amp;', 
+                            ('state', 'not in', ('assigned', 'partially_available', 'confirmed', 'approved')), ('move_type', '=', 'one')]}</attribute>
+                </xpath>
+
+                <field name='backorder_id' position='after'>
+                    <field name='note' attrs="{'invisible':[('picking_type_code', 'not in', ('incoming', 'outgoing'))], 'required' : [('picking_type_code', '=', 'outgoing')]}"/>
+                </field>
+
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="check_bhp" invisible="1"/>
+                    <field name="ekspedisi" string='Expedition' attrs="{'invisible':[('picking_type_code', 'not in', ('incoming', 'outgoing'))]}"/>
+                    <field name="car_number" attrs="{'invisible':[('picking_type_code', 'not in', ('incoming', 'outgoing'))]}"/>
+                    <field name='delivery_return' invisible='1'/>
+                </xpath>
+
+                <xpath expr="//div[hasclass('o_td_label')]" position='attributes'>
+                    <attribute name='invisible'>True</attribute>
+                </xpath>
+
+                <field name='partner_id' position='attributes'>
+                    <attribute name='nolabel'>False</attribute>
+                    <attribute name='context'>{'res_partner_search_mode': 'customer'}</attribute>
+                </field>
+
+                <xpath expr="//field[@name='move_line_ids_without_package']" position="after">
+                    <sparator>Group Product</sparator>
+                    <field name="group_product_ids" readonly="1">
+                        <tree>
+                            <field name="product_id"/>
+                            <field name="qty"/>
+                            <field name="uom_id"/>
+                        </tree>
+                    </field>
+                </xpath>
+
+                <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']" position="before">
+                    <field name="product_uom_qty_origin" attrs="{'invisible':[('product_uom_qty_origin', '==', 0.0)]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="already_state" invisible="1"/>
+                    <field name="picking_return_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_internal_search_inherit_bmo_inventroy" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search.inherit.bmo.inventory</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='my_transfers']" position="after">
+                    <field name="lot_id"/>
+                    <filter 
+                        string="Scheduled Per months" 
+                        name="scheduled_date_month" 
+                        domain="[ ('scheduled_date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%Y-%m-01')), ('scheduled_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%Y-%m-01'))]" />
+
+                </xpath>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='stock_quant_only_view_tree'>
+            <field name='name'>stock_quant_only_view.tree</field>
+            <field name='model'>stock.quant</field>
+            <field name='arch' type='xml'>
+                <tree create='0' delete='0' edit='0' export_xlsx='0'>
+                    <field name='product_id'/>
+                    <field name="location_id"/>
+                    <field name="lot_id"/>
+                    <field name="quantity"/>
+                    <field name="available_quantity" optional="show"/>
+                    <field name="product_uom_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_stock_quant_viewss" model="ir.actions.act_window">
+            <field name="name">View Stock By Location</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="bmo_inventory.stock_quant_only_view_tree"/>
+            <field name='context'> {'no_breadcrumbs': True, 'no_control_panel' : True}</field>
+        </record>
+
+        <record id="stock_production_type_kanban_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.type.inherit</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.stock_picking_type_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='container o_kanban_card_manage_pane dropdown-menu']/div[1]/div[2]/div[2]" position="attributes">
+                    <attribute name='invisible'>True</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
